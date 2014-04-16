@@ -1,0 +1,18 @@
+{
+    "name": "cysha/pxcms-auth",
+    "type": "pxcms-module",
+    "description": "Auth Module for Phoenix CMS",
+    "license": "MIT",
+    "authors": [
+        { "name": "xLink", "email": "xLink@cybershade.org" }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "composer/installers"               : "dev-master",
+
+        "toddish/verify"                    : "2.*"
+    },
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/cysha/installers" }
+    ]
+}
