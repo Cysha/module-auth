@@ -1,4 +1,5 @@
 {
     "enabled": true,
+    "provider": "Cysha\\Modules\\Auth\\ServiceProvider",
     "order": 1
 }

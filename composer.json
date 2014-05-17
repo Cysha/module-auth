@@ -10,7 +10,9 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "toddish/verify"                    : "2.*"
+        "cartalyst/sentry"                  : "2.1.*",
+        "euantor/simple-gravatar"           : "dev-master"
+
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/cysha/installers" }
