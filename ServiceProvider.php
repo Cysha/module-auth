@@ -10,6 +10,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         \Config::set('auth.driver', 'verify');
         \Config::set('auth.model', 'Cysha\Modules\Auth\Models\User');
+        \Config::set('verify::prefix', 'base_');
 
         $this->registerInstallCommand();
         $this->registerOtherPackages();
@@ -27,7 +28,6 @@ class ServiceProvider extends BaseServiceProvider
     {
         $serviceProviders = [
             'Toddish\Verify\VerifyServiceProvider',
-            'Greggilbert\Redoubt\RedoubtServiceProvider',
             'Euantor\SimpleGravatar\SimpleGravatarServiceProvider',
         ];
 
@@ -35,12 +35,11 @@ class ServiceProvider extends BaseServiceProvider
             $this->app->register($sp);
         }
 
-        $aliases = [
-            'ACL' => 'Greggilbert\Redoubt\Facades\Redoubt',
-        ];
+        // $aliases = [
+        // ];
 
-        foreach ($aliases as $alias => $class) {
-            AliasLoader::getInstance()->alias($alias, $class);
-        }
+        // foreach ($aliases as $alias => $class) {
+        //     AliasLoader::getInstance()->alias($alias, $class);
+        // }
     }
 }

@@ -32,11 +32,33 @@ class InstallCommand extends BaseCommand
      */
     public function fire()
     {
-        $this->comment('Migrating Verify Package...');
-        $this->call('migrate', array('--package' => 'toddish/verify'));
+        $packages = array(
+            'toddish/verify' => array(
+                'name'      => 'Verify',
+                'seedclass' => 'VerifyUserSeeder',
+                'migrate'   => true,
+                'seed'      => true,
+                'config'    => true,
+            ),
+        );
 
-        $this->comment('Publishing Verify Configs...');
-        $this->call('config:publish', array('package' => 'toddish/verify'));
+        foreach ($packages as $pkg => $settings) {
+            if (array_get($settings, 'migrate', false) == true && !empty($pkg)) {
+                $this->comment(sprintf('Migrating %s Package...', array_get($settings, 'name', '')));
+                $this->call('migrate', array('--package' => $pkg));
+            }
+
+            if (array_get($settings, 'seed', false) == true && array_get($settings, 'seedclass', false) !== false) {
+                $this->comment(sprintf('Seeding %s Package...', array_get($settings, 'name', '')));
+                $this->call('db:seed', array('--class' => array_get($settings, 'seedclass')));
+            }
+
+            if (array_get($settings, 'config', false) == true && !empty($pkg)) {
+                $this->comment(sprintf('Publishing %s Config...', array_get($settings, 'name', '')));
+                $this->call('config:publish', array('package' => $pkg));
+            }
+
+        }
     }
 
     /**
