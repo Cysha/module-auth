@@ -8,7 +8,9 @@ class ServiceProvider extends BaseServiceProvider
 {
     public function register()
     {
+        \Config::set('auth.driver', 'verify');
         \Config::set('auth.model', 'Cysha\Modules\Auth\Models\User');
+
         $this->registerInstallCommand();
         $this->registerOtherPackages();
     }
@@ -23,19 +25,22 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerOtherPackages()
     {
-        // $serviceProviders = [
-        //     'Euantor\SimpleGravatar\SimpleGravatarServiceProvider',
-        // ];
+        $serviceProviders = [
+            'Toddish\Verify\VerifyServiceProvider',
+            'Greggilbert\Redoubt\RedoubtServiceProvider',
+            'Euantor\SimpleGravatar\SimpleGravatarServiceProvider',
+        ];
 
-        // foreach ($serviceProviders as $sp) {
-        //     $this->app->register($sp);
-        // }
+        foreach ($serviceProviders as $sp) {
+            $this->app->register($sp);
+        }
 
-        // $aliases = [
-        // ];
+        $aliases = [
+            'ACL' => 'Greggilbert\Redoubt\Facades\Redoubt',
+        ];
 
-        // foreach ($aliases as $alias => $class) {
-        //     AliasLoader::getInstance()->alias($alias, $class);
-        // }
+        foreach ($aliases as $alias => $class) {
+            AliasLoader::getInstance()->alias($alias, $class);
+        }
     }
 }

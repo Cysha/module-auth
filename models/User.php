@@ -1,9 +1,10 @@
 <?php namespace Cysha\Modules\Auth\Models;
 
+use \Toddish\Verify\Models\User as VerifyVersion;
 use Auth;
 use Lang;
 
-class User extends BaseModel
+class User extends VerifyVersion
 {
     use \Cysha\Modules\Core\Traits\SelfValidationTrait,
         \Cysha\Modules\Core\Traits\LinkableTrait{
@@ -27,11 +28,9 @@ class User extends BaseModel
         ),
     );
     protected static $messages;
-    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'salt', 'password_confirmation', 'email', 'verified', 'disabled', 'tnc');
-
+    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'salt', 'password_confirmation', 'email', 'salt', 'verified', 'disabled', 'tnc');
     protected $hidden = array('password', 'salt');
     protected $appends = array('usercode');
-
     protected static $purge = array('password_confirmation', 'tnc');
     protected $identifiableName = 'username';
 
@@ -77,6 +76,22 @@ class User extends BaseModel
         }
 
         return $val;
+    }
+
+    public function verify($code)
+    {
+        if ($this->usercode === md5($this->id.$code)) {
+
+            $this->verified = 1;
+
+            if ($this->save()) {
+                return true;
+            }
+
+            throw new \RuntimeException(Lang::get('auth::verify.failed'));
+        }
+
+        return false;
     }
 
     public function isAdmin()

@@ -1,6 +1,7 @@
 <?php namespace Cysha\Modules\Auth\Controllers;
 
 use Cysha\Modules\Auth as PXAuth;
+use Toddish\Verify as Verify;
 use Auth;
 use Config;
 use Event;
@@ -12,15 +13,6 @@ use Lang;
 
 class AuthController extends AuthBaseController
 {
-    public $layout = 'col-1';
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        Sentry::getThrottleProvider()->enable();
-    }
-
     /**
      *
      * Login
@@ -38,39 +30,32 @@ class AuthController extends AuthBaseController
 
     public function postLogin()
     {
+        $input = Input::only('username', 'password');
 
         try {
+            Auth::attempt(array(
+                'identifier' => $input['username'],
+                'password'   => $input['password']
+            ), Input::get('remember', false));
 
-            $creds = Input::only('email', 'password');
-            $rememberMe = Input::get('remember', false);
+        } catch (Verify\UserDeletedException $e) {
+            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.deleted'));
 
-            $user = PXAuth\Models\User::whereEmail(e($data['email']));
-            $throttle = Sentry::getThrottleProvider()->findByUserId($user->id);
-            $throttle->check();
+        } catch (Verify\UserNotFoundException $e) {
+            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.notfound'));
 
-            $auth = Sentry::authenticate($creds, $rememberMe);
+        } catch (Verify\UserPasswordIncorrectException $e) {
+            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.passwordincorrect'));
 
-        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.passwordincorrect'));
-
-        } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
-            $url = route('resendActivationForm');
-
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.notactive', $url));
-
-        } catch (\Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
-            $time = $throttle->getSuspensionTime();
-
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.suspended', $time));
-
-        } catch (\Cartalyst\Sentry\Throttling\UserBannedException $e) {
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.banned'));
+        } catch (Verify\UserUnverifiedException $e) {
+            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.unverified'));
 
         } catch (Exception $e) {
-            return Redirect::route('pxcms.user.login')->withError($e->message());
+            return Redirect::route('user.login')->withError($e->message());
+
         }
 
-        return Redirect::intended(URL::route('pxcms.user.login'));
+        return Redirect::intended(URL::route('pxcms.auth.login'));
     }
 
     public function getLogout()

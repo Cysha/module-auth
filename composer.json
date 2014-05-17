@@ -10,7 +10,8 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "cartalyst/sentry"                  : "2.1.*",
+        "toddish/verify"                    : "2.*",
+        "greggilbert/redoubt"               : "dev-master",
         "euantor/simple-gravatar"           : "dev-master"
 
     },

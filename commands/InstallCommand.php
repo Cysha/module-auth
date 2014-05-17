@@ -12,6 +12,13 @@ class InstallCommand extends BaseCommand
     protected $name = 'cms.modules.auth:install';
 
     /**
+     * The Readable Module Name.
+     *
+     * @var string
+     */
+    protected $readableName = 'Auth Module';
+
+    /**
      * The console command description.
      *
      * @var string
@@ -25,10 +32,11 @@ class InstallCommand extends BaseCommand
      */
     public function fire()
     {
-        $this->info('installing..');
-        $this->call('migrate', array('--package' => 'cartalyst/sentry'));
+        $this->comment('Migrating Verify Package...');
+        $this->call('migrate', array('--package' => 'toddish/verify'));
 
-        $this->call('config:publish', array('cartalyst/sentry'));
+        $this->comment('Publishing Verify Configs...');
+        $this->call('config:publish', array('package' => 'toddish/verify'));
     }
 
     /**

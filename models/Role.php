@@ -1,12 +1,12 @@
 <?php namespace Cysha\Modules\Auth\Models;
 
-class Role extends BaseModel
+use \Toddish\Verify\Models\Role as VerifyVersion;
+
+class Role extends VerifyVersion
 {
     use \Cysha\Modules\Core\Traits\SelfValidationTrait{
         \Cysha\Modules\Core\Traits\SelfValidationTrait::boot as validationBoot;
     }
-
-    public $table = 'groups';
 
     protected static $rules = array(
         'name'              => 'required|alpha_dash',

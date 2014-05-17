@@ -1,5 +1,7 @@
 <?php namespace Cysha\Modules\Auth\Models;
 
-class Permission extends BaseModel
+use \Toddish\Verify\Models\Permission as VerifyVersion;
+
+class Permission extends VerifyVersion
 {
 }
