@@ -10,6 +10,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         \Config::set('auth.driver', 'verify');
         \Config::set('auth.model', 'Cysha\Modules\Auth\Models\User');
+        \Config::set('verify::prefix', 'base_');
 
         $this->registerInstallCommand();
         $this->registerOtherPackages();
