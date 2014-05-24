@@ -14,8 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         Eloquent::unguard();
 
+        echo ('Seeding Roles'."\n");
         $this->call('Cysha\Modules\Auth\Seeds\RoleSeeder');
+        echo ('Seeding Permissions'."\n");
         $this->call('Cysha\Modules\Auth\Seeds\PermissionSeeder');
+        echo ('Seeding Users'."\n");
         $this->call('Cysha\Modules\Auth\Seeds\UserSeeder');
 
     }

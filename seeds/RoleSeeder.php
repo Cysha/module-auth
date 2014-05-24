@@ -5,7 +5,6 @@ use Config;
 
 class RoleSeeder extends \Seeder
 {
-
     public $debug = false;
 
     public function run()
@@ -17,7 +16,6 @@ class RoleSeeder extends \Seeder
                 'moderator_id' => 1,
                 'single_user'  => 0,
                 'color'        => '#FF0000',
-                'is_admin'     => true,
             ),
             array(
                 'name'         => Config::get('auth::roles.admin_group_name'),

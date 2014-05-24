@@ -32,11 +32,17 @@ class InstallCommand extends BaseCommand
      */
     public function fire()
     {
-        $this->comment('Migrating Verify Package...');
-        $this->call('migrate', array('--package' => 'toddish/verify'));
+        $packages = array(
+            'toddish/verify' => array(
+                'name'      => 'Verify',
+                'seedclass' => 'VerifyUserSeeder',
+                'migrate'   => true,
+                'seed'      => false,
+                'config'    => true,
+            ),
+        );
 
-        $this->comment('Publishing Verify Configs...');
-        $this->call('config:publish', array('package' => 'toddish/verify'));
+        $this->install($packages);
     }
 
     /**

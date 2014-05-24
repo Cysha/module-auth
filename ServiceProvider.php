@@ -27,7 +27,6 @@ class ServiceProvider extends BaseServiceProvider
     {
         $serviceProviders = [
             'Toddish\Verify\VerifyServiceProvider',
-            'Greggilbert\Redoubt\RedoubtServiceProvider',
             'Euantor\SimpleGravatar\SimpleGravatarServiceProvider',
         ];
 
@@ -35,12 +34,11 @@ class ServiceProvider extends BaseServiceProvider
             $this->app->register($sp);
         }
 
-        $aliases = [
-            'ACL' => 'Greggilbert\Redoubt\Facades\Redoubt',
-        ];
+        // $aliases = [
+        // ];
 
-        foreach ($aliases as $alias => $class) {
-            AliasLoader::getInstance()->alias($alias, $class);
-        }
+        // foreach ($aliases as $alias => $class) {
+        //     AliasLoader::getInstance()->alias($alias, $class);
+        // }
     }
 }

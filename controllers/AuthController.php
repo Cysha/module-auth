@@ -13,6 +13,9 @@ use Lang;
 
 class AuthController extends AuthBaseController
 {
+
+    public $layout = 'col-1';
+
     /**
      *
      * Login

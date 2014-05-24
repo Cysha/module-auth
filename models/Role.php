@@ -25,6 +25,11 @@ class Role extends VerifyVersion
         return $this->hasOne('Cysha\Modules\Auth\Models\User', 'id', 'moderator_id');
     }
 
+    public function permissions()
+    {
+        return $this->hasMany(__NAMESPACE__.'\Permission');
+    }
+
     public static function boot()
     {
         static::validationBoot();

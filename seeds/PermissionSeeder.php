@@ -49,7 +49,7 @@ class PermissionSeeder extends \Seeder
         );
 
         // run through each permission
-        if ( count($permissions) ) {
+        if (count($permissions)) {
             foreach ($permissions as $p) {
                 // add it to the db
                 $objPerm = new Auth\Models\Permission;
@@ -65,7 +65,7 @@ class PermissionSeeder extends \Seeder
                     print_r('Perm: '.$objPerm->name.': added with id '. $objPerm->id."\r\n");
                 }
                 // if we have to add it to any roles do so
-                if ( count($p->roles) > 0 ) {
+                if (count($p->roles) > 0) {
                     $objPerm->roles()->sync($p->roles);
                 }
 

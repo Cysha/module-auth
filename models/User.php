@@ -11,7 +11,6 @@ class User extends VerifyVersion
         \Cysha\Modules\Core\Traits\SelfValidationTrait::boot as validationBoot;
     }
 
-    protected $table = 'users';
     protected $softDelete = true;
 
     protected static $rules = array(
