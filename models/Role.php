@@ -27,7 +27,7 @@ class Role extends VerifyVersion
 
     public function permissions()
     {
-        return $this->hasMany(__NAMESPACE__.'\Permission');
+        return $this->hasMany(__NAMESPACE__.'\Permission')->withPivot(['is_moderator']);
     }
 
     public static function boot()

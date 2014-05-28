@@ -13,14 +13,23 @@ class AuthUpdateRolesTable extends Migration
     {
         Schema::table('roles', function ($table) {
             $table->string('color', 7)->nullable()->after('name');
-            $table->integer('single_user')->default(0)->after('level');
-            $table->integer('moderator_id')->after('level');
+            $table->boolean('single_user')->default(false)->after('level');
 
-            //$table->foreign('moderator_id')->references('id')->on('users');
         });
 
         Schema::table('role_user', function ($table) {
+            $table->boolean('is_moderator')->default(false)->after('role_id');
+
             $table->unique(array('user_id', 'role_id'));
+        });
+
+        Schema::table('permissions', function ($table) {
+            $table->text('class_namespace')->after('description');
+        });
+
+        Schema::table('permission_role', function ($table) {
+            $table->integer('resource_id')->after('role_id');
+            $table->enum('value', [0, 1, -1])->default(0)->after('resource_id');
         });
     }
 

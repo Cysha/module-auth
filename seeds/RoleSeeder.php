@@ -13,21 +13,18 @@ class RoleSeeder extends \Seeder
             array(
                 'name'         => Config::get('auth::roles.super_group_name'),
                 'description'  => Config::get('auth::roles.super_group_name').' Group',
-                'moderator_id' => 1,
                 'single_user'  => 0,
                 'color'        => '#FF0000',
             ),
             array(
                 'name'         => Config::get('auth::roles.admin_group_name'),
                 'description'  => Config::get('auth::roles.admin_group_name').' Group',
-                'moderator_id' => 1,
                 'single_user'  => 0,
                 'color'        => '#FF0000',
             ),
             array(
                 'name'         => Config::get('auth::roles.default_group_name'),
                 'description'  => Config::get('auth::roles.default_group_name').' Group',
-                'moderator_id' => 1,
                 'single_user'  => 0,
                 'color'        => '#999999',
             ),
