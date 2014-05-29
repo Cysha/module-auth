@@ -33,32 +33,32 @@ class AuthController extends AuthBaseController
 
     public function postLogin()
     {
-        $input = Input::only('username', 'password');
+        $input = Input::only('email', 'password');
 
         try {
             Auth::attempt(array(
-                'identifier' => $input['username'],
+                'identifier' => $input['email'],
                 'password'   => $input['password']
             ), Input::get('remember', false));
 
         } catch (Verify\UserDeletedException $e) {
-            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.deleted'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.deleted'));
 
         } catch (Verify\UserNotFoundException $e) {
-            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.notfound'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.notfound'));
 
         } catch (Verify\UserPasswordIncorrectException $e) {
-            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.passwordincorrect'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.passwordincorrect'));
 
         } catch (Verify\UserUnverifiedException $e) {
-            return Redirect::route('user.login')->withError(Lang::get('core::auth.user.unverified'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.unverified'));
 
         } catch (Exception $e) {
-            return Redirect::route('user.login')->withError($e->message());
+            return Redirect::route('pxcms.user.login')->withError($e->message());
 
         }
 
-        return Redirect::intended(URL::route('pxcms.auth.login'));
+        return Redirect::intended(URL::route('pxcms.user.login'));
     }
 
     public function getLogout()
