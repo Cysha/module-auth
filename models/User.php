@@ -56,6 +56,11 @@ class User extends VerifyVersion
         static::validationBoot();
     }
 
+    public function permissions()
+    {
+        return $this->hasManyThrough(__NAMESPACE__.'\Permission', __NAMESPACE__.'\Group');
+    }
+
     public function getCodeSaltAttribute()
     {
         return substr($this->salt, -5);

@@ -20,11 +20,6 @@ class Role extends VerifyVersion
     protected static $purge = array();
     protected static $messages = array();
 
-    public function moderator()
-    {
-        return $this->hasOne('Cysha\Modules\Auth\Models\User', 'id', 'moderator_id');
-    }
-
     public function permissions()
     {
         return $this->hasMany(__NAMESPACE__.'\Permission')->withPivot(['is_moderator']);
@@ -48,5 +43,10 @@ class Role extends VerifyVersion
     public function getUserCount()
     {
         return count($this->users);
+    }
+
+    public function isModerator()
+    {
+        return $this->pivot->is_moderator == 1 ? true : false;
     }
 }
