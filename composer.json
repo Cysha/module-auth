@@ -10,7 +10,7 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "toddish/verify"                    : "2.*",
+        "toddish/verify"                    : "dev-master",
         "euantor/simple-gravatar"           : "dev-master"
     },
     "repositories": [
