@@ -75,9 +75,7 @@ class User extends VerifyVersion
     public function getAvatarAttribute($val)
     {
         if (empty($val) || $val == 'gravatar') {
-            $gravatar = \App::make('simplegravatar');
-
-            return $gravatar->setDefault('mm')->getGravatar($this->attributes['email']);
+            return sprintf('http://www.gravatar.com/avatar/%s.png?s=64&d=mm&rating=g', md5($this->attributes['email']));
         }
 
         return $val;

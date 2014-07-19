@@ -27,7 +27,6 @@ class ServiceProvider extends BaseServiceProvider
     {
         $serviceProviders = [
             'Toddish\Verify\VerifyServiceProvider',
-            'Euantor\SimpleGravatar\SimpleGravatarServiceProvider',
         ];
 
         foreach ($serviceProviders as $sp) {
