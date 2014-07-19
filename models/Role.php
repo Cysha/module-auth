@@ -1,6 +1,7 @@
 <?php namespace Cysha\Modules\Auth\Models;
 
 use \Toddish\Verify\Models\Role as VerifyVersion;
+use Config;
 
 class Role extends VerifyVersion
 {
@@ -20,10 +21,10 @@ class Role extends VerifyVersion
     protected static $purge = array();
     protected static $messages = array();
 
-    public function permissions()
-    {
-        return $this->hasMany(__NAMESPACE__.'\Permission')->withPivot(['is_moderator']);
-    }
+    // public function permissions()
+    // {
+    //     return $this->hasMany(Config::get('verify::user_model'));
+    // }
 
     public static function boot()
     {
@@ -48,5 +49,18 @@ class Role extends VerifyVersion
     public function isModerator()
     {
         return $this->pivot->is_moderator == 1 ? true : false;
+    }
+
+    public function transform()
+    {
+        return [
+            'id'           => $this->id,
+            'name'         => $this->name,
+            'level'        => $this->level,
+            'color'        => $this->color,
+
+            'is_moderator' => ($this->isModerator()),
+            'is_own_group' => ($this->isSingleUser() === true && $this->isModerator()),
+        ];
     }
 }

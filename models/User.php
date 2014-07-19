@@ -3,6 +3,7 @@
 use \Toddish\Verify\Models\User as VerifyVersion;
 use Auth;
 use Lang;
+use Config;
 
 class User extends VerifyVersion
 {
@@ -58,7 +59,7 @@ class User extends VerifyVersion
 
     public function permissions()
     {
-        return $this->hasManyThrough(__NAMESPACE__.'\Permission', __NAMESPACE__.'\Group');
+        return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
     }
 
     public function getCodeSaltAttribute()
@@ -100,7 +101,7 @@ class User extends VerifyVersion
 
     public function isAdmin()
     {
-        return $this->is(array(Config::get('auth::roles.super_admin'), Config::get('auth::roles.admin')));
+        return $this->is(array(Config::get('auth::roles.super_group_name'), Config::get('auth::roles.admin_group_name')));
     }
 
     public function transform()

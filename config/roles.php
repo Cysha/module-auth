@@ -2,7 +2,7 @@
 
 return array(
     'super_group'        => 1,
-    'super_group_name'   => 'Super-Admin',
+    'super_group_name'   => 'Super Admin',
 
     'admin_group'        => 2,
     'admin_group_name'   => 'Admin',
