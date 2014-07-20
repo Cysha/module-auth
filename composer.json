@@ -10,7 +10,7 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "toddish/verify"                    : "dev-master"
+        "toddish/verify"                    : "2.*"
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/cysha/installers" }
