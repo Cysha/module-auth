@@ -40,6 +40,13 @@ class InstallCommand extends BaseCommand
                 'seed'      => false,
                 'config'    => true,
             ),
+            'venturecraft/revisionable' => array(
+                'name'      => 'Revisionable',
+                //'seedclass' => '',
+                'migrate'   => true,
+                'seed'      => false,
+                'config'    => true,
+            ),
         );
 
         $this->install($packages);

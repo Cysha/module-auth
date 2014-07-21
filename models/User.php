@@ -8,11 +8,13 @@ use Config;
 class User extends VerifyVersion
 {
     use \Cysha\Modules\Core\Traits\SelfValidationTrait,
-        \Cysha\Modules\Core\Traits\LinkableTrait{
+        \Cysha\Modules\Core\Traits\LinkableTrait,
+        \Venturecraft\Revisionable\RevisionableTrait{
         \Cysha\Modules\Core\Traits\SelfValidationTrait::boot as validationBoot;
+        \Venturecraft\Revisionable\RevisionableTrait::boot as revisionableBoot;
     }
 
-    protected $softDelete = true;
+    protected $revisionEnabled = false;
 
     protected static $rules = array(
         'creating' => array(
@@ -55,6 +57,7 @@ class User extends VerifyVersion
     public static function boot()
     {
         static::validationBoot();
+        static::revisionableBoot();
     }
 
     public function roles()

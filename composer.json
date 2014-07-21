@@ -10,7 +10,8 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "toddish/verify"                    : "3.*"
+        "toddish/verify"                    : "3.*",
+        "venturecraft/revisionable"         : "1.*"
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/cysha/installers" }
