@@ -10,7 +10,7 @@ class Role extends VerifyVersion
     }
 
     protected static $rules = array(
-        'name'              => 'required|alpha_dash',
+        'name'              => 'required|alpha_spaces',
         'description'       => 'required',
         'color'             => array('regex:/^#?[a-fA-F0-9]{3,6}$/'),
     );
@@ -29,6 +29,16 @@ class Role extends VerifyVersion
     public static function boot()
     {
         static::validationBoot();
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(__NAMESPACE__.'\User', $this->prefix.'role_user')->withTimestamps();
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(__NAMESPACE__.'\Permission', $this->prefix.'permission_role')->withTimestamps();
     }
 
     public function scopeNotSingleUser($query)

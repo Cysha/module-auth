@@ -57,10 +57,15 @@ class User extends VerifyVersion
         static::validationBoot();
     }
 
-    public function permissions()
+    public function roles()
     {
-        return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
+        return $this->belongsToMany(__NAMESPACE__.'\Role', $this->prefix.'role_user')->withTimestamps();
     }
+
+    // public function permissions()
+    // {
+    //     return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
+    // }
 
     public function getCodeSaltAttribute()
     {

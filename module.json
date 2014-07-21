@@ -2,5 +2,5 @@
     "enabled"   : true,
     "provider"  : "Cysha\\Modules\\Auth\\ServiceProvider",
     "seeder"    : "Cysha\\Modules\\Auth\\Seeds\\DatabaseSeeder",
-    "order"     : 2
+    "order"     : 1
 }
