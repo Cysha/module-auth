@@ -1,8 +1,8 @@
 <?php namespace Cysha\Modules\Auth\Controllers;
 
-use Cysha\Modules\Core\Controllers\BaseController as CoreController;
+use Cysha\Modules\Core\Controllers\BaseModuleController as BMC;
 
-class AuthBaseController extends CoreController
+class AuthBaseController extends BMC
 {
 
 }

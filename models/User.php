@@ -70,6 +70,11 @@ class User extends VerifyVersion
     //     return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
     // }
 
+    public function getNameAttribute()
+    {
+        return implode(' ', [$this->first_name, $this->last_name]);
+    }
+
     public function getCodeSaltAttribute()
     {
         return substr($this->salt, -5);
@@ -113,14 +118,17 @@ class User extends VerifyVersion
     public function transform()
     {
         return [
-            'id'       => $this->id,
-            'username' => $this->username,
-            'name'     => $this->username,
-            'href'     => $this->makeLink(true),
-            'link'     => $this->makeLink(false),
+            'id'         => (int)$this->id,
+            'username'   => (string) $this->username,
+            'name'       => (string) $this->name,
+            'href'       => (string) $this->makeLink(true),
+            'link'       => (string) $this->makeLink(false),
 
-            'email'    => $this->email,
-            'avatar'   => $this->avatar,
+            'email'      => (string) $this->email,
+            'avatar'     => (string) $this->avatar,
+
+
+            'registered' => date_array($this->created_at),
         ];
     }
 }

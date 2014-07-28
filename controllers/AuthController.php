@@ -67,7 +67,7 @@ class AuthController extends AuthBaseController
             Auth::logout();
             Session::flush();
 
-            return Redirect::back();
+            return Redirect::route('pxcms.pages.home')->withInfo('Successfully logged out.');
         }
 
         return Redirect::back();
@@ -87,7 +87,7 @@ class AuthController extends AuthBaseController
         if ($user->activate($code)) {
             Auth::login($user);
 
-            return Redirect::route('user.dashboard')->withInfo(Lang::get('core::auth.user.activated'));
+            return Redirect::route('pxcms.user.dashboard')->withInfo(Lang::get('core::auth.user.activated'));
         } else {
             return Redirect::to('/')->withError(Lang::get('core::auth.user.invalidkey'));
         }
@@ -101,7 +101,7 @@ class AuthController extends AuthBaseController
     public function getRegister()
     {
         if (!Auth::guest()) {
-            return Redirect::route('user.dashboard');
+            return Redirect::route('pxcms.user.dashboard');
         }
 
         return $this->setView('partials.core.register', array(
@@ -111,17 +111,17 @@ class AuthController extends AuthBaseController
     public function getRegistered()
     {
         if (!Auth::guest()) {
-            return Redirect::route('user.dashboard');
+            return Redirect::route('pxcms.user.dashboard');
         }
 
         $user_id = Session::get('user') ?: 0;
         if ($user_id == 0) {
-            return Redirect::to('/');
+            return Redirect::route('pxcms.pages.home');
         }
 
         $objUser = PXAuth\Models\User::findOrFail($user_id);
         if ($objUser === null) {
-            return Redirect::to('/');
+            return Redirect::route('pxcms.pages.home');
         }
 
         return $this->setView('partials.core.registered', array(
