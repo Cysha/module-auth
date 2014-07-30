@@ -2,5 +2,5 @@
 
 return array(
     'require_activating' => false,
-    'redirect_to' => URL::route('pxcms.user.login'),
+    'redirect_to' => 'pxcms.user.login',
 );
