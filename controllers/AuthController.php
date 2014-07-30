@@ -58,7 +58,7 @@ class AuthController extends AuthBaseController
 
         }
 
-        return Redirect::intended(URL::route('pxcms.user.login'));
+        return Redirect::intended(Config::get('auth::user.redirect_to'));
     }
 
     public function getLogout()
