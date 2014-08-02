@@ -1,5 +1,6 @@
-<?php namespace Cysha\Modules\Auth\Controllers;
+<?php namespace Cysha\Modules\Auth\Controllers\Module;
 
+use Cysha\Modules\Auth\Controllers\AuthBaseController;
 use Cysha\Modules\Auth as PXAuth;
 use Toddish\Verify as Verify;
 use Auth;
@@ -58,7 +59,7 @@ class AuthController extends AuthBaseController
 
         }
 
-        return Redirect::intended(URL::route('pxcms.user.login'));
+        return Redirect::intended(URL::route(Config::get('auth::user.redirect_to')));
     }
 
     public function getLogout()

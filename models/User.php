@@ -21,7 +21,7 @@ class User extends VerifyVersion
             'username' => 'required|min:5|unique:users,username',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:5|confirmed',
-            'tnc'      => 'required|accepted',
+            //'tnc'      => 'required|accepted',
         ),
         'updating' => array(
             'username' => 'min:5|unique:users,username,:id:',
