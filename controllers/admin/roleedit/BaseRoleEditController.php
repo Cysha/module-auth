@@ -1,14 +1,15 @@
-<?php namespace Cysha\Modules\Users\Controllers\Admin\RoleEdit;
+<?php namespace Cysha\Modules\Auth\Controllers\Admin\RoleEdit;
 
-use Cysha\Modules\BaseAdminController as BAC;
+use Cysha\Modules\Core\Controllers\BaseAdminController as BAC;
 use URL;
 
-class BaseRoleEditController extends BAC {
-    
-    function __construct() {
+class BaseRoleEditController extends BAC
+{
+    public function __construct()
+    {
         parent::__construct();
 
-        $this->theme->setTitle('Role Manager');
-        $this->theme->breadcrumb()->add('Role Manager', URL::route('admin.role.index'));
+        $this->objTheme->setTitle('Role Manager');
+        $this->objTheme->breadcrumb()->add('Role Manager', URL::route('admin.role.index'));
     }
 }

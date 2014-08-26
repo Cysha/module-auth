@@ -1,6 +1,5 @@
-<?php namespace Cysha\Modules\Auth\Controllers\Module;
+<?php namespace Cysha\Modules\Auth\Controllers;
 
-use Cysha\Modules\Auth\Controllers\AuthBaseController;
 use Cysha\Modules\Auth as PXAuth;
 use Toddish\Verify as Verify;
 use Auth;

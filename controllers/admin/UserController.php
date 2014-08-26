@@ -2,6 +2,7 @@
 
 use Auth;
 use URL;
+use Config;
 
 class UserController extends BaseAdminController
 {
@@ -33,7 +34,8 @@ class UserController extends BaseAdminController
             'sort_column'   => 'id',
             'source'        => URL::route('admin.user.ajax'),
             'collection'    => function () {
-                return \Cysha\Modules\Auth\Models\User::with('roles')->get();
+                $model = Config::get('auth.model');
+                return $model::with('roles')->get();
             },
             'alert'         => [
                 'class' => 'info',
@@ -50,17 +52,8 @@ class UserController extends BaseAdminController
                 'sorting'   => true,
                 'width'     => '5%',
             ],
-            'username' => [
-                'th'        => 'Username',
-                'tr'        => function ($model) {
-                    return $model->username;
-                },
-                'sorting'   => true,
-                'filtering' => true,
-                'width'     => '10%',
-            ],
             'name' => [
-                'th'        => 'Full Name',
+                'th'        => 'Screen Name',
                 'tr'        => function ($model) {
                     return $model->name;
                 },

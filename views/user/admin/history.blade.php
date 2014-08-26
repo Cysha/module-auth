@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-2"> @include('users::user.admin.nav') </div>
+    <div class="col-md-2"> @include('auth::user.admin.nav') </div>
     <div class="col-md-10">
         <div class="page-heading">
             <h3>User Changelog</h3>

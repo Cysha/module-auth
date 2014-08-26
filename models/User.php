@@ -21,7 +21,6 @@ class User extends VerifyVersion
             'username' => 'required|min:5|unique:users,username',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:5|confirmed',
-            //'tnc'      => 'required|accepted',
         ),
         'updating' => array(
             'username' => 'min:5|unique:users,username,:id:',
@@ -30,15 +29,15 @@ class User extends VerifyVersion
         ),
     );
     protected static $messages;
-    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'salt', 'password_confirmation', 'email', 'salt', 'verified', 'disabled', 'tnc');
+    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'salt', 'password_confirmation', 'email', 'salt', 'verified', 'disabled');
     protected $hidden = array('password', 'salt');
     protected $appends = array('usercode');
     protected static $purge = array('password_confirmation', 'tnc');
-    protected $identifiableName = 'username';
+    protected $identifiableName = 'name';
 
     protected $link = [
         'route'      => 'pxcms.user.view',
-        'attributes' => ['name' => 'username'],
+        'attributes' => ['name' => 'name'],
     ];
 
     public function __construct()
@@ -71,6 +70,19 @@ class User extends VerifyVersion
     // }
 
     public function getNameAttribute()
+    {
+        if ($this->use_nick == '-1' && !empty($this->first_name) && !empty($this->last_name)) {
+            return $this->fullName;
+        }
+
+        if (!isset($this->nicks) || !count($this->nicks)) {
+            return $this->username;
+        }
+
+        return array_get($this->nicks, $this->use_nick, $this->username);
+    }
+
+    public function getFullNameAttribute()
     {
         return implode(' ', [$this->first_name, $this->last_name]);
     }

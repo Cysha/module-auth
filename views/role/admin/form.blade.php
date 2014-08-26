@@ -1,12 +1,10 @@
 <div class="row">
     @if( Request::segment(3) != 'add' )
-    <div class="col-md-2"> @include('users::role.admin.nav') </div>
+    <div class="col-md-2"> @include('auth::role.admin.nav') </div>
     @endif
     <div class="col-md-7">
-    @if( Request::segment(3) != 'add' )
-    {{ Former::horizontal_open( URL::route('admin.role.edit', $role->id) ) }}
-    @else
-    {{ Former::horizontal_open( URL::route('admin.role.store') ) }}
+    @if( Request::segment(3) != 'add' ) {{ Former::horizontal_open( URL::route('admin.role.edit', $role->id) ) }}
+    @else {{ Former::horizontal_open( URL::route('admin.role.store') ) }}
     @endif
 
         {{ Former::text('name') }}

@@ -1,13 +1,14 @@
-<?php namespace Cysha\Modules\Users\Controllers\Admin\UserEdit;
+<?php namespace Cysha\Modules\Auth\Controllers\Admin\UserEdit;
 
-use Cysha\Modules\Users as Users;
+use Cysha\Modules\Auth as Auth;
 use Former, URL;
 
-class HistoryController extends BaseUserEditController {
-
-    public function getHistory(Users\Models\User $objUser){
+class HistoryController extends BaseUserEditController
+{
+    public function getHistory(Auth\Models\User $objUser)
+    {
         $data = $this->getUserDetails($objUser);
-        $this->theme->setTitle('User Manager <small>> '.$objUser->username.' > Edit</small>');
+        $this->objTheme->setTitle('User Manager <small>> '.$objUser->username.' > Edit</small>');
 
         return $this->setView('user.admin.history', $data, 'module');
     }

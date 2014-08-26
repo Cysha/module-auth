@@ -1,15 +1,16 @@
-<?php namespace Cysha\Modules\Users\Controllers\Admin\RoleEdit;
+<?php namespace Cysha\Modules\Auth\Controllers\Admin\RoleEdit;
 
-use Cysha\Modules\Users as Users;
+use Cysha\Modules\Auth as Auth;
 use Former, URL, Redirect;
 
-class RoleController extends BaseRoleEditController {
+class RoleController extends BaseRoleEditController
+{
+    public function getEdit(Auth\Models\Role $objRole)
+    {
+        $this->objTheme->setTitle('Role Manager <small>> '.$objRole->name.' > Edit</small>');
+        $this->objTheme->breadcrumb()->add('Edit', URL::route('admin.role.edit', $objRole->id));
 
-    public function getEdit(Users\Models\Role $objRole){
-        $this->theme->setTitle('Role Manager <small>> '.$objRole->name.' > Edit</small>');
-        $this->theme->breadcrumb()->add('Edit', URL::route('admin.role.edit', $objRole->id));
-
-        $permissions = Users\Models\Permission::all();
+        $permissions = Auth\Models\Permission::all();
 
         Former::populate($objRole);
 
@@ -19,7 +20,8 @@ class RoleController extends BaseRoleEditController {
         ), 'module');
     }
 
-    public function postEdit(Users\Models\Role $objRole){
+    public function postEdit(Auth\Models\Role $objRole)
+    {
         $objRole->hydrateFromInput();
 
         if( $objRole->save() === false ){

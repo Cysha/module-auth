@@ -8,7 +8,7 @@ $namespace = 'Cysha\Modules\Auth\Controllers\Admin';
 
         Route::get('add',               array('as' => 'admin.user.add',             'uses' => $namespace.'\UserController@getAdd',              'before' => 'permissions'));
 
-        Route::model('user', 'Cysha\Modules\Users\Models\User');
+        Route::model('user', Config::get('auth.model'));
         Route::group(array('prefix' => '{user}'), function () use ($namespace) {
             $namespace .= '\UserEdit';
 

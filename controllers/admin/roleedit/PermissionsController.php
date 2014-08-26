@@ -1,15 +1,16 @@
-<?php namespace Cysha\Modules\Users\Controllers\Admin\RoleEdit;
+<?php namespace Cysha\Modules\Auth\Controllers\Admin\RoleEdit;
 
-use Cysha\Modules\Users as Users;
+use Cysha\Modules\Auth as Auth;
 use Former, URL;
 
-class PermissionsController extends BaseRoleEditController {
+class PermissionsController extends BaseRoleEditController
+{
+    public function getEdit(Auth\Models\Role $objRole)
+    {
+        $this->objTheme->setTitle('Role Manager <small>> '.$objRole->name.' > Permissions</small>');
+        $this->objTheme->breadcrumb()->add('Permissions', URL::route('admin.role.permissions', $objRole->id));
 
-    public function getEdit(Users\Models\Role $objRole){
-        $this->theme->setTitle('Role Manager <small>> '.$objRole->name.' > Permissions</small>');
-        $this->theme->breadcrumb()->add('Permissions', URL::route('admin.role.permissions', $objRole->id));
-
-        $permissions = Users\Models\Permission::all();
+        $permissions = Auth\Models\Permission::all();
 
         Former::populate($objRole);
 

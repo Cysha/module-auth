@@ -1,18 +1,20 @@
-<?php namespace Cysha\Modules\Users\Controllers\Admin\UserEdit;
+<?php namespace Cysha\Modules\Auth\Controllers\Admin\UserEdit;
 
-use Cysha\Modules\Users as Users;
+use Cysha\Modules\Auth as Auth;
 use Former, URL, Redirect;
 
-class UserController extends BaseUserEditController {
-
-    public function getEdit(Users\Models\User $objUser){
+class UserController extends BaseUserEditController
+{
+    public function getEdit(Auth\Models\User $objUser)
+    {
         $data = $this->getUserDetails($objUser);
-        $this->theme->setTitle('User Manager <small>> '.$objUser->username.' > Edit</small>');
+        $this->objTheme->setTitle('User Manager <small>> '.$objUser->username.' > Edit</small>');
 
         return $this->setView('user.admin.users', $data, 'module');
     }
 
-    public function postEdit(Users\Models\User $objUser){
+    public function postEdit(Auth\Models\User $objUser)
+    {
         $objUser->hydrateFromInput();
 
         if( $objUser->save() === false ){
@@ -22,12 +24,12 @@ class UserController extends BaseUserEditController {
         return Redirect::route('admin.user.edit', $objUser->id)->withInfo('User Updated');
     }
 
-    public function getDelete(Users\Models\User $objUser){
-
+    public function getDelete(Auth\Models\User $objUser)
+    {
     }
 
-    public function getPermissions(Users\Models\User $objUser){
-
+    public function getPermissions(Auth\Models\User $objUser)
+    {
     }
 
 }

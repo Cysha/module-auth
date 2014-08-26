@@ -1,20 +1,21 @@
-<?php namespace Cysha\Modules\Users\Controllers\Admin\UserEdit;
+<?php namespace Cysha\Modules\Auth\Controllers\Admin\UserEdit;
 
-use Cysha\Modules\BaseAdminController as BAC;
-use Cysha\Modules\Users as Users;
+use Cysha\Modules\Core\Controllers\BaseAdminController as BAC;
+use Cysha\Modules\Auth as Auth;
 use URL, Former;
 
-class BaseUserEditController extends BAC {
-
-    function __construct() {
+class BaseUserEditController extends BAC
+{
+    public function __construct()
+    {
         parent::__construct();
 
-        $this->theme->setTitle('User Manager');
-        $this->theme->breadcrumb()->add('User Manager', URL::route('admin.user.index'));
+        $this->objTheme->setTitle('User Manager');
+        $this->objTheme->breadcrumb()->add('User Manager', URL::route('admin.user.index'));
     }
 
-    public function getUserDetails(Users\Models\User $user){
-
+    public function getUserDetails(Auth\Models\User $user)
+    {
         Former::populate($user);
 
         return compact('user');

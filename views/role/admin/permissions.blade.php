@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-2"> @include('users::role.admin.nav') </div>
+    <div class="col-md-2"> @include('auth::role.admin.nav') </div>
     <div class="col-md-10">
     @if( count($permissions) )
     <?php
