@@ -5,9 +5,9 @@
             <a href="{{ URL::Route('admin.user.edit', $user->id) }}">User Settings</a>
         </li>
         @endif
-        @if( Auth::user()->can('admin.user.permissions') )
-        <li class="{{ Request::segment(4) == 'permissions' ? 'active' : '' }}">
-            <a href="{{ URL::Route('admin.user.permissions', $user->id) }}">User Permissions</a>
+        @if( Auth::user()->can('admin.user.password') )
+        <li class="{{ Request::segment(4) == 'password' ? 'active' : '' }}">
+            <a href="{{ URL::Route('admin.user.password', $user->id) }}">Change Password</a>
         </li>
         @endif
         @if( Auth::user()->can('admin.user.history') )
@@ -15,5 +15,5 @@
             <a href="{{ URL::Route('admin.user.history', $user->id) }}">User Changelog</a>
         </li>
         @endif
-	</ul>
+    </ul>
 </nav>
