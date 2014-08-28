@@ -45,7 +45,7 @@ class InstallCommand extends BaseCommand
                 //'seedclass' => '',
                 'migrate'   => true,
                 'seed'      => false,
-                'config'    => true,
+                'config'    => false,
             ),
         );
 
