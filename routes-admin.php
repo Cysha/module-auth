@@ -21,6 +21,11 @@ $namespace = 'Cysha\Modules\Auth\Controllers\Admin';
                 Route::get('/',         array('as' => 'admin.user.history',         'uses' => $namespace.'\HistoryController@getHistory'));
             });
 
+            Route::group(array('prefix' => 'password', 'before' => 'permissions:admin.user.password'), function () use ($namespace) {
+                Route::get('/',         array('as' => 'admin.user.password',        'uses' => $namespace.'\PasswordController@getForm'));
+                Route::post('/',        array('uses' => $namespace.'\PasswordController@postForm'));
+            });
+
             Route::group(array('prefix' => 'delete', 'before' => 'permissions:admin.user.delete'), function () use ($namespace) {
                 Route::post('/',        array('as' => 'admin.user.permissions',     'uses' => $namespace.'\UserController@postDelete'));
             });
