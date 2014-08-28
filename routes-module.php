@@ -15,6 +15,7 @@ Route::get('activate/{code}', array('as' => 'user.activate', 'uses' => $namespac
 
 // User Control Panel
 Route::group(array('prefix' => Config::get('core::routes.paths.user')), function () use ($namespace) {
+    $namespace .= '\Module';
 
     Route::group(['prefix' => 'view'], function () use ($namespace) {
         Route::get('{username}', array('as' => 'pxcms.user.view', 'uses' => $namespace.'\DashboardController@getDashboard'));
