@@ -12,6 +12,7 @@ class ServiceProvider extends BaseServiceProvider
         \Config::set('auth.model', 'Cysha\Modules\Auth\Models\User');
 
         $this->registerInstallCommand();
+        $this->registerUserGeneratorCommand();
         $this->registerOtherPackages();
     }
 
@@ -21,6 +22,14 @@ class ServiceProvider extends BaseServiceProvider
             return new InstallCommand($this->app);
         });
         $this->commands('cms.modules.auth:install');
+    }
+
+    private function registerUserGeneratorCommand()
+    {
+        $this->app['cms.user:generate'] = $this->app->share(function () {
+            return new UserGeneratorCommand($this->app);
+        });
+        $this->commands('cms.user:generate');
     }
 
     private function registerOtherPackages()
