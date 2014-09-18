@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\AliasLoader;
 use Cysha\Modules\Core\BaseServiceProvider;
-use Cysha\Modules\Auth\Commands\InstallCommand;
+use Cysha\Modules\Auth\Commands as Commands;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -19,7 +19,7 @@ class ServiceProvider extends BaseServiceProvider
     private function registerInstallCommand()
     {
         $this->app['cms.modules.auth:install'] = $this->app->share(function () {
-            return new InstallCommand($this->app);
+            return new Commands\InstallCommand($this->app);
         });
         $this->commands('cms.modules.auth:install');
     }
@@ -27,7 +27,7 @@ class ServiceProvider extends BaseServiceProvider
     private function registerUserGeneratorCommand()
     {
         $this->app['cms.user:generate'] = $this->app->share(function () {
-            return new UserGeneratorCommand($this->app);
+            return new Commands\UserGeneratorCommand($this->app);
         });
         $this->commands('cms.user:generate');
     }
