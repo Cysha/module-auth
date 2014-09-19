@@ -12,7 +12,7 @@ class ServiceProvider extends BaseServiceProvider
         \Config::set('auth.model', 'Cysha\Modules\Auth\Models\User');
 
         $this->registerInstallCommand();
-        $this->registerUserGeneratorCommand();
+        //$this->registerUserGeneratorCommand();
         $this->registerOtherPackages();
     }
 
