@@ -16,16 +16,6 @@ class ApiAuthenticationProvider extends Provider {
         $this->auth = $auth;
     }
 
-    protected function getAuthToken($request) {
-        $token = $request->header('X-Auth-Token');
-
-        if(empty($token)) {
-            $token = $request->input('auth_token');
-        }
-
-        return $token;
-    }
-
     public function authenticate(Request $request, Route $route)
     {
         $apiKey = $this->getAuthToken($request);
@@ -37,6 +27,16 @@ class ApiAuthenticationProvider extends Provider {
 
         $driver = $this->auth->driver();
         return $driver->loginUsingId($keyRow->user_id);
+    }
+
+    protected function getAuthToken($request) {
+        $token = $request->header('X-Auth-Token');
+
+        if(empty($token)) {
+            $token = $request->input('auth_token');
+        }
+
+        return $token;
     }
 
     public function getAuthorizationMethod()

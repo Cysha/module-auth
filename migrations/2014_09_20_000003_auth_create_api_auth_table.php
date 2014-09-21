@@ -17,6 +17,7 @@ class AuthCreateApiAuthTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->string('key');
+            $table->string('description');
             $table->timestamp('expires_at');
 
             $table->timestamps();

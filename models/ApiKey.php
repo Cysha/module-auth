@@ -5,7 +5,7 @@ use DB;
 class ApiKey extends BaseModel
 {
     public $table = 'api_auth';
-    public $fillable = ['user_id', 'key', 'expires_at'];
+    public $fillable = ['user_id', 'key', 'description', 'expires_at'];
 
     public function user()
     {
