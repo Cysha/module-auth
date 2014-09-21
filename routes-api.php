@@ -1,5 +1,9 @@
 <?php
 
-Route::group(['version' => 'v1', 'prefix' => \Config::get('core::routes.paths.api', 'api')], function () {
+Route::api(['version' => 'v1', 'prefix' => 'api', 'protected' => true], function() {
+
+    Route::get('user', function() {
+        return ['authed_as' => Auth::user()->username];
+    });
 
 });

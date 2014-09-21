@@ -69,6 +69,11 @@ class User extends VerifyVersion
     //     return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
     // }
 
+    public function ApiKey()
+    {
+        return $this->hasMany(__NAMESPACE__.'\ApiKey')->withTimestamps();
+    }
+
     public function getNameAttribute()
     {
         if ($this->use_nick == '-1' && !empty($this->first_name) && !empty($this->last_name)) {
