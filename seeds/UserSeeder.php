@@ -19,9 +19,7 @@ class UserSeeder extends \Seeder
         $objUser->last_name             = '';
         $objUser->email                 = 'xlink@cybershade.org';
         $objUser->password              = 'password'; // This is automatically salted and encrypted
-        $objUser->password_confirmation = $objUser->password;
         $objUser->verified              = 1;
-        $objUser->tnc                   = 1;
         $save = $objUser->save();
         if ($this->debug === true) {
             if ($save === false) {
