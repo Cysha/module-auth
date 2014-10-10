@@ -1,6 +1,8 @@
 <?php namespace Cysha\Modules\Auth\Commands;
 
 use Cysha\Modules\Core\Commands\BaseCommand;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class UserGeneratorCommand extends BaseCommand
 {

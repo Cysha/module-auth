@@ -11,8 +11,24 @@ class Login extends FormValidator
      * @route pxcms.auth.login
      */
     protected $rules = [
-        'email'    => 'required|email|min:5',
+        'email'    => 'required|min:5',
         'password' => 'required|min:5',
     ];
+
+    /**
+     * Validation messages
+     *
+     * @var array
+     */
+    protected $messages;
+
+    public function register()
+    {
+        \Log::info('register triggered');
+        $this->messages = array(
+            'email.min' => \Lang::get('auth::auth.login.email'),
+            'password'  => \Lang::get('auth::auth.login.password'),
+        );
+    }
 
 }

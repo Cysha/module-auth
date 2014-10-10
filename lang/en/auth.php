@@ -2,6 +2,9 @@
 
 return array(
 
+    // login form
+    'login.email' => 'The identifier must be at least :min characters.',
+
     // user auth attempts
     'user.deleted'           => 'Username or Password combination you provided cannot be found, Please try again.',
     'user.notfound'          => 'Username or Password combination you provided cannot be found, Please try again.',
