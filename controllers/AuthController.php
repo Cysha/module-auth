@@ -17,9 +17,7 @@ class AuthController extends AuthBaseController
     public $layout = 'col-1';
 
     /**
-     *
      * Login
-     *
      */
     public function getLogin()
     {
@@ -74,9 +72,7 @@ class AuthController extends AuthBaseController
     }
 
     /**
-     *
      * Account Activation
-     *
      */
     public function getActivate($code)
     {
@@ -94,9 +90,7 @@ class AuthController extends AuthBaseController
     }
 
     /**
-     *
      * Register
-     *
      */
     public function getRegister()
     {
@@ -150,9 +144,7 @@ class AuthController extends AuthBaseController
     }
 
     /**
-     *
      * Forgot Password
-     *
      */
     public function getForgotPassword()
     {

@@ -7,32 +7,16 @@ use Config;
 
 class User extends VerifyVersion
 {
-    use \Cysha\Modules\Core\Traits\SelfValidationTrait,
-        \Cysha\Modules\Core\Traits\LinkableTrait,
+    use \Cysha\Modules\Core\Traits\LinkableTrait,
         \Venturecraft\Revisionable\RevisionableTrait{
-        \Cysha\Modules\Core\Traits\SelfValidationTrait::boot as validationBoot;
         \Venturecraft\Revisionable\RevisionableTrait::boot as revisionableBoot;
     }
 
     protected $revisionEnabled = false;
 
-    protected static $rules = array(
-        'creating' => array(
-            'username' => 'required|min:5|unique:users,username',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:5|confirmed',
-        ),
-        'updating' => array(
-            'username' => 'min:5|unique:users,username,:id:',
-            'email'    => 'email|unique:users,email,:id:',
-            'password' => 'min:5|confirmed',
-        ),
-    );
-    protected static $messages;
-    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'salt', 'password_confirmation', 'email', 'salt', 'verified', 'disabled');
+    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'email', 'salt', 'verified', 'disabled');
     protected $hidden = array('password', 'salt');
     protected $appends = array('usercode');
-    protected static $purge = array('password_confirmation', 'tnc');
     protected $identifiableName = 'name';
 
     protected $link = [
@@ -44,18 +28,10 @@ class User extends VerifyVersion
     {
         parent::__construct();
         $this->linkableConstructor();
-
-        self::$messages = array(
-            'username.unique' => Lang::get('auth::register.username'),
-            'email.unique'    => Lang::get('auth::register.email'),
-            'password'        => Lang::get('auth::register.password'),
-            'password.min'    => Lang::get('auth::register.password.min'),
-        );
     }
 
     public static function boot()
     {
-        static::validationBoot();
         static::revisionableBoot();
     }
 

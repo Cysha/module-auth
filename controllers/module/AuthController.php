@@ -2,6 +2,7 @@
 
 use Cysha\Modules\Auth\Controllers\AuthBaseController;
 use Cysha\Modules\Auth as PXAuth;
+use Cysha\Modules\Auth\Validators as Validate;
 use Toddish\Verify as Verify;
 use Auth;
 use Config;
@@ -16,6 +17,14 @@ class AuthController extends AuthBaseController
 {
 
     public $layout = 'col-1';
+    protected $validator;
+
+    public function __construct(Validate\Login $validator)
+    {
+        parent::__construct();
+
+        $this->validator = $validator;
+    }
 
     /**
      *
@@ -35,6 +44,9 @@ class AuthController extends AuthBaseController
     public function postLogin()
     {
         $input = Input::only('email', 'password');
+
+        $a = $this->validator->validate($input);
+        echo \Debug::dump($a, '');die;
 
         try {
             Auth::attempt(array(
@@ -56,7 +68,6 @@ class AuthController extends AuthBaseController
 
         } catch (Exception $e) {
             return Redirect::route('pxcms.user.login')->withError($e->message());
-
         }
 
         // say no to fixating on sessions!
