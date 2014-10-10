@@ -1,5 +1,7 @@
 <?php
 
+$namespace .= '\Module';
+
 // Login & out
 Route::get('login', array('as' => 'pxcms.user.login', 'uses' => $namespace.'\AuthController@getLogin'));
 Route::post('login', $namespace.'\AuthController@postLogin');
