@@ -1,6 +1,7 @@
 <?php namespace Cysha\Modules\Auth\Validators;
 
 use Cysha\Modules\Core\Helpers\Forms\FormValidator;
+use Lang;
 
 class Login extends FormValidator
 {
@@ -26,8 +27,8 @@ class Login extends FormValidator
     public function _messages()
     {
         return [
-            'email.min' => \Lang::get('auth::auth.login.email'),
-            'password'  => \Lang::get('auth::auth.login.password'),
+            'email.min' => Lang::get('auth::auth.login.email.min'),
+            'password'  => Lang::get('auth::auth.login.password'),
         ];
     }
 
@@ -38,7 +39,7 @@ class Login extends FormValidator
      */
     public function authorize()
     {
-        return true;
+        return Auth::guest();
     }
 
 }

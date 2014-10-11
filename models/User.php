@@ -4,6 +4,7 @@ use \Toddish\Verify\Models\User as VerifyVersion;
 use Auth;
 use Lang;
 use Config;
+use Input;
 
 class User extends VerifyVersion
 {
@@ -123,5 +124,23 @@ class User extends VerifyVersion
 
             'registered' => date_array($this->created_at),
         ];
+    }
+
+    /**
+     * Fill attributes in $this from \Input
+     *
+     * @see \Illuminate
+     */
+    public function hydrateFromInput(array $input = array())
+    {
+        if (empty($input)) {
+            $input = \Input::only($this->fillable);
+        } else {
+            $input = array_only($input, $this->fillable);
+        }
+
+        $input = array_filter($input, 'strlen');
+
+        return $this->fill($input);
     }
 }

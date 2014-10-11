@@ -2,7 +2,7 @@
 
 use Cysha\Modules\Auth\Controllers\AuthBaseController;
 use Cysha\Modules\Auth as PXAuth;
-use Cysha\Modules\Auth\Validators as Validate;
+use Cysha\Modules\Auth\Validators;
 use Toddish\Verify as Verify;
 use Auth;
 use Config;
@@ -17,13 +17,14 @@ class AuthController extends AuthBaseController
 {
 
     public $layout = 'col-1';
-    protected $validator;
+    protected $validatorLogin;
 
-    public function __construct(Validate\Login $validator)
+    public function __construct(Validators\Login $validatorLogin, Validators\Register $validatorRegister)
     {
         parent::__construct();
 
-        $this->validator = $validator;
+        $this->validatorLogin = $validatorLogin;
+        $this->validatorRegister = $validatorRegister;
     }
 
     /**
@@ -45,7 +46,7 @@ class AuthController extends AuthBaseController
     {
         $input = Input::only('email', 'password');
 
-        $this->validator->validate($input);
+        $this->validatorLogin->validate($input);
 
         try {
             Auth::attempt(array(
@@ -54,16 +55,16 @@ class AuthController extends AuthBaseController
             ), Input::get('remember', false));
 
         } catch (Verify\UserDeletedException $e) {
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.deleted'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('auth::auth.user.deleted'));
 
         } catch (Verify\UserNotFoundException $e) {
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.notfound'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('auth::auth.user.notfound'));
 
         } catch (Verify\UserPasswordIncorrectException $e) {
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.passwordincorrect'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('auth::auth.user.passwordincorrect'));
 
         } catch (Verify\UserUnverifiedException $e) {
-            return Redirect::route('pxcms.user.login')->withError(Lang::get('core::auth.user.unverified'));
+            return Redirect::route('pxcms.user.login')->withError(Lang::get('auth::auth.user.unverified'));
 
         } catch (Exception $e) {
             return Redirect::route('pxcms.user.login')->withError($e->message());
@@ -95,15 +96,15 @@ class AuthController extends AuthBaseController
     public function getActivate($code)
     {
         if ($user->isActive()) {
-            return Redirect::to('/')->withWarning(Lang::get('core::auth.user.alreadyactive'));
+            return Redirect::to('/')->withWarning(Lang::get('auth::auth.user.alreadyactive'));
         }
 
         if ($user->activate($code)) {
             Auth::login($user);
 
-            return Redirect::route('pxcms.user.dashboard')->withInfo(Lang::get('core::auth.user.activated'));
+            return Redirect::route('pxcms.user.dashboard')->withInfo(Lang::get('auth::auth.user.activated'));
         } else {
-            return Redirect::to('/')->withError(Lang::get('core::auth.user.invalidkey'));
+            return Redirect::to('/')->withError(Lang::get('auth::auth.user.invalidkey'));
         }
     }
 
@@ -122,45 +123,24 @@ class AuthController extends AuthBaseController
         ), 'theme');
     }
 
-    public function getRegistered()
-    {
-        if (!Auth::guest()) {
-            return Redirect::route('pxcms.user.dashboard');
-        }
-
-        $user_id = Session::get('user') ?: 0;
-        if ($user_id == 0) {
-            return Redirect::route('pxcms.pages.home');
-        }
-
-        $objUser = PXAuth\Models\User::findOrFail($user_id);
-        if ($objUser === null) {
-            return Redirect::route('pxcms.pages.home');
-        }
-
-        return $this->setView('partials.core.registered', array(
-            'user' => $objUser
-        ), 'theme');
-    }
-
     public function postRegister()
     {
-        $objUser = new PXAuth\Models\User;
+        $this->validatorRegister->validate(Input::all());
+
+        $authModel = Config::get('auth.model');
+        $objUser = new $authModel;
         $objUser->hydrateFromInput();
 
         if (Config::get('users::user.require_activating') === false) {
             $objUser->verified = 1;
         }
 
-        if ($objUser->save()) {
-            Event::fire('user.created', array($objUser));
+        $objUser->save();
 
-            return Redirect::route('user.registered')->withUser($objUser->id);
-        }
+        Auth::login($objUser);
 
-        Input::flash();
-
-        return Redirect::route('user.register')->withErrors($objUser->getErrors());
+        Event::fire('user.created', array($objUser->toArray()));
+        return Redirect::route('pxcms.pages.home')->withInfo(Lang::get('auth::auth.user.registered'));
     }
 
     /**
