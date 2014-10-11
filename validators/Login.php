@@ -2,6 +2,7 @@
 
 use Cysha\Modules\Core\Helpers\Forms\FormValidator;
 use Lang;
+use Auth;
 
 class Login extends FormValidator
 {
