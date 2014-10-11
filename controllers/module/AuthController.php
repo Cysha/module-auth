@@ -45,8 +45,7 @@ class AuthController extends AuthBaseController
     {
         $input = Input::only('email', 'password');
 
-        $a = $this->validator->validate($input);
-        echo \Debug::dump($a, '');die;
+        $this->validator->validate($input);
 
         try {
             Auth::attempt(array(

@@ -5,30 +5,40 @@ use Cysha\Modules\Core\Helpers\Forms\FormValidator;
 class Login extends FormValidator
 {
     /**
-     * Validation rules for logging in
+     * Validation rules
      *
-     * @var array
      * @route pxcms.auth.login
+     * @return array
      */
-    protected $rules = [
-        'email'    => 'required|min:5',
-        'password' => 'required|min:5',
-    ];
+    public function _rules()
+    {
+        return [
+            'email'    => 'required|min:5',
+            'password' => 'required|min:5',
+        ];
+    }
 
     /**
-     * Validation messages
+     * Custom error messages
      *
-     * @var array
+     * @return array
      */
-    protected $messages;
-
-    public function register()
+    public function _messages()
     {
-        \Log::info('register triggered');
-        $this->messages = array(
+        return [
             'email.min' => \Lang::get('auth::auth.login.email'),
             'password'  => \Lang::get('auth::auth.login.password'),
-        );
+        ];
+    }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
     }
 
 }
