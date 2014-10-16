@@ -1,14 +1,12 @@
 <?php namespace Cysha\Modules\Auth;
 
-use Dingo\Api\Auth\Provider;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
+use Dingo\Api\Auth\ProviderInterface;
 use Illuminate\Support\Manager;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Cysha\Modules\Auth\Models\ApiKey;
 
-class ApiAuthenticationProvider extends Provider {
-
+class ApiAuthenticationProvider implements ProviderInterface
+{
     protected $auth;
 
     public function __construct(Manager $auth)
@@ -16,7 +14,7 @@ class ApiAuthenticationProvider extends Provider {
         $this->auth = $auth;
     }
 
-    public function authenticate(Request $request, Route $route)
+    public function authenticate(\Illuminate\Http\Request $request, \Dingo\Api\Routing\Route $route)
     {
         $apiKey = $this->getAuthToken($request);
         $keyRow = with(new ApiKey)->keyExists($apiKey);
@@ -29,10 +27,11 @@ class ApiAuthenticationProvider extends Provider {
         return $driver->loginUsingId($keyRow->user_id);
     }
 
-    protected function getAuthToken($request) {
+    protected function getAuthToken($request)
+    {
         $token = $request->header('X-Auth-Token');
 
-        if(empty($token)) {
+        if (empty($token)) {
             $token = $request->input('auth_token');
         }
 
