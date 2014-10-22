@@ -2,6 +2,6 @@
 
 $namespace = 'Cysha\Modules\Auth\Controllers';
 
-require_once 'routes-admin.php';
-require_once 'routes-api.php';
-require_once 'routes-module.php';
+require 'routes-admin.php';
+require 'routes-api.php';
+require 'routes-module.php';
