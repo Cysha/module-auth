@@ -21,8 +21,10 @@ class AuthCest
     /**
      * @group m_auth
      */
-    public function loginUsingUserRecord(FunctionalTester $I)
+    public function login_using_user_record(FunctionalTester $I)
     {
+        $I->wantTo('try and login with a user record');
+
         $authModel = \Config::get('auth.model');
         $I->amLoggedAs(with(new $authModel)->firstOrNew([]));
     }
@@ -30,8 +32,9 @@ class AuthCest
     /**
      * @group m_auth
      */
-    public function loginUsingCredentials(FunctionalTester $I)
+    public function login_using_provided_details(FunctionalTester $I)
     {
+        $I->wantTo('try and login with credentials');
         $I->amLoggedAs(['email' => 'xlink@cybershade.org', 'password' => 'password']);
     }
 }
