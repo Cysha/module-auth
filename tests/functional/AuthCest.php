@@ -18,9 +18,6 @@ class AuthCest
         $I->dontSeeAuthentication();
     }
 
-    /**
-     * @group m_auth
-     */
     public function login_using_user_record(FunctionalTester $I)
     {
         $I->wantTo('try and login with a user record');
@@ -29,9 +26,6 @@ class AuthCest
         $I->amLoggedAs(with(new $authModel)->firstOrNew([]));
     }
 
-    /**
-     * @group m_auth
-     */
     public function login_using_provided_details(FunctionalTester $I)
     {
         $I->wantTo('try and login with credentials');
