@@ -12,6 +12,9 @@ Route::get('register', array('as' => 'pxcms.user.register', 'uses' => $namespace
 Route::post('register', $namespace.'\AuthController@postRegister');
 Route::get('registered', array('as' => 'pxcms.user.registered', 'uses' => $namespace.'\AuthController@getRegistered'));
 
+
+Route::get('forgot-password', array('as' => 'pxcms.user.forgot-password', 'uses' => $namespace.'\AuthController@getForgotPassword'));
+
 // Activate User
 Route::get('activate/{code}', array('as' => 'user.activate', 'uses' => $namespace.'\AuthController@getActivate'));
 
