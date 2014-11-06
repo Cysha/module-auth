@@ -127,17 +127,19 @@ class AuthController extends AuthBaseController
     {
         $this->validatorRegister->validate(Input::all());
 
-        $event = Event::fire('auth.user.register', array(Input::all()));
+        $event = Event::fire('auth.user.register', [Input::all()]);
+        $objUser = head($event);
 
-        if (($event[0] instanceof \Cysha\Modules\Auth\Models\User) === false) {
+        $authModel = \Config::get('auth.model');
+        if (($objUser instanceof $authModel) === false) {
             return Redirect::back()->withInput()->withError('User was not registered, please try again.');
         }
 
         if (Config::get('users::user.require_activating') === false) {
-            Auth::login($event[0]);
+            Auth::login($objUser);
         }
 
-        Event::fire('user.created', array($event[0]->toArray()));
+        Event::fire('user.created', [$objUser->toArray()]);
         return Redirect::route('pxcms.pages.home')->withInfo(Lang::get('auth::auth.user.registered'));
     }
 
