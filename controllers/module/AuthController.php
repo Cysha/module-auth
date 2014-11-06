@@ -135,7 +135,7 @@ class AuthController extends AuthBaseController
             return Redirect::back()->withInput()->withError('User was not registered, please try again.');
         }
 
-        if (Config::get('users::user.require_activating') === false) {
+        if (Config::get('auth::user.require_activating', false) === false) {
             Auth::login($objUser);
         }
 
