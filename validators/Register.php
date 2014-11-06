@@ -14,9 +14,12 @@ class Register extends FormValidator
      */
     public function _rules()
     {
+        $authModel = \Config::get('auth.model');
+        $table = with(new $authModel)->table;
+
         return [
-            'username' => 'required|min:5|unique:users,username',
-            'email'    => 'required|email|min:5|unique:users,email',
+            'username' => 'required|min:5|unique:'.$table.',username',
+            'email'    => 'required|email|min:5|unique:'.$table.',email',
             'password' => 'required|confirmed|min:5',
             'tnc'      => 'required|in:0,1',
         ];
