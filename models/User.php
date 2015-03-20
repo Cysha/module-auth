@@ -17,12 +17,12 @@ class User extends VerifyVersion
 
     protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'email', 'salt', 'verified', 'disabled');
     protected $hidden = array('password', 'salt');
-    protected $appends = array('usercode');
-    protected $identifiableName = 'name';
+    protected $appends = array('usercode', 'screenname');
+    protected $identifiableName = 'screenname';
 
     protected $link = [
         'route'      => 'pxcms.user.view',
-        'attributes' => ['name' => 'name'],
+        'attributes' => ['name' => 'screenname'],
     ];
 
     public function __construct()
@@ -51,7 +51,7 @@ class User extends VerifyVersion
         return $this->hasMany(__NAMESPACE__.'\ApiKey')->withTimestamps();
     }
 
-    public function getNameAttribute()
+    public function getScreennameAttribute()
     {
         if ($this->use_nick == '-1' && !empty($this->first_name) && !empty($this->last_name)) {
             return $this->fullName;
@@ -114,6 +114,7 @@ class User extends VerifyVersion
         return [
             'id'         => (int)$this->id,
             'username'   => (string) $this->username,
+            'screenname' => (string) $this->screenname,
             'name'       => (string) $this->name,
             'href'       => (string) $this->makeLink(true),
             'link'       => (string) $this->makeLink(false),

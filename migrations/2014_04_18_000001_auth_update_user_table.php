@@ -14,6 +14,7 @@ class AuthUpdateUserTable extends Migration
         Schema::table('users', function ($table) {
             $table->string('first_name')->nullable()->after('username');
             $table->string('last_name')->nullable()->after('first_name');
+            $table->integer('use_nick')->default(0)->after('last_name');
         });
     }
 
