@@ -1,82 +1,79 @@
 <?php
 
 
-Route::group(array('prefix' => 'admin'), function () {
-$namespace = 'Cysha\Modules\Auth\Controllers\Admin';
+Route::group(['prefix' => 'admin', 'namespace' => $namespace.'\Admin'], function () {
 
-    Route::group(array('prefix' => 'users'), function () use ($namespace) {
+    Route::group(['prefix' => 'users'], function () {
 
-        Route::get('add',               array('as' => 'admin.user.add',             'uses' => $namespace.'\UserController@getAdd',              'before' => 'permissions'));
+        Route::get('add', ['as' => 'admin.user.add', 'uses' => 'UserController@getAdd', 'before' => 'permissions']);
 
         Route::model('user', Config::get('auth.model'));
-        Route::group(array('prefix' => '{user}'), function () use ($namespace) {
-            $namespace .= '\UserEdit';
-
-            Route::group(array('prefix' => 'edit', 'before' => 'permissions:admin.user.edit'), function () use ($namespace) {
-                Route::post('/',        array(                                      'uses' => $namespace.'\UserController@postEdit'));
-                Route::get('/',         array('as' => 'admin.user.edit',            'uses' => $namespace.'\UserController@getEdit'));
+        Route::group(['prefix' => '{user}', 'namespace' => 'UserEdit'], function () {
+            Route::group(['prefix' => 'edit', 'before' => 'permissions:admin.user.edit'], function () {
+                Route::post('/', ['uses' => 'UserController@postEdit']);
+                Route::get('/', ['as' => 'admin.user.edit', 'uses' => 'UserController@getEdit']);
             });
 
-            Route::group(array('prefix' => 'history', 'before' => 'permissions:admin.user.history'), function () use ($namespace) {
-                Route::get('/',         array('as' => 'admin.user.history',         'uses' => $namespace.'\HistoryController@getHistory'));
+            Route::group(['prefix' => 'history', 'before' => 'permissions:admin.user.history'], function () {
+                Route::get('/', ['as' => 'admin.user.history', 'uses' => 'HistoryController@getHistory']);
             });
 
-            Route::group(array('prefix' => 'password', 'before' => 'permissions:admin.user.password'), function () use ($namespace) {
-                Route::get('/',         array('as' => 'admin.user.password',        'uses' => $namespace.'\PasswordController@getForm'));
-                Route::post('/',        array('uses' => $namespace.'\PasswordController@postForm'));
+            Route::group(['prefix' => 'password', 'before' => 'permissions:admin.user.password'], function () {
+                Route::get('/', ['as' => 'admin.user.password', 'uses' => 'PasswordController@getForm']);
+                Route::post('/', ['uses' => 'PasswordController@postForm']);
             });
 
-            Route::group(array('prefix' => 'delete', 'before' => 'permissions:admin.user.delete'), function () use ($namespace) {
-                Route::post('/',        array('as' => 'admin.user.permissions',     'uses' => $namespace.'\UserController@postDelete'));
+            Route::group(['prefix' => 'delete', 'before' => 'permissions:admin.user.delete'], function () {
+                Route::post('/', ['as' => 'admin.user.permissions', 'uses' => 'UserController@postDelete']);
             });
 
-            Route::group(array('prefix' => 'permissions', 'before' => 'permissions:admin.user.permissions'), function () use ($namespace) {
-                Route::post('/',        array(                                      'uses' => $namespace.'\UserController@postPermissions'));
-                Route::get('/',         array('as' => 'admin.user.permissions',     'uses' => $namespace.'\UserController@getPermissions'));
+            Route::group(['prefix' => 'permissions', 'before' => 'permissions:admin.user.permissions'], function () {
+                Route::post('/', ['uses' => 'UserController@postPermissions']);
+                Route::get('/', ['as' => 'admin.user.permissions', 'uses' => 'UserController@getPermissions']);
             });
 
         });
 
-        Route::get('search.json',       array('as' => 'admin.user.ajax',            'uses' => $namespace.'\UserController@getDataTableJson',    'before' => 'permissions:admin.user.index'));
-        Route::get('/',                 array('as' => 'admin.user.index',           'uses' => $namespace.'\UserController@getDataTableIndex',   'before' => 'permissions'));
+        Route::get('search.json', ['as' => 'admin.user.ajax', 'uses' => 'UserController@getDataTableJson', 'before' => 'permissions:admin.user.index']);
+        Route::get('/', ['as' => 'admin.user.index', 'uses' => 'UserController@getDataTableIndex', 'before' => 'permissions']);
     });
 
-    Route::group(array('prefix' => 'roles'), function () use ($namespace) {
-        Route::get('add',               array('as' => 'admin.role.add',             'uses' => $namespace.'\RoleController@getAddRole',          'before' => 'permissions'));
-        Route::post('store',            array('as' => 'admin.role.store',           'uses' => $namespace.'\RoleController@postAddRole',         'before' => 'permissions:admin.role.add'));
+    Route::group(['prefix' => 'roles'], function () {
+        Route::get('add', ['as' => 'admin.role.add', 'uses' => 'RoleController@getAddRole', 'before' => 'permissions']);
+        Route::post('store', ['as' => 'admin.role.store', 'uses' => 'RoleController@postAddRole', 'before' => 'permissions:admin.role.add']);
 
-        Route::model('role', 'Cysha\Modules\Users\Models\Role');
-        Route::group(array('prefix' => '{role}'), function () use ($namespace) {
-            $namespace .= '\RoleEdit';
+        Route::model('role', 'Cysha\Modules\Auth\Models\Role');
+        Route::group(['prefix' => '{role}', 'namespace' => 'RoleEdit'], function () {
 
-            // Route::group(array('prefix' => 'view', 'before' => 'permissions:admin.role.view'), function () use ($namespace) {
-            //  Route::post('/',        array(                                      'uses' => $namespace.'\UserController@postEdit'));
-            //  Route::get('/',         array('as' => 'admin.role.view',            'uses' => $namespace.'\UserController@getEdit'));
+            // Route::group(['prefix' => 'view', 'before' => 'permissions:admin.role.view'], function () {
+            //  Route::post('/', ['uses' => 'UserController@postEdit']);
+            //  Route::get('/', ['as' => 'admin.role.view', 'uses' => 'UserController@getEdit']);
             // });
 
-            Route::group(array('prefix' => 'edit', 'before' => 'permissions:admin.role.edit'), function () use ($namespace) {
-                Route::post('/',        array(                                      'uses' => $namespace.'\RoleController@postEdit'));
-                Route::get('/',         array('as' => 'admin.role.edit',            'uses' => $namespace.'\RoleController@getEdit'));
+            Route::group(['prefix' => 'edit', 'before' => 'permissions:admin.role.edit'], function () {
+                Route::post('/', ['uses' => 'RoleController@postEdit']);
+                Route::get('/', ['as' => 'admin.role.edit', 'uses' => 'RoleController@getEdit']);
             });
 
-            Route::group(array('prefix' => 'user', 'before' => 'permissions:admin.role.edit'), function () use ($namespace) {
-                Route::post('/',        array(                                      'uses' => $namespace.'\UserController@postEdit'));
-                Route::get('/',         array('as' => 'admin.role.user',            'uses' => $namespace.'\UserController@getEdit'));
+            Route::group(['prefix' => 'user', 'before' => 'permissions:admin.role.edit'], function () {
+                Route::post('/', ['uses' => 'UserController@postEdit']);
+                Route::get('/', ['as' => 'admin.role.user', 'uses' => 'UserController@getEdit']);
             });
 
-            Route::group(array('prefix' => 'permissions', 'before' => 'permissions:admin.role.permissions'), function () use ($namespace) {
-                Route::post('/',        array(                                      'uses' => $namespace.'\PermissionsController@postEdit'));
-                Route::get('/',         array('as' => 'admin.role.permissions',     'uses' => $namespace.'\PermissionsController@getEdit'));
+            Route::group(['prefix' => 'permissions', 'before' => 'permissions:admin.role.permissions'], function () {
+                Route::post('/', ['uses' => 'PermissionsController@postEdit']);
+                Route::get('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionsController@getEdit']);
             });
         });
 
-        Route::get('search.json',       array('as' => 'admin.role.ajax',            'uses' => $namespace.'\RoleController@getDataTableJson',            'before' => 'permissions:admin.role.index'));
-        Route::get('/',                 array('as' => 'admin.role.index',           'uses' => $namespace.'\RoleController@getDataTableIndex',           'before' => 'permissions'));
+        Route::get('search.json', ['as' => 'admin.role.ajax', 'uses' => 'RoleController@getDataTableJson', 'before' => 'permissions:admin.role.index']);
+        Route::get('/', ['as' => 'admin.role.index', 'uses' => 'RoleController@getDataTableIndex', 'before' => 'permissions']);
     });
 
-    Route::group(array('prefix' => 'permissions'), function () use ($namespace) {
-        Route::get('add',               array('as' => 'admin.permission.add',       'uses' => $namespace.'\PermissionController@getAdd',        'before' => 'permissions'));
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('add', ['as' => 'admin.permission.add', 'uses' => 'PermissionController@getAdd', 'before' => 'permissions']);
 
-        Route::get('/',                 array('as' => 'admin.permission.index',     'uses' => $namespace.'\PermissionController@getIndex',      'before' => 'permissions'));
+        Route::get('search.json', ['as' => 'admin.permission.ajax', 'uses' => 'PermissionController@getDataTableJson', 'before' => 'permissions:admin.permission.index']);
+        Route::get('/', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@getDataTableIndex', 'before' => 'permissions']);
     });
 });

@@ -15,7 +15,7 @@ class Register extends FormValidator
     public function _rules()
     {
         $authModel = \Config::get('auth.model');
-        $table = with(new $authModel)->table;
+        $table = with(new $authModel)->getTable();
 
         return [
             'username' => 'required|min:5|unique:'.$table.',username',
@@ -53,7 +53,7 @@ class Register extends FormValidator
      */
     public function authorize()
     {
-        return Auth::guest();
+        return !Auth::check();
     }
 
 }

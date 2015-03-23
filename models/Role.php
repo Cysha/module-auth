@@ -46,7 +46,7 @@ class Role extends VerifyVersion
         return $query->whereSingleUser(0);
     }
 
-    public function isSingleUser()
+    public function getIsSingleUserAttribute()
     {
         return $this->single_user === 0 ? false : true;
     }
@@ -56,7 +56,7 @@ class Role extends VerifyVersion
         return count($this->users);
     }
 
-    public function isModerator()
+    public function getIsModeratorAttribute()
     {
         return $this->pivot->is_moderator == 1 ? true : false;
     }
@@ -69,8 +69,8 @@ class Role extends VerifyVersion
             'level'        => $this->level,
             'color'        => $this->color,
 
-            'is_moderator' => ($this->isModerator()),
-            'is_own_group' => ($this->isSingleUser() === true && $this->isModerator()),
+            // 'is_moderator' => $this->isModerator,
+            // 'is_own_group' => ($this->isSingleUser && $this->isModerator),
         ];
     }
 }

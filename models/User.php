@@ -9,15 +9,16 @@ use Input;
 class User extends VerifyVersion
 {
     use \Cysha\Modules\Core\Traits\LinkableTrait,
+        \Cysha\Modules\Core\Traits\DynamicRelationsTrait,
         \Venturecraft\Revisionable\RevisionableTrait{
         \Venturecraft\Revisionable\RevisionableTrait::boot as revisionableBoot;
     }
 
     protected $revisionEnabled = false;
 
-    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'email', 'salt', 'verified', 'disabled');
-    protected $hidden = array('password', 'salt');
-    protected $appends = array('usercode', 'screenname');
+    protected $fillable = ['id', 'username', 'first_name', 'last_name', 'password', 'email', 'salt', 'verified', 'disabled'];
+    protected $hidden = ['password', 'salt'];
+    protected $appends = ['usercode', 'screenname', 'avatar'];
     protected $identifiableName = 'screenname';
 
     protected $link = [
@@ -82,7 +83,10 @@ class User extends VerifyVersion
     public function getAvatarAttribute($val)
     {
         if (empty($val) || $val == 'gravatar') {
-            return sprintf('http://www.gravatar.com/avatar/%s.png?s=64&d=mm&rating=g', md5($this->attributes['email']));
+            return sprintf(
+                'http://www.gravatar.com/avatar/%s.png?s=64&d=mm&rating=g',
+                md5($this->attributes['email'])
+            );
         }
 
         return $val;
@@ -128,12 +132,14 @@ class User extends VerifyVersion
     }
 
     /**
-     * Fill attributes in $this from \Input
-     *
-     * @see \Illuminate
+     * Fill attributes in $this from Input
      */
     public function hydrateFromInput(array $input = array())
     {
+        if (!isset($this->fillable)) {
+            return $this->fill(\Input::all());
+        }
+
         if (empty($input)) {
             $input = \Input::only($this->fillable);
         } else {
