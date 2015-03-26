@@ -7,8 +7,11 @@ Route::group(['prefix' => 'admin', 'namespace' => $namespace.'\Admin'], function
 
         Route::get('add', ['as' => 'admin.user.add', 'uses' => 'UserController@getAdd', 'before' => 'permissions']);
 
-        Route::model('user', Config::get('auth.model'));
-        Route::group(['prefix' => '{user}', 'namespace' => 'UserEdit'], function () {
+        Route::bind('auth_user_id', function ($id) {
+            $authModel = Config::get('auth.model');
+            return with(new $authModel)->findOrFail($id);
+        });
+        Route::group(['prefix' => '{auth_user_id}', 'namespace' => 'UserEdit'], function () {
             Route::group(['prefix' => 'edit', 'before' => 'permissions:admin.user.edit'], function () {
                 Route::post('/', ['uses' => 'UserController@postEdit']);
                 Route::get('/', ['as' => 'admin.user.edit', 'uses' => 'UserController@getEdit']);
@@ -42,8 +45,8 @@ Route::group(['prefix' => 'admin', 'namespace' => $namespace.'\Admin'], function
         Route::get('add', ['as' => 'admin.role.add', 'uses' => 'RoleController@getAddRole', 'before' => 'permissions']);
         Route::post('store', ['as' => 'admin.role.store', 'uses' => 'RoleController@postAddRole', 'before' => 'permissions:admin.role.add']);
 
-        Route::model('role', 'Cysha\Modules\Auth\Models\Role');
-        Route::group(['prefix' => '{role}', 'namespace' => 'RoleEdit'], function () {
+        Route::model('auth_role_id', 'Cysha\Modules\Auth\Models\Role');
+        Route::group(['prefix' => '{auth_role_id}', 'namespace' => 'RoleEdit'], function () {
 
             // Route::group(['prefix' => 'view', 'before' => 'permissions:admin.role.view'], function () {
             //  Route::post('/', ['uses' => 'UserController@postEdit']);

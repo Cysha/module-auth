@@ -47,9 +47,9 @@ class User extends VerifyVersion
     //     return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
     // }
 
-    public function ApiKey()
+    public function apiKey()
     {
-        return $this->hasMany(__NAMESPACE__.'\ApiKey')->withTimestamps();
+        return $this->hasMany(__NAMESPACE__.'\ApiKey');
     }
 
     public function getScreennameAttribute()
@@ -80,16 +80,22 @@ class User extends VerifyVersion
         return md5($this->id . $this->codesalt);
     }
 
-    public function getAvatarAttribute($val)
+    public function getAvatarAttribute($val, $size = 64)
     {
         if (empty($val) || $val == 'gravatar') {
             return sprintf(
-                'http://www.gravatar.com/avatar/%s.png?s=64&d=mm&rating=g',
-                md5($this->attributes['email'])
+                'http://www.gravatar.com/avatar/%s.png?s=%d&d=mm&rating=g',
+                md5($this->attributes['email']),
+                $size
             );
         }
 
         return $val;
+    }
+
+    public function avatar($size)
+    {
+        return $this->getAvatarAttribute($this->getOriginal('avatar'), $size);
     }
 
     public function verify($code)
@@ -129,6 +135,22 @@ class User extends VerifyVersion
 
             'registered' => date_array($this->created_at),
         ];
+    }
+
+
+    public function scopeFindOrCreate($query, array $where, array $attrs = array())
+    {
+        $objModel = static::firstOrCreate($where);
+
+        if (count($attrs) > 0) {
+            $objModel->fill($attrs);
+
+            if (count($objModel->getDirty())) {
+                $objModel->save();
+            }
+        }
+
+        return $objModel;
     }
 
     /**
