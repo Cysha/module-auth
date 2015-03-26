@@ -38,8 +38,7 @@ class AuthController extends AuthBaseController
             return Redirect::route('pxcms.user.dashboard');
         }
 
-        return $this->setView('partials.core.login', array(
-        ), 'theme');
+        return $this->setView('partials.core.login', [], 'theme');
     }
 
     public function postLogin()
