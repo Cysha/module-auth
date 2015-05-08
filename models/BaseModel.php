@@ -1,6 +1,6 @@
-<?php namespace Cysha\Modules\Auth\Models;
+<?php namespace Cms\Modules\Auth\Models;
 
-use Cysha\Modules\Core\Models\BaseModel as BaseCoreModel;
+use Cms\Modules\Core\Models\BaseModel as BaseCoreModel;
 
 class BaseModel extends BaseCoreModel
 {

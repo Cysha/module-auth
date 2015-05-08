@@ -1,6 +1,25 @@
 {
-    "enabled"   : true,
-    "provider"  : "Cysha\\Modules\\Auth\\ServiceProvider",
-    "seeder"    : "Cysha\\Modules\\Auth\\Seeds\\DatabaseSeeder",
-    "order"     : 1
+    "name": "Auth",
+    "alias": "auth",
+    "description": "Auth Module for Phoenix CMS v1",
+    "authors": [
+        { "name": "xLink (Dan Aldridge)", "email": "xLink@cybershade.org" }
+    ],
+    "keywords": [
+        "core-module"
+    ],
+    "version": "v1.0.0",
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Cms\\Modules\\Auth\\Providers\\AuthModuleServiceProvider",
+        "BeatSwitch\\Lock\\Integrations\\Laravel\\LockServiceProvider"
+    ],
+    "aliases": {
+        "Lock": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\Lock",
+        "LockManager": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\LockManager"
+    },
+    "files": [
+        "start.php"
+    ]
 }

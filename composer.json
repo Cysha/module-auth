@@ -1,7 +1,7 @@
 {
     "name": "cysha/pxcms-auth",
     "type": "pxcms-module",
-    "description": "Auth Module for Phoenix CMS",
+    "description": "Authentication Module for Phoenix CMS v1",
     "license": "MIT",
     "authors": [
         { "name": "xLink", "email": "xLink@cybershade.org" }
@@ -10,10 +10,13 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "toddish/verify"                    : "3.*",
-        "venturecraft/revisionable"         : "1.*"
+        "laravel/socialite"                 : "~2.0",
+        "beatswitch/lock-laravel"           : "dev-master"
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/cysha/installers" }
     ]
 }
+
+
+

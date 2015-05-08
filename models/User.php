@@ -1,76 +1,38 @@
-<?php namespace Cysha\Modules\Auth\Models;
+<?php namespace Cms\Modules\Auth\Models;
 
-use \Toddish\Verify\Models\User as VerifyVersion;
-use Auth;
-use Lang;
-use Config;
+use BeatSwitch\Lock\Callers\Caller;
+use BeatSwitch\Lock\LockAware;
 
-class User extends VerifyVersion
+class User extends BaseModel implements Caller
 {
-    use \Cysha\Modules\Core\Traits\SelfValidationTrait,
-        \Cysha\Modules\Core\Traits\LinkableTrait,
-        \Venturecraft\Revisionable\RevisionableTrait{
-        \Cysha\Modules\Core\Traits\SelfValidationTrait::boot as validationBoot;
-        \Venturecraft\Revisionable\RevisionableTrait::boot as revisionableBoot;
-    }
+    use LockAware;
 
-    protected $revisionEnabled = false;
-
-    protected static $rules = array(
-        'creating' => array(
-            'username' => 'required|min:5|unique:users,username',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:5|confirmed',
-            //'tnc'      => 'required|accepted',
-        ),
-        'updating' => array(
-            'username' => 'min:5|unique:users,username,:id:',
-            'email'    => 'email|unique:users,email,:id:',
-            'password' => 'min:5|confirmed',
-        ),
-    );
-    protected static $messages;
-    protected $fillable = array('id', 'username', 'first_name', 'last_name', 'password', 'salt', 'password_confirmation', 'email', 'salt', 'verified', 'disabled', 'tnc');
-    protected $hidden = array('password', 'salt');
-    protected $appends = array('usercode');
-    protected static $purge = array('password_confirmation', 'tnc');
-    protected $identifiableName = 'username';
+    protected $table = 'users';
+    protected $fillable = ['id', 'username', 'first_name', 'last_name', 'password', 'email', 'verified_at', 'disabled_at'];
+    protected $hidden = ['password'];
+    protected $appends = ['usercode', 'screenname', 'avatar'];
+    protected $identifiableName = 'screenname';
 
     protected $link = [
         'route'      => 'pxcms.user.view',
-        'attributes' => ['name' => 'username'],
+        'attributes' => ['name' => 'screenname'],
     ];
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->linkableConstructor();
 
-        self::$messages = array(
-            'username.unique' => Lang::get('auth::register.username'),
-            'email.unique'    => Lang::get('auth::register.email'),
-            'password'        => Lang::get('auth::register.password'),
-            'password.min'    => Lang::get('auth::register.password.min'),
-        );
+    public function getScreennameAttribute()
+    {
+        if ($this->use_nick == '-1' && !empty($this->first_name) && !empty($this->last_name)) {
+            return $this->fullName;
+        }
+
+        if (!isset($this->nicks) || !count($this->nicks)) {
+            return $this->username;
+        }
+
+        return array_get($this->nicks, $this->use_nick, $this->username);
     }
 
-    public static function boot()
-    {
-        static::validationBoot();
-        static::revisionableBoot();
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(__NAMESPACE__.'\Role', $this->prefix.'role_user')->withTimestamps();
-    }
-
-    // public function permissions()
-    // {
-    //     return $this->hasManyThrough(Config::get('verify::permission_model'), Config::get('verify::group_model'));
-    // }
-
-    public function getNameAttribute()
+    public function getFullNameAttribute()
     {
         return implode(' ', [$this->first_name, $this->last_name]);
     }
@@ -85,13 +47,36 @@ class User extends VerifyVersion
         return md5($this->id . $this->codesalt);
     }
 
-    public function getAvatarAttribute($val)
+    public function getAvatarAttribute($val, $size = 64)
     {
         if (empty($val) || $val == 'gravatar') {
-            return sprintf('http://www.gravatar.com/avatar/%s.png?s=64&d=mm&rating=g', md5($this->attributes['email']));
+            return sprintf(
+                'http://www.gravatar.com/avatar/%s.png?s=%d&d=mm&rating=g',
+                md5($this->attributes['email']),
+                $size
+            );
         }
 
         return $val;
+    }
+
+    /**
+     * Salts and saves the password
+     *
+     * @param string $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $salt = md5(str_random(64) . time());
+        $hashed = \Hash::make($salt . $password);
+        $this->attributes['password'] = $hashed;
+        $this->attributes['salt'] = $salt;
+    }
+
+
+    public function avatar($size)
+    {
+        return $this->getAvatarAttribute($this->getOriginal('avatar'), $size);
     }
 
     public function verify($code)
@@ -112,14 +97,35 @@ class User extends VerifyVersion
 
     public function isAdmin()
     {
-        return $this->is(array(Config::get('auth::roles.super_group_name'), Config::get('auth::roles.admin_group_name')));
+        return false;
     }
+
+
+    /**
+     * Beatswitch\Lock Methods
+     */
+    public function getCallerType()
+    {
+        return 'users';
+    }
+
+    public function getCallerId()
+    {
+        return $this->id;
+    }
+
+    public function getCallerRoles()
+    {
+        return ['user'];
+    }
+
 
     public function transform()
     {
         return [
             'id'         => (int)$this->id,
             'username'   => (string) $this->username,
+            'screenname' => (string) $this->screenname,
             'name'       => (string) $this->name,
             'href'       => (string) $this->makeLink(true),
             'link'       => (string) $this->makeLink(false),
@@ -131,4 +137,5 @@ class User extends VerifyVersion
             'registered' => date_array($this->created_at),
         ];
     }
+
 }
