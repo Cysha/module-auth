@@ -23,6 +23,7 @@ class AuthCreateUserTable extends Migration
             $table->text('avatar');
 
             $table->string('password', 60);
+            $table->string('salt', 32);
             $table->rememberToken();
 
             $table->integer('use_nick')->default(0);
