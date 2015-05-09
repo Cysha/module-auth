@@ -1,6 +1,8 @@
 <?php namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\BaseModuleProvider;
+use Illuminate\Hashing\BcryptHasher;
+use Illuminate\Auth\Guard;
 
 class AuthModuleServiceProvider extends BaseModuleProvider
 {
@@ -33,6 +35,7 @@ class AuthModuleServiceProvider extends BaseModuleProvider
     {
         parent::register();
 
+        // override some config settings
         $userModel = 'Cms\Modules\Auth\Models\User';
         config('auth.model', $userModel);
         config('auth.table', with(new $userModel)->table);

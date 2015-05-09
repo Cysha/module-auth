@@ -2,14 +2,21 @@
 
 use BeatSwitch\Lock\Callers\Caller;
 use BeatSwitch\Lock\LockAware;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends BaseModel implements Caller
+class User extends BaseModel implements Caller, AuthenticatableContract, CanResetPasswordContract
 {
-    use LockAware;
+    use Authenticatable,
+        CanResetPassword,
+        LockAware;
 
     protected $table = 'users';
     protected $fillable = ['id', 'username', 'first_name', 'last_name', 'password', 'email', 'verified_at', 'disabled_at'];
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'remember_token'];
     protected $appends = ['usercode', 'screenname', 'avatar'];
     protected $identifiableName = 'screenname';
 
@@ -37,16 +44,6 @@ class User extends BaseModel implements Caller
         return implode(' ', [$this->first_name, $this->last_name]);
     }
 
-    public function getCodeSaltAttribute()
-    {
-        return substr($this->salt, -5);
-    }
-
-    public function getUsercodeAttribute()
-    {
-        return md5($this->id . $this->codesalt);
-    }
-
     public function getAvatarAttribute($val, $size = 64)
     {
         if (empty($val) || $val == 'gravatar') {
@@ -67,10 +64,7 @@ class User extends BaseModel implements Caller
      */
     public function setPasswordAttribute($password)
     {
-        $salt = md5(str_random(64) . time());
-        $hashed = \Hash::make($salt . $password);
-        $this->attributes['password'] = $hashed;
-        $this->attributes['salt'] = $salt;
+        $this->attributes['password'] = bcrypt($password);
     }
 
 
