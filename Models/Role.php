@@ -1,6 +1,6 @@
 <?php namespace Cms\Modules\Auth\Models;
 
-class Role extends Eloquent
+class Role extends BaseModel
 {
     public function users()
     {
