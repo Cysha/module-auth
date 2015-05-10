@@ -9,11 +9,9 @@ Route::group(['namespace' => $namespace.'\Frontend'], function () {
         'getLogout'   => 'pxcms.user.logout',
     ]);
 
-
-    Route::controllers([
-        'auth' => 'AuthController',
-        'password' => 'PasswordController',
+    Route::controller('password', 'PasswordController', [
+        'getEmail' => 'pxcms.user.forgotpassword',
+        'getReset' => 'pxcms.user.resetpassword',
     ]);
-
 
 });
