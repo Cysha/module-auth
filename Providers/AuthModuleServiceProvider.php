@@ -3,6 +3,7 @@
 use Cms\Modules\Core\Providers\BaseModuleProvider;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Auth\Guard;
+use Config;
 
 class AuthModuleServiceProvider extends BaseModuleProvider
 {
@@ -37,8 +38,8 @@ class AuthModuleServiceProvider extends BaseModuleProvider
 
         // override some config settings
         $userModel = 'Cms\Modules\Auth\Models\User';
-        config('auth.model', $userModel);
-        config('auth.table', with(new $userModel)->table);
+        Config::set('auth.model', $userModel);
+        Config::set('auth.table', with(new $userModel)->getTable());
     }
 
 }

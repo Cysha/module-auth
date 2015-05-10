@@ -11,7 +11,6 @@ class AuthController extends BaseModuleController
 
     public $layout = '2-column-left';
 
-
     /**
      * Create a new authentication controller instance.
      *
@@ -21,12 +20,18 @@ class AuthController extends BaseModuleController
      */
     public function __construct(Guard $auth, Registrar $registrar)
     {
+        // set dependencies
         $this->auth = $auth;
         $this->registrar = $registrar;
         $this->_setDependencies(
             app('Teepluss\Theme\Contracts\Theme'),
             app('Illuminate\Filesystem\Filesystem')
         );
+
+        // set redirect routes
+        $this->redirectAfterLogout = route('pxcms.pages.home');
+        $this->redirectTo = route('pxcms.pages.home');
+        $this->loginPath = route('pxcms.user.login');
 
         $this->middleware('guest', ['except' => 'getLogout']);
     }

@@ -25,7 +25,22 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         'attributes' => ['name' => 'screenname'],
     ];
 
+    /**
+     * Relationships
+     */
+    public function roles()
+    {
+        return $this->morphToMany(__NAMESPACE__.'\Role', 'caller', 'roleables');
+    }
 
+    public function permissions()
+    {
+        return $this->morphToMany(__NAMESPACE__.'\Permission', 'caller', 'permissionables');
+    }
+
+    /**
+     * Attributes
+     */
     public function getScreennameAttribute()
     {
         if ($this->use_nick == '-1' && !empty($this->first_name) && !empty($this->last_name)) {
@@ -57,17 +72,15 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         return $val;
     }
 
-    /**
-     * Salts and saves the password
-     *
-     * @param string $password
-     */
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
     }
 
-
+    /**
+     * Other Methods
+     */
     public function avatar($size)
     {
         return $this->getAvatarAttribute($this->getOriginal('avatar'), $size);
@@ -100,7 +113,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
      */
     public function getCallerType()
     {
-        return 'users';
+        return 'User';
     }
 
     public function getCallerId()
@@ -110,10 +123,12 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getCallerRoles()
     {
-        return ['user'];
+        return $this->roles()->get()->fetch('name')->toArray();;
     }
 
-
+    /**
+     * Transformer!
+     */
     public function transform()
     {
         return [

@@ -29,6 +29,7 @@ class PasswordController extends BaseModuleController
      */
     public function __construct(Guard $auth, PasswordBroker $passwords)
     {
+        // set dependencies
         $this->auth = $auth;
         $this->passwords = $passwords;
         $this->_setDependencies(
@@ -36,7 +37,16 @@ class PasswordController extends BaseModuleController
             app('Illuminate\Filesystem\Filesystem')
         );
 
+        // set redirect routes
+        $this->redirectTo = route('pxcms.pages.home');
+        $this->redirectPath = route('pxcms.user.forgotpassword');
+
         $this->middleware('guest');
+    }
+
+    public function getEmail()
+    {
+        return $this->setView('partials.core.password', [], 'theme');
     }
 
 }
