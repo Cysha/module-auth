@@ -13,7 +13,8 @@
     "order": 1,
     "providers": [
         "Cms\\Modules\\Auth\\Providers\\AuthModuleServiceProvider",
-        "Cms\\Modules\\Auth\\Providers\\CustomLockServiceProvider"
+        "Cms\\Modules\\Auth\\Providers\\CustomLockServiceProvider",
+        "Cms\\Modules\\Auth\\Providers\\AuthRoutingProvider"
     ],
     "aliases": {
         "Lock": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\Lock",
