@@ -8,6 +8,6 @@ class Permission extends BaseModel
     }
     public function users()
     {
-        return $this->morphedByMany(__NAMESPACE__.'\User', 'caller', 'permissionables');
+        return $this->morphedByMany(config('auth.model'), 'caller', 'permissionables');
     }
 }
