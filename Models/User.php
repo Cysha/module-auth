@@ -18,6 +18,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     protected $fillable = ['id', 'username', 'first_name', 'last_name', 'password', 'email', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['usercode', 'screenname', 'avatar'];
+    protected $with = ['roles'];
     protected $identifiableName = 'screenname';
 
     protected $link = [
@@ -104,7 +105,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function isAdmin()
     {
-        return false;
+        return in_array('Admin', $this->getCallerRoles());
     }
 
 
@@ -123,7 +124,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getCallerRoles()
     {
-        return $this->roles()->get()->fetch('name')->toArray();;
+        return $this->roles->fetch('name')->toArray();;
     }
 
     /**
@@ -136,13 +137,16 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             'username'   => (string) $this->username,
             'screenname' => (string) $this->screenname,
             'name'       => (string) $this->name,
-            'href'       => (string) $this->makeLink(true),
-            'link'       => (string) $this->makeLink(false),
+            //'href'       => (string) $this->makeLink(true),
+            //'link'       => (string) $this->makeLink(false),
 
             'email'      => (string) $this->email,
             'avatar'     => (string) $this->avatar,
 
+            'roles'      => $this->getCallerRoles(),
 
+
+            'verified'   => date_array($this->verified_at),
             'registered' => date_array($this->created_at),
         ];
     }
