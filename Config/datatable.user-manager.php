@@ -51,7 +51,7 @@ return [
         'name' => [
             'th'        => 'Screen Name',
             'tr'        => function ($model) {
-                return $model->name;
+                return $model->screenname;
             },
             'sorting'   => true,
             'filtering' => true,
@@ -105,23 +105,23 @@ return [
             'th' => 'Actions',
             'tr' => function ($model) {
                 return [[
-                    'btn-text'  => 'View User',
+                    'btn-title'  => 'View User',
                     'btn-link'  => ( Auth::user()->can('admin.user.view')
                                         ? sprintf('/admin/users/%d/view', $model->id)
                                         : '#' ),
                     'btn-class' => ( Auth::user()->can('admin.user.view')
-                                        ? 'btn btn-default btn-sm btn-labeled'
-                                        : 'btn btn-warning btn-sm btn-labeled disabled' ),
+                                        ? 'btn btn-default btn-xs btn-labeled'
+                                        : 'btn btn-warning btn-xs btn-labeled disabled' ),
                     'btn-icon'  => 'fa fa-file-text-o'
                 ],
                 [
-                    'btn-text'  => 'Edit',
+                    'btn-title'  => 'Edit',
                     'btn-link'  => ( Auth::user()->can('admin.user.edit')
                                         ? sprintf('/admin/users/%d/edit', $model->id)
                                         : '#' ),
                     'btn-class' => ( Auth::user()->can('admin.user.edit')
-                                        ? 'btn btn-warning btn-sm btn-labeled'
-                                        : 'btn btn-warning btn-sm btn-labeled disabled' ),
+                                        ? 'btn btn-warning btn-xs btn-labeled'
+                                        : 'btn btn-warning btn-xs btn-labeled disabled' ),
                     'btn-icon'  => 'fa fa-pencil'
                 ]];
             },
