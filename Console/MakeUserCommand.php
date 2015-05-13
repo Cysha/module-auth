@@ -2,6 +2,7 @@
 
 use Symfony\Component\Console\Input\InputArgument;
 use Cms\Modules\Core\Console\BaseCommand;
+use Carbon\Carbon;
 
 class MakeUserCommand extends BaseCommand
 {
@@ -12,9 +13,11 @@ class MakeUserCommand extends BaseCommand
     public function fire()
     {
         $userInfo = [
-            'username' => $this->argument('username'),
-            'email'    => $this->argument('email'),
-            'password' => $this->argument('password'),
+            'username'   => $this->argument('username'),
+            'email'      => $this->argument('email'),
+            'password'   => $this->argument('password'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ];
 
         // we are missing some information, try and get it
@@ -39,9 +42,8 @@ class MakeUserCommand extends BaseCommand
             return;
         }
 
-        $event = event('auth.user.register', array($userInfo));
-
-        if ($event[0] instanceof \Cysha\Modules\Auth\Models\User) {
+        $authModel = config('auth.model');
+        if (with(new $authModel)->create($userInfo)) {
             $this->info('User registered successfully');
             return;
         }
