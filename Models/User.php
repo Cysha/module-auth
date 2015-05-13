@@ -124,7 +124,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getCallerRoles()
     {
-        return $this->roles->fetch('name')->toArray();;
+        return $this->roles->fetch('name')->toArray();
     }
 
     /**

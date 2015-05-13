@@ -13,13 +13,16 @@ class UserSeeder extends Seeder
                 'email'       => 'xlink@cybershade.org',
                 'password'    => 'password',
                 'verified_at' => Carbon::now(),
+                'role'        => 1,
             ],
 
         ];
 
         $seedModel = config('auth.model');
         foreach ($models as $model) {
-            with(new $seedModel)->create($model);
+            $user = with(new $seedModel)->create(array_except($model, 'role'));
+
+            $user->roles()->attach(array_get($model, 'role'));
         }
     }
 }

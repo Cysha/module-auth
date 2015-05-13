@@ -14,8 +14,8 @@ class AuthDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(__NAMESPACE__.'\UserSeeder');
         $this->call(__NAMESPACE__.'\RoleSeeder');
+        $this->call(__NAMESPACE__.'\UserSeeder');
     }
 
 }
