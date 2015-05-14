@@ -11,14 +11,14 @@ return [
             'class' => 'info',
             'text'  => '<i class="fa fa-info-circle"></i> You can manage your users from here.'
         ],
-        //'header' => [
-        //    [
-        //        'btn-text'  => 'Create User',
-        //        'btn-link'  => 'admin.user.add',
-        //        'btn-class' => 'btn btn-info btn-labeled',
-        //        'btn-icon'  => 'fa fa-plus'
-        //    ],
-        //],
+        'header' => [
+            [
+                'btn-text'  => 'Create User',
+                'btn-link'  => 'admin.user.add',
+                'btn-class' => 'btn btn-info btn-labeled',
+                'btn-icon'  => 'fa fa-plus'
+            ],
+        ],
     ],
 
     /**
