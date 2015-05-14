@@ -31,12 +31,14 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
      */
     public function roles()
     {
-        return $this->morphToMany(__NAMESPACE__.'\Role', 'caller', 'roleables');
+        return $this->belongsToMany(__NAMESPACE__.'\Role', 'roleables', 'caller_id', 'role_id')
+            ->where('caller_type', $this->getCallerType());
     }
 
     public function permissions()
     {
-        return $this->morphToMany(__NAMESPACE__.'\Permission', 'caller', 'permissionables');
+        return $this->belongsToMany(__NAMESPACE__.'\Permission', 'permissionables', 'caller_id', 'role_id')
+            ->where('caller_type', $this->getCallerType());
     }
 
     /**
@@ -105,7 +107,12 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function isAdmin()
     {
-        return in_array('Admin', $this->getCallerRoles());
+        return $this->hasRole('Admin');
+    }
+
+    public function hasRole($role)
+    {
+        return in_array($role, $this->getCallerRoles());
     }
 
 
@@ -114,7 +121,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
      */
     public function getCallerType()
     {
-        return 'User';
+        return 'auth_user';
     }
 
     public function getCallerId()

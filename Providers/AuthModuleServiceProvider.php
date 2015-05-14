@@ -1,8 +1,6 @@
 <?php namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\BaseModuleProvider;
-use Illuminate\Hashing\BcryptHasher;
-use Illuminate\Auth\Guard;
 use Config;
 
 class AuthModuleServiceProvider extends BaseModuleProvider
