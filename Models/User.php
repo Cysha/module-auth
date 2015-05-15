@@ -32,13 +32,15 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function roles()
     {
         return $this->belongsToMany(__NAMESPACE__.'\Role', 'roleables', 'caller_id', 'role_id')
-            ->where('caller_type', $this->getCallerType());
+            ->where('caller_type', $this->getCallerType())
+            ->remember(10);
     }
 
     public function permissions()
     {
         return $this->belongsToMany(__NAMESPACE__.'\Permission', 'permissionables', 'caller_id', 'role_id')
-            ->where('caller_type', $this->getCallerType());
+            ->where('caller_type', $this->getCallerType())
+            ->remember(10);
     }
 
     /**
