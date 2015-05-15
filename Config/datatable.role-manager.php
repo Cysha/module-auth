@@ -79,15 +79,15 @@ return [
         'actions' => [
             'th' => 'Actions',
             'tr' => function ($model) {
+                if (\Lock::cannot('manage.edit', 'auth_role')) {
+                    return [];
+                }
+
                 return [
                     [
-                        'btn-title'  => 'Edit',
-                        'btn-link'  => ( Auth::user()->can('admin.role.edit')
-                                        ? sprintf('/admin/roles/%s/edit', $model->id)
-                                        : '#'),
-                        'btn-class' => ( Auth::user()->can('admin.role.edit')
-                                        ? 'btn btn-warning btn-xs btn-labeled'
-                                        : 'btn btn-warning btn-xs btn-labeled disabled'),
+                        'btn-title' => 'Edit',
+                        'btn-link'  => sprintf('/admin/roles/%s/edit', $model->id),
+                        'btn-class' => 'btn btn-warning btn-xs btn-labeled',
                         'btn-icon'  => 'fa fa-pencil'
                     ],
                 ];

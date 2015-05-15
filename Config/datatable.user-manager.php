@@ -104,26 +104,27 @@ return [
         'actions' => [
             'th' => 'Actions',
             'tr' => function ($model) {
-                return [[
-                    'btn-title'  => 'View User',
-                    'btn-link'  => ( Auth::user()->can('admin.user.view')
-                                        ? sprintf('/admin/users/%d/view', $model->id)
-                                        : '#' ),
-                    'btn-class' => ( Auth::user()->can('admin.user.view')
-                                        ? 'btn btn-default btn-xs btn-labeled'
-                                        : 'btn btn-warning btn-xs btn-labeled disabled' ),
-                    'btn-icon'  => 'fa fa-file-text-o'
-                ],
-                [
-                    'btn-title'  => 'Edit',
-                    'btn-link'  => ( Auth::user()->can('admin.user.edit')
-                                        ? sprintf('/admin/users/%d/edit', $model->id)
-                                        : '#' ),
-                    'btn-class' => ( Auth::user()->can('admin.user.edit')
-                                        ? 'btn btn-warning btn-xs btn-labeled'
-                                        : 'btn btn-warning btn-xs btn-labeled disabled' ),
-                    'btn-icon'  => 'fa fa-pencil'
-                ]];
+                $return = [];
+
+                if (Lock::can('manage.view', 'auth_user')) {
+                    $return[] = [
+                        'btn-title' => 'View User',
+                        'btn-link'  => sprintf('/admin/users/%d/view', $model->id),
+                        'btn-class' => 'btn btn-default btn-xs btn-labeled',
+                        'btn-icon'  => 'fa fa-file-text-o'
+                    ];
+                }
+
+                if (Lock::can('manage.update', 'auth_user')) {
+                    $return[] = [
+                        'btn-title' => 'Edit',
+                        'btn-link'  => sprintf('/admin/users/%d/edit', $model->id),
+                        'btn-class' => 'btn btn-warning btn-xs btn-labeled',
+                        'btn-icon'  => 'fa fa-pencil'
+                    ];
+                }
+
+                return $return;
             },
         ],
     ],
