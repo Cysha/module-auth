@@ -1,14 +1,48 @@
 <?php namespace Cms\Modules\Auth\Models;
 
-class Role extends BaseModel
+use BeatSwitch\Lock\Callers\Caller;
+
+class Role extends BaseModel implements Caller
 {
     public function users()
     {
-        return $this->morphedByMany(config('auth.model'), 'caller', 'roleables');
+        return $this->belongsToMany(config('auth.model'), 'roleables', 'role_id', 'caller_id')
+            ->where('caller_type', $this->getCallerType());
     }
 
     public function permissions()
     {
         return $this->belongsToMany(__NAMESPACE__.'\Permission');
+    }
+
+    public function getUserCount()
+    {
+        return count($this->users);
+    }
+
+    /**
+     * Beatswitch\Lock Methods
+     */
+    public function getCallerType()
+    {
+        return 'auth_role';
+    }
+
+    public function getCallerId()
+    {
+        return $this->id;
+    }
+
+    public function getCallerRoles()
+    {
+        return [];
+    }
+
+    public function transform()
+    {
+        return [
+            'id'           => $this->id,
+            'name'         => $this->name,
+        ];
     }
 }
