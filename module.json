@@ -12,8 +12,8 @@
     "active": 1,
     "order": 1,
     "providers": [
-        "Cms\\Modules\\Auth\\Providers\\AuthModuleServiceProvider",
         "Cms\\Modules\\Auth\\Providers\\CustomLockServiceProvider",
+        "Cms\\Modules\\Auth\\Providers\\AuthModuleServiceProvider",
         "Cms\\Modules\\Auth\\Providers\\AuthRoutingProvider"
     ],
     "aliases": {
