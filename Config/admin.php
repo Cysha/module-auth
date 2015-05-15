@@ -3,9 +3,25 @@
 return [
 
     'acp_menu' => [
-        'Manage' => [
-            'admin.user.manager' => '<i class="fa fa-fw fa-user"></i> Users',
-            'admin.role.manager' => '<i class="fa fa-fw fa-users"></i> Roles',
+        'User Manager' => [
+            [
+                'route'      => 'admin.user.manager',
+                'text'       => 'Users',
+                'icon'       => 'fa-user',
+                'permission' => 'manage@auth_user'
+            ],
+            [
+                'route'      => 'admin.role.manager',
+                'text'       => 'Roles',
+                'icon'       => 'fa-users',
+                'permission' => 'manage@auth_role'
+            ],
+            [
+                'route'      => 'admin.user.manager',
+                'text'       => 'Permissions',
+                'icon'       => 'fa-check-square-o',
+                'permission' => 'manage@auth_permissions'
+            ],
         ],
     ],
 
