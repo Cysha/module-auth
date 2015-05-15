@@ -12,6 +12,14 @@ use Cache;
 class CustomLockDriver implements Driver
 {
     /**
+     *
+     */
+    public function getCacheKey()
+    {
+        return implode(':', ['lock']+func_get_args());
+    }
+
+    /**
      * Returns all the permissions for a caller
      *
      * @param \BeatSwitch\Lock\Callers\Caller $caller
@@ -19,7 +27,8 @@ class CustomLockDriver implements Driver
      */
     public function getCallerPermissions(LockCaller $caller)
     {
-        $permissions = Cache::remember('lock:'.__METHOD__, 1, function () use ($caller) {
+        $key = $this->getCacheKey($caller->getCallerType(), $caller->getCallerId());
+        $permissions = Cache::remember($key, 1, function () use ($caller) {
             return DB::table('permissions')
             ->join('permissionables', function ($join) use ($caller) {
                 $join->on('permissions.id', '=', 'permissionables.permission_id')
@@ -70,7 +79,8 @@ class CustomLockDriver implements Driver
      */
     public function removeCallerPermission(LockCaller $caller, LockPermission $permission)
     {
-        $permission = Cache::remember('lock:'.__METHOD__, 1, function () use ($permission) {
+        $key = $this->getCacheKey($permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $permission = Cache::remember($key, 1, function () use ($permission) {
             return (array) DB::table('permissions')
                 ->where('type', $permission->getType())
                 ->where('action', $permission->getAction())
@@ -100,7 +110,8 @@ class CustomLockDriver implements Driver
      */
     public function hasCallerPermission(LockCaller $caller, LockPermission $permission)
     {
-        return Cache::remember('lock:'.__METHOD__, 1, function () use ($permission) {
+        $key = $this->getCacheKey($permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        return Cache::remember($key, 1, function () use ($permission) {
             return (bool) DB::table('permissions')
                 ->where('type', $permission->getType())
                 ->where('action', $permission->getAction())
@@ -118,7 +129,8 @@ class CustomLockDriver implements Driver
      */
     public function getRolePermissions(LockRole $role)
     {
-        $permissions = Cache::remember('lock:'.__METHOD__, 1, function () use ($role) {
+        $key = $this->getCacheKey($role->getRoleName());
+        $permissions = Cache::remember($key, 1, function () use ($role) {
             return DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
             ->join('roles', 'roles.id', '=', 'permission_role.role_id')
@@ -169,7 +181,8 @@ class CustomLockDriver implements Driver
      */
     public function removeRolePermission(LockRole $role, LockPermission $permission)
     {
-        $dbPermission = Cache::remember('lock:'.__METHOD__, 1, function () use ($permission) {
+        $key = $this->getCacheKey($permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $dbPermission = Cache::remember($key, 1, function () use ($permission) {
             return (array) DB::table('permissions')
             ->where('type', $permission->getType())
             ->where('action', $permission->getAction())
@@ -207,7 +220,8 @@ class CustomLockDriver implements Driver
      */
     public function hasRolePermission(LockRole $role, LockPermission $permission)
     {
-        $permissionForRole = Cache::remember('lock:'.__METHOD__, 1, function () use ($role, $permission) {
+        $key = $this->getCacheKey($role->getRoleName(), $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $permissionForRole = Cache::remember($key, 1, function () use ($role, $permission) {
             return (bool) DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
             ->join('roles', 'roles.id', '=', 'permission_role.role_id')
