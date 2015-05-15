@@ -2,11 +2,19 @@
 
 return [
     'auth_user' => [
-        'manage', 'manage.view', 'manage.create', 'manage.remove', 'manage.update', 'manage.delete',
+        // backend manager
+        'manage', 'manage.create', 'manage.read', 'manage.update', 'manage.delete',
     ],
 
     'auth_role' => [
-        'manage', 'manage.view', 'manage.create', 'manage.remove', 'manage.update', 'manage.delete',
+        // backend manager
+        'manage', 'manage.create', 'manage.read', 'manage.update', 'manage.delete',
+
+        // user subscriptions
+        'users.read', 'users.create', 'users.delete',
+
+        // permissions
+        'permissions.read', 'permissions.create', 'permissions.delete',
     ],
 
 ];

@@ -7,6 +7,7 @@ use BeatSwitch\Lock\Callers\Caller as LockCaller;
 use BeatSwitch\Lock\Roles\Role as LockRole;
 use Carbon\Carbon;
 use DB;
+use Cache;
 
 class CustomLockDriver implements Driver
 {
@@ -18,13 +19,15 @@ class CustomLockDriver implements Driver
      */
     public function getCallerPermissions(LockCaller $caller)
     {
-        $permissions = DB::table('permissions')
+        $permissions = Cache::remember('lock:'.__METHOD__, 1, function () use ($caller) {
+            return DB::table('permissions')
             ->join('permissionables', function ($join) use ($caller) {
                 $join->on('permissions.id', '=', 'permissionables.permission_id')
                     ->where('permissionables.caller_type', '=', $caller->getCallerType())
                     ->where('permissionables.caller_id', '=', $caller->getCallerId());
             })
             ->get(['permissions.*']);
+        });
 
         return empty($permissions) ? $permissions : PermissionFactory::createFromData($permissions);
     }
@@ -67,12 +70,14 @@ class CustomLockDriver implements Driver
      */
     public function removeCallerPermission(LockCaller $caller, LockPermission $permission)
     {
-        $permission = (array) DB::table('permissions')
-            ->where('type', $permission->getType())
-            ->where('action', $permission->getAction())
-            ->where('resource_type', $permission->getResourceType())
-            ->where('resource_id', $permission->getResourceId())
-            ->first(['id']);
+        $permission = Cache::remember('lock:'.__METHOD__, 1, function () use ($permission) {
+            return (array) DB::table('permissions')
+                ->where('type', $permission->getType())
+                ->where('action', $permission->getAction())
+                ->where('resource_type', $permission->getResourceType())
+                ->where('resource_id', $permission->getResourceId())
+                ->first(['id']);
+        });
 
         DB::table('permissions')
           ->where('id', $permission['id'])
@@ -95,12 +100,14 @@ class CustomLockDriver implements Driver
      */
     public function hasCallerPermission(LockCaller $caller, LockPermission $permission)
     {
-        return (bool) DB::table('permissions')
-            ->where('type', $permission->getType())
-            ->where('action', $permission->getAction())
-            ->where('resource_type', $permission->getResourceType())
-            ->where('resource_id', $permission->getResourceId())
-            ->first();
+        return Cache::remember('lock:'.__METHOD__, 1, function () use ($permission) {
+            return (bool) DB::table('permissions')
+                ->where('type', $permission->getType())
+                ->where('action', $permission->getAction())
+                ->where('resource_type', $permission->getResourceType())
+                ->where('resource_id', $permission->getResourceId())
+                ->first();
+        });
     }
 
     /**
@@ -111,11 +118,13 @@ class CustomLockDriver implements Driver
      */
     public function getRolePermissions(LockRole $role)
     {
-        $permissions = DB::table('permissions')
+        $permissions = Cache::remember('lock:'.__METHOD__, 1, function () use ($role) {
+            return DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
             ->join('roles', 'roles.id', '=', 'permission_role.role_id')
             ->where('roles.name', $role->getRoleName())
             ->get(['permissions.*']);
+        });
 
         return empty($permissions) ? $permissions : PermissionFactory::createFromData($permissions);
     }
@@ -160,12 +169,14 @@ class CustomLockDriver implements Driver
      */
     public function removeRolePermission(LockRole $role, LockPermission $permission)
     {
-        $dbPermission = (array) DB::table('permissions')
+        $dbPermission = Cache::remember('lock:'.__METHOD__, 1, function () use ($permission) {
+            return (array) DB::table('permissions')
             ->where('type', $permission->getType())
             ->where('action', $permission->getAction())
             ->where('resource_type', $permission->getResourceType())
             ->where('resource_id', $permission->getResourceId())
             ->first(['id']);
+        });
 
         DB::table('roles')
           ->where('name', $role->getRoleName())
@@ -196,7 +207,8 @@ class CustomLockDriver implements Driver
      */
     public function hasRolePermission(LockRole $role, LockPermission $permission)
     {
-        $permissionForRole = (bool) DB::table('permissions')
+        $permissionForRole = Cache::remember('lock:'.__METHOD__, 1, function () use ($role, $permission) {
+            return (bool) DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
             ->join('roles', 'roles.id', '=', 'permission_role.role_id')
             ->where('roles.name', $role->getRoleName())
@@ -205,6 +217,7 @@ class CustomLockDriver implements Driver
             ->where('permissions.resource_type', $permission->getResourceType())
             ->where('permissions.resource_id', $permission->getResourceId())
             ->first();
+        });
 
         return $permissionForRole;
     }
