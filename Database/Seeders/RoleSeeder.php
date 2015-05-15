@@ -13,8 +13,8 @@ class RoleSeeder extends Seeder
                 'description' => 'Administration Role',
             ],
             [
-                'name'        => 'Moderator',
-                'description' => 'Moderator Role',
+                'name'        => 'Staff',
+                'description' => 'Staff Role',
             ],
             [
                 'name'        => 'User',

@@ -16,5 +16,4 @@ return [
         // permissions
         'permissions.read', 'permissions.create', 'permissions.delete',
     ],
-
 ];
