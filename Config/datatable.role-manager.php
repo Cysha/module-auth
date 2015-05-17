@@ -79,7 +79,7 @@ return [
         'actions' => [
             'th' => 'Actions',
             'tr' => function ($model) {
-                if (\Lock::cannot('manage.edit', 'auth_role')) {
+                if (\Lock::cannot('manage.update', 'auth_role')) {
                     return [];
                 }
 
