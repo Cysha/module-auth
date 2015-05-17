@@ -20,6 +20,11 @@ class Role extends BaseModel implements Caller
         return count($this->users);
     }
 
+    public function scopeFindGroupByName($query, $group)
+    {
+        return $query->whereName($group)->get();
+    }
+
     /**
      * Beatswitch\Lock Methods
      */
