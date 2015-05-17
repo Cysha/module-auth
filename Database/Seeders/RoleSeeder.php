@@ -24,7 +24,14 @@ class RoleSeeder extends Seeder
 
         $seedModel = 'Cms\Modules\Auth\Models\Role';
         foreach ($models as $model) {
-            with(new $seedModel)->create($model);
+            $role = with(new $seedModel);
+            $role->fill($model);
+            $save = $role->save();
+
+            if ($save === false) {
+                print_r($role->getErrors());
+                die();
+            }
         }
     }
 }

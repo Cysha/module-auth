@@ -13,7 +13,7 @@ class PermissionSeeder extends Seeder
         foreach ($permissionGroups as $type => $permissions) {
 
             foreach($permissions as $perm) {
-                $permission = with(new $seedModel)->create([
+                $permission = with(new $seedModel)->fill([
                     'type'              => 'privilege',
                     'action'            => $perm,
                     'resource_type'     => $type,
@@ -21,6 +21,12 @@ class PermissionSeeder extends Seeder
                     'created_at'        => Carbon::now(),
                     'updated_at'        => Carbon::now(),
                 ]);
+                $save = $permission->save();
+
+                if ($save === false) {
+                    print_r($permission->getErrors());
+                    die();
+                }
 
                 with(new \Cms\Modules\Auth\Models\Role)->find(1)->permissions()->save($permission);
                 with(new \Cms\Modules\Auth\Models\Role)->find(2)->permissions()->save($permission);

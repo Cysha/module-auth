@@ -20,7 +20,14 @@ class UserSeeder extends Seeder
 
         $seedModel = config('auth.model');
         foreach ($models as $model) {
-            $user = with(new $seedModel)->create(array_except($model, 'role'));
+            $user = with(new $seedModel);
+            $user->fill(array_except($model, 'role'));
+            $save = $user->save();
+
+            if ($save === false) {
+                print_r($user->getErrors());
+                die();
+            }
 
             $user->roles()->attach(array_get($model, 'role'), ['caller_type' => $user->getCallerType()]);
         }
