@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         foreach ($models as $model) {
             $user = with(new $seedModel)->create(array_except($model, 'role'));
 
-            $user->roles()->attach(array_get($model, 'role'));
+            $user->roles()->attach(array_get($model, 'role'), ['caller_type' => $user->getCallerType()]);
         }
     }
 }

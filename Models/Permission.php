@@ -6,6 +6,7 @@ class Permission extends BaseModel
     {
         return $this->belongsToMany(__NAMESPACE__.'\Role');
     }
+
     public function users()
     {
         return $this->morphedByMany(config('auth.model'), 'caller', 'permissionables');
