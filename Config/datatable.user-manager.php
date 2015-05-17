@@ -91,9 +91,18 @@ return [
             'filtering' => true,
             'width'     => '5%',
         ],
+        'last_logged_at' => [
+            'th'        => 'Last Login',
+            'tr'        => function ($model) {
+                return date_carbon($model->last_logged_at, 'd/m/Y H:i:s');
+            },
+            'th-class'  => 'hidden-xs hidden-sm',
+            'tr-class'  => 'hidden-xs hidden-sm',
+            'width'     => '15%',
+        ],
         'created_at' => [
             'alias'     => 'created',
-            'th'        => 'Date Created',
+            'th'        => 'Date Registered',
             'tr'        => function ($model) {
                 return date_carbon($model->created_at, 'd/m/Y H:i:s');
             },
@@ -106,7 +115,7 @@ return [
             'tr' => function ($model) {
                 $return = [];
 
-                if (Lock::can('manage.view', 'auth_user')) {
+                if (Lock::can('manage.read', 'auth_user')) {
                     $return[] = [
                         'btn-title' => 'View User',
                         'btn-link'  => sprintf('/admin/users/%d/view', $model->id),
