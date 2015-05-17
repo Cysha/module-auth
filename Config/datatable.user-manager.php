@@ -84,7 +84,7 @@ return [
         'verified' => [
             'th'        => 'Verified',
             'tr'        => function ($model) {
-                return $model->verified == true ? '<div class="label label-success">Verified</div>' : '<div class="label label-danger">Not Verified</div>';
+                return !is_null($model->verified_at) ? '<div class="label label-success">Verified</div>' : '<div class="label label-danger">Not Verified</div>';
             },
             'tr-class'  => 'text-center',
             'sorting'   => true,
