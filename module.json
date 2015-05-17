@@ -14,6 +14,7 @@
     "providers": [
         "Cms\\Modules\\Auth\\Providers\\CustomLockServiceProvider",
         "Cms\\Modules\\Auth\\Providers\\AuthModuleServiceProvider",
+        "Cms\\Modules\\Auth\\Providers\\AuthEventsProvider",
         "Cms\\Modules\\Auth\\Providers\\AuthRoutingProvider"
     ],
     "aliases": {

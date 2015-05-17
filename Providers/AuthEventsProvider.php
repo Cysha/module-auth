@@ -1,0 +1,43 @@
+<?php namespace Cms\Modules\Auth\Providers;
+
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Cms\Modules\Core\Providers\BaseEventsProvider;
+use Cms\Modules\Core;
+use Cms\Modules\Auth;
+use Cache;
+
+class AuthEventsProvider extends BaseEventsProvider
+{
+    /**
+     * The event handler mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Cms\Modules\Auth\Events\UserHasLoggedIn' => [
+            'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
+        ],
+    ];
+
+    /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+
+    ];
+
+
+    /**
+     * Register any other events for your application.
+     *
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public function boot(DispatcherContract $events)
+    {
+        parent::boot($events);
+
+    }
+}

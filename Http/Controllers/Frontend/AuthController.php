@@ -1,9 +1,10 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend;
 
 use Cms\Modules\Core\Http\Controllers\BaseModuleController;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
 
 class AuthController extends BaseModuleController
 {
@@ -41,4 +42,29 @@ class AuthController extends BaseModuleController
         return $this->setView('partials.core.login', [], 'theme');
     }
 
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email', 'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if ($this->auth->attempt($credentials, $request->has('remember'))) {
+            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(\Auth::user()->id));
+            return redirect()->intended($this->redirectPath());
+        }
+
+        return redirect($this->loginPath())
+                    ->withInput($request->only('email', 'remember'))
+                    ->withErrors([
+                        'email' => $this->getFailedLoginMessage(),
+                    ]);
+    }
 }

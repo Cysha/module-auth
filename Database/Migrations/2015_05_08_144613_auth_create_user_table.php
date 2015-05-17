@@ -28,8 +28,9 @@ class AuthCreateUserTable extends Migration
 
             $table->integer('use_nick')->default(0);
 
-            $table->timestamp('verified_at');
-            $table->timestamp('disabled_at');
+            $table->timestamp('last_logged_at')->nullable();
+            $table->timestamp('verified_at')->nullable();
+            $table->timestamp('disabled_at')->nullable();
             $table->timestamps();
         });
     }
