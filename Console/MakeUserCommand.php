@@ -43,7 +43,11 @@ class MakeUserCommand extends BaseCommand
         }
 
         $authModel = config('auth.model');
-        if (with(new $authModel)->create($userInfo)) {
+        $user = with(new $authModel);
+        $user->fill($userInfo);
+        $save = $user->save();
+
+        if ($save) {
             $this->info('User registered successfully');
             return;
         }
