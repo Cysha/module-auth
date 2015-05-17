@@ -17,10 +17,10 @@ return [
                 'permission' => 'manage@auth_role'
             ],
             [
-                'route'      => 'admin.user.manager',
+                'route'      => 'admin.permission.manager',
                 'text'       => 'Permissions',
                 'icon'       => 'fa-check-square-o',
-                'permission' => 'manage@auth_permissions'
+                'permission' => 'manage@auth_permission'
             ],
         ],
     ],

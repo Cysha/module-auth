@@ -91,19 +91,19 @@ return [
                 $return = [];
                 return $return;
 
-                if (Lock::can('manage.view', 'auth_user')) {
+                if (Lock::can('manage.view', 'auth_permission')) {
                     $return[] = [
-                        'btn-title' => 'View User',
-                        'btn-link'  => sprintf('/admin/users/%d/view', $model->id),
+                        'btn-title' => 'View',
+                        'btn-link'  => sprintf('/admin/permissions/%d/view', $model->id),
                         'btn-class' => 'btn btn-default btn-xs btn-labeled',
                         'btn-icon'  => 'fa fa-file-text-o'
                     ];
                 }
 
-                if (Lock::can('manage.update', 'auth_user')) {
+                if (Lock::can('manage.update', 'auth_permission')) {
                     $return[] = [
                         'btn-title' => 'Edit',
-                        'btn-link'  => sprintf('/admin/users/%d/edit', $model->id),
+                        'btn-link'  => sprintf('/admin/permissions/%d/edit', $model->id),
                         'btn-class' => 'btn btn-warning btn-xs btn-labeled',
                         'btn-icon'  => 'fa fa-pencil'
                     ];
