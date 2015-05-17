@@ -14,9 +14,10 @@ Route::group([
 
 Route::group([
     'prefix'        => 'roles',
-    'middleware'    => 'hasPermission',
+    'middleware'    => ['hasPermission'],
     'hasPermission' => 'manage@auth_role'
 ], function () {
+
     Route::get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
 
     Route::post('/', ['uses' => 'RoleManagerController@roleManager']);
@@ -25,9 +26,10 @@ Route::group([
 
 Route::group([
     'prefix'        => 'permissions',
-    'middleware'    => 'hasPermission',
+    'middleware'    => ['hasPermission'],
     'hasPermission' => 'manage@auth_permission'
 ], function () {
+
     Route::get('add', ['as' => 'admin.permission.add', 'uses' => 'PermissionManagerController@permissionManager']);
 
     Route::post('/', ['uses' => 'PermissionManagerController@permissionManager']);

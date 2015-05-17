@@ -18,11 +18,6 @@ class HasRoleMiddleware
         $actions = $request->route()->getAction();
 
         // make sure we have something to work with
-        if (!array_key_exists('hasRole', $actions)) {
-            return $next($request);
-        }
-
-        // make sure we have something to work with
         if (array_get($actions, 'hasRole', null) === null) {
             \Debug::console('There is a route with `hasRole` middleware attached, but no roles defined in the `hasRole` action.');
             return $next($request);

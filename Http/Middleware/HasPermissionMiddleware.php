@@ -18,11 +18,6 @@ class HasPermissionMiddleware
         $actions = $request->route()->getAction();
 
         // make sure we have something to work with
-        if (!array_key_exists('hasPermission', $actions)) {
-            return $next($request);
-        }
-
-        // make sure we have something to work with
         if (array_get($actions, 'hasPermission', null) === null) {
             \Debug::console('There is a route with `hasPermission` middleware attached, but no perms defined in the `hasPermission` action.');
             return $next($request);
