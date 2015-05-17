@@ -13,6 +13,8 @@ class AuthModuleServiceProvider extends BaseModuleProvider
      */
     protected $middleware = [
         'Auth' => [
+            'hasRole'       => 'HasRoleMiddleware',
+            'hasPermission' => 'HasPermissionMiddleware',
         ],
     ];
 
