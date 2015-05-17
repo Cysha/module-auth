@@ -16,4 +16,9 @@ return [
         // permissions
         'permissions.read', 'permissions.create', 'permissions.delete',
     ],
+
+    'auth_permission' => [
+        // backend manager
+        'manage', 'manage.create', 'manage.read', 'manage.update', 'manage.delete',
+    ],
 ];
