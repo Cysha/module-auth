@@ -146,8 +146,8 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             'username'   => (string) $this->username,
             'screenname' => (string) $this->screenname,
             'name'       => (string) $this->name,
-            //'href'       => (string) $this->makeLink(true),
-            //'link'       => (string) $this->makeLink(false),
+            'href'       => (string) $this->makeLink(true),
+            'link'       => (string) $this->makeLink(false),
 
             'email'      => (string) $this->email,
             'avatar'     => (string) $this->avatar,
