@@ -1,37 +1,39 @@
 <?php
 
+use Illuminate\Routing\Router;
 
-Route::group([
+$router->group([
     'prefix'        => 'users',
     'middleware'    => 'hasPermission',
     'hasPermission' => 'manage@auth_user'
-], function () {
-    Route::get('add', ['as' => 'admin.user.add', 'uses' => 'UserManagerController@userManager']);
+], function (Router $router) {
 
-    Route::post('/', ['uses' => 'UserManagerController@userManager']);
-    Route::get('/', ['as' => 'admin.user.manager', 'uses' => 'UserManagerController@userManager']);
+    $router->get('add', ['as' => 'admin.user.add', 'uses' => 'UserManagerController@userManager']);
+
+    $router->post('/', ['uses' => 'UserManagerController@userManager']);
+    $router->get('/', ['as' => 'admin.user.manager', 'uses' => 'UserManagerController@userManager']);
 });
 
-Route::group([
+$router->group([
     'prefix'        => 'roles',
     'middleware'    => ['hasPermission'],
     'hasPermission' => 'manage@auth_role'
-], function () {
+], function (Router $router) {
 
-    Route::get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
+    $router->get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
 
-    Route::post('/', ['uses' => 'RoleManagerController@roleManager']);
-    Route::get('/', ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
+    $router->post('/', ['uses' => 'RoleManagerController@roleManager']);
+    $router->get('/', ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
 });
 
-Route::group([
+$router->group([
     'prefix'        => 'permissions',
     'middleware'    => ['hasPermission'],
     'hasPermission' => 'manage@auth_permission'
-], function () {
+], function (Router $router) {
 
-    Route::get('add', ['as' => 'admin.permission.add', 'uses' => 'PermissionManagerController@permissionManager']);
+    $router->get('add', ['as' => 'admin.permission.add', 'uses' => 'PermissionManagerController@permissionManager']);
 
-    Route::post('/', ['uses' => 'PermissionManagerController@permissionManager']);
-    Route::get('/', ['as' => 'admin.permission.manager', 'uses' => 'PermissionManagerController@permissionManager']);
+    $router->post('/', ['uses' => 'PermissionManagerController@permissionManager']);
+    $router->get('/', ['as' => 'admin.permission.manager', 'uses' => 'PermissionManagerController@permissionManager']);
 });
