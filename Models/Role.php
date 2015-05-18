@@ -7,7 +7,7 @@ class Role extends BaseModel implements Caller
     public function users()
     {
         return $this->belongsToMany(config('auth.model'), 'roleables', 'role_id', 'caller_id')
-            ->where('caller_type', $this->getCallerType());
+            ->where('caller_type', 'auth_user');
     }
 
     public function permissions()
@@ -15,9 +15,9 @@ class Role extends BaseModel implements Caller
         return $this->belongsToMany(__NAMESPACE__.'\Permission');
     }
 
-    public function getUserCount()
+    public function getUserCountAttribute()
     {
-        return count($this->users);
+        return $this->users->count();
     }
 
     public function scopeFindGroupByName($query, $group)
@@ -48,6 +48,7 @@ class Role extends BaseModel implements Caller
         return [
             'id'           => $this->id,
             'name'         => $this->name,
+            'count'        => $this->userCount
         ];
     }
 }

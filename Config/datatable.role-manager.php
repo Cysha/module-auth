@@ -32,7 +32,7 @@ return [
         'source'        => 'admin.role.manager',
         'collection'    => function () {
             $model = 'Cms\Modules\Auth\Models\Role';
-            return $model::all();
+            return $model::with('users')->get();
         },
     ],
 
@@ -52,6 +52,14 @@ return [
             'th'        => 'Role Name',
             'tr'        => function ($model) {
                 return $model->name;
+            },
+            'filtering' => true,
+            'width'     => '15%',
+        ],
+        'users' => [
+            'th'        => 'User Count',
+            'tr'        => function ($model) {
+                return $model->userCount;
             },
             'filtering' => true,
             'width'     => '15%',
