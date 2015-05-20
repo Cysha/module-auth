@@ -2,6 +2,8 @@
 
 use Illuminate\Routing\Router;
 
+$router->get('auth/login/{provider}', ['as' => 'pxcms.user.provider', 'uses' => 'AuthController@loginThirdParty']);
+
 $router->controller('auth', 'AuthController', [
     'getRegister' => 'pxcms.user.register',
     'getLogin'    => 'pxcms.user.login',

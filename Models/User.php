@@ -17,7 +17,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     protected $table = 'users';
     protected $fillable = ['id', 'username', 'first_name', 'last_name', 'password', 'email', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
-    protected $appends = ['usercode', 'screenname', 'avatar'];
+    protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
     protected $identifiableName = 'screenname';
 
@@ -42,6 +42,13 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             ->where('caller_type', $this->getCallerType())
             ->remember(10);
     }
+
+    public function providers()
+    {
+        return $this->hasMany(__NAMESPACE__.'\UserProvider');
+    }
+
+
 
     /**
      * Attributes
@@ -117,6 +124,20 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         return in_array($role, $this->getCallerRoles());
     }
 
+    /**
+     * @param $provider
+     *
+     * @return bool
+     */
+    public function hasProvider($provider)
+    {
+        foreach ($this->providers as $p) {
+            if ($p->provider === $provider) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Beatswitch\Lock Methods

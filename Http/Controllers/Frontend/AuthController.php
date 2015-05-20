@@ -3,7 +3,7 @@
 use Cms\Modules\Core\Http\Controllers\BaseModuleController;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
+use Cms\Modules\Auth\Services\Registrar;
 use Illuminate\Http\Request;
 
 class AuthController extends BaseModuleController
@@ -37,6 +37,16 @@ class AuthController extends BaseModuleController
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
+    /**
+     * @param Request $request
+     * @param $provider
+     * @return mixed
+     */
+    public function loginThirdParty(Request $request, $provider)
+    {
+        return $this->registrar->loginThirdParty($request->all(), $provider, $this->redirectPath());
+    }
+
     public function getLogin()
     {
         return $this->setView('partials.core.login', [], 'theme');
@@ -62,9 +72,30 @@ class AuthController extends BaseModuleController
         }
 
         return redirect($this->loginPath())
-                    ->withInput($request->only('email', 'remember'))
-                    ->withErrors([
-                        'email' => $this->getFailedLoginMessage(),
-                    ]);
+            ->withInput($request->only('email', 'remember'))
+            ->withErrors([
+                'email' => $this->getFailedLoginMessage(),
+            ]);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postRegister(Request $request)
+    {
+        $validator = $this->registrar->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $this->auth->login($this->registrar->create($request->all()));
+
+        return redirect($this->redirectPath());
     }
 }
