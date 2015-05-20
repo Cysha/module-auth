@@ -2,6 +2,11 @@
 
 class Permission extends BaseModel
 {
+
+    protected $table = 'permissions';
+    protected $fillable = ['id', 'type', 'action', 'resource_type', 'resource_id'];
+
+
     public function roles()
     {
         return $this->belongsToMany(__NAMESPACE__.'\Role');
