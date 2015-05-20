@@ -63,11 +63,6 @@ class AuthModuleServiceProvider extends BaseModuleProvider
         }
 
         if ($loadSocialite === true) {
-            \Config::set(
-                'cms.admin.admin.apikey_views',
-                array_merge(config('cms.admin.admin.apikey_views'), ['auth::admin.config.keys.socialite'])
-            );
-
             AliasLoader::getInstance()->alias('Socialite', 'Laravel\Socialite\Facades\Socialite');
         }
     }

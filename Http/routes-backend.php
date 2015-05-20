@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Router;
 
+// URI: /{backend}/users
 $router->group([
     'prefix'        => 'users',
     'middleware'    => 'hasPermission',
@@ -14,6 +15,7 @@ $router->group([
     $router->get('/', ['as' => 'admin.user.manager', 'uses' => 'UserManagerController@userManager']);
 });
 
+// URI: /{backend}/roles
 $router->group([
     'prefix'        => 'roles',
     'middleware'    => ['hasPermission'],
@@ -26,6 +28,7 @@ $router->group([
     $router->get('/', ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
 });
 
+// URI: /{backend}/permissions
 $router->group([
     'prefix'        => 'permissions',
     'middleware'    => ['hasPermission'],
@@ -36,4 +39,12 @@ $router->group([
 
     $router->post('/', ['uses' => 'PermissionManagerController@permissionManager']);
     $router->get('/', ['as' => 'admin.permission.manager', 'uses' => 'PermissionManagerController@permissionManager']);
+});
+
+// URI: /{backend}/config
+$router->group([
+    'prefix' => 'config',
+], function (Router $router) {
+
+    $router->get('socialite', ['as' => 'admin.config.socialite', 'uses' => 'SocialiteManagerController@getIndex']);
 });

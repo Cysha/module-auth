@@ -63,8 +63,6 @@ class AuthEventsProvider extends BaseEventsProvider
             }
 
             $listen[] = sprintf('SocialiteProviders\%1$s\%1$sExtendSocialite@handle', ucwords(class_basename($dir)));
-
-            \Debug::console(['registering', ucwords(class_basename($dir))]);
         }
 
         $this->listen['SocialiteProviders\Manager\SocialiteWasCalled'] = $listen;
