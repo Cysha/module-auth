@@ -22,7 +22,7 @@ class AuthCreateUserTable extends Migration
             $table->string('email')->unique();
             $table->text('avatar');
 
-            $table->string('password', 60);
+            $table->string('password', 60)->nullable();
             $table->string('salt', 32);
             $table->rememberToken();
 
