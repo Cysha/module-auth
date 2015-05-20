@@ -31,6 +31,15 @@ class AuthModuleServiceProvider extends BaseModuleProvider
     ];
 
     /**
+     * Register repository bindings to the IoC
+     *
+     * @var array
+     */
+    protected $bindings = [
+        'Cms\Modules\Auth\Repositories\User' => ['RepositoryInterface' => 'EloquentRepository'],
+    ];
+
+    /**
      * Register Auth related stuffs
      */
     public function register()
