@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AuthcreateUserProvidersTable extends Migration
+class AuthCreateUserProvidersTable extends Migration
 {
     /**
      * Run the migrations.
