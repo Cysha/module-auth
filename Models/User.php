@@ -51,15 +51,11 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
      */
     public function getScreennameAttribute()
     {
-        if ($this->use_nick == '-1' && !empty($this->first_name) && !empty($this->last_name)) {
+        if (empty($this->username)) {
             return $this->fullName;
         }
 
-        if (!isset($this->nicks) || !count($this->nicks)) {
-            return $this->username;
-        }
-
-        return array_get($this->nicks, $this->use_nick, $this->username);
+        return $this->use_nick == 1 ? $this->fullName : $this->nickname;
     }
 
     public function getFullNameAttribute()
