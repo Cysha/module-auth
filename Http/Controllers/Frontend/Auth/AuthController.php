@@ -119,7 +119,11 @@ class AuthController extends BaseModuleController
         event(new \Cms\Modules\Auth\Events\UserIsRegistering($request));
 
         // create the user
-        $user = $this->user->create($request->all());
+        $user = $this->user->createWithRoles(
+            $request->all(),
+            config('cms.auth.config.users.default_user_group'),
+            config('cms.auth.config.users.require_activating', false)
+        );
 
         // if the user requires activating, then dont log them in automatically
         if (config('cms.auth.config.users.require_activating', false) === false) {
