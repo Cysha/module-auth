@@ -38,6 +38,8 @@ class EloquentRepository extends BaseEloquentRepository implements UserRepositor
                 );
             }
         }
+
+        return $user;
     }
 
     /**
