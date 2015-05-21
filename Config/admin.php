@@ -26,16 +26,6 @@ return [
                 'permission' => 'manage@auth_permission'
             ],
         ],
-
-        'System' => [
-            [
-                'route'      => 'admin.config.socialite',
-                'text'       => 'Socialite Manager',
-                'icon'       => 'fa-share-alt-square',
-                'order'      => 5,
-                'permission' => 'socialite@admin_config'
-            ],
-        ]
     ],
 
 ];

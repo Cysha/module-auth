@@ -40,11 +40,3 @@ $router->group([
     $router->post('/', ['uses' => 'PermissionManagerController@permissionManager']);
     $router->get('/', ['as' => 'admin.permission.manager', 'uses' => 'PermissionManagerController@permissionManager']);
 });
-
-// URI: /{backend}/config
-$router->group([
-    'prefix' => 'config',
-], function (Router $router) {
-
-    $router->get('socialite', ['as' => 'admin.config.socialite', 'uses' => 'SocialiteManagerController@getIndex']);
-});

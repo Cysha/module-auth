@@ -1,10 +1,6 @@
 <?php
 
 return [
-    'admin_config' => [
-        'socialite',
-    ],
-
     'auth_user' => [
         // backend manager
         'manage', 'manage.create', 'manage.read', 'manage.update', 'manage.delete',

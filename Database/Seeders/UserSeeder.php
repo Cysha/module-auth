@@ -29,7 +29,10 @@ class UserSeeder extends Seeder
                 die();
             }
 
-            $user->roles()->attach(array_get($model, 'role'), ['caller_type' => $user->getCallerType()]);
+            $user->roles()->attach(
+                array_get($model, 'role'),
+                ['caller_type' => $user->getCallerType()]
+            );
         }
     }
 }

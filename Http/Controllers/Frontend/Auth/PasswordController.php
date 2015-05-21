@@ -1,4 +1,4 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend;
+<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
 use Cms\Modules\Core\Http\Controllers\BaseModuleController;
 use Illuminate\Contracts\Auth\Guard;

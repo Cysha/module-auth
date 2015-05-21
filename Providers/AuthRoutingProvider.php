@@ -1,6 +1,7 @@
 <?php namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\CmsRoutingProvider;
+use Illuminate\Routing\Router;
 
 class AuthRoutingProvider extends CmsRoutingProvider
 {
@@ -29,5 +30,16 @@ class AuthRoutingProvider extends CmsRoutingProvider
     protected function getApiRoute()
     {
         return __DIR__ . '/../Http/routes-api.php';
+    }
+
+    public function boot(Router $router)
+    {
+        parent::boot($router);
+
+        $router->bind('auth_user', function ($user) {
+            $model = config('auth.model');
+
+            return with(new $model)->where('username', $user)->firstOrFail();
+        });
     }
 }

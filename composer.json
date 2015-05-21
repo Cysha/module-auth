@@ -10,7 +10,6 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "laravel/socialite"                 : "~2.0",
         "beatswitch/lock-laravel"           : "dev-master"
     },
     "repositories": [
