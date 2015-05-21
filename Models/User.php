@@ -55,7 +55,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             return $this->fullName;
         }
 
-        return $this->use_nick == 1 ? $this->fullName : $this->nickname;
+        return $this->use_nick == 1 ? $this->fullName : $this->username;
     }
 
     public function getFullNameAttribute()
