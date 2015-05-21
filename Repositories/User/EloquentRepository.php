@@ -30,6 +30,10 @@ class EloquentRepository extends BaseEloquentRepository implements UserRepositor
             return false;
         }
 
+        if (!empty($roles) && !is_array($roles)) {
+            $roles = [$roles];
+        }
+
         if (!empty($roles) && is_array($roles)) {
             foreach ($roles as $roleId) {
                 $user->roles()->attach(
