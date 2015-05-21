@@ -63,7 +63,7 @@ return [
                 return $model->email;
             },
             'filtering' => true,
-            'width'     => '20%',
+            'width'     => '15%',
         ],
         'roles' => [
             'alias'     => 'roles',
@@ -98,7 +98,7 @@ return [
             },
             'th-class'  => 'hidden-xs hidden-sm',
             'tr-class'  => 'hidden-xs hidden-sm',
-            'width'     => '15%',
+            'width'     => '12%',
         ],
         'created_at' => [
             'alias'     => 'created',
@@ -108,7 +108,7 @@ return [
             },
             'th-class'  => 'hidden-xs hidden-sm',
             'tr-class'  => 'hidden-xs hidden-sm',
-            'width'     => '15%',
+            'width'     => '12%',
         ],
         'actions' => [
             'th' => 'Actions',
