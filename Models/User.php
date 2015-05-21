@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Cms\Modules\Core\Traits\DynamicRelationsTrait;
 
 class User extends BaseModel implements Caller, AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable,
+        DynamicRelationsTrait,
         CanResetPassword,
         LockAware;
 
@@ -42,12 +44,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             ->where('caller_type', $this->getCallerType())
             ->remember(10);
     }
-
-    public function providers()
-    {
-        return $this->hasMany(__NAMESPACE__.'\UserProvider');
-    }
-
 
 
     /**
@@ -122,21 +118,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function hasRole($role)
     {
         return in_array($role, $this->getCallerRoles());
-    }
-
-    /**
-     * @param $provider
-     *
-     * @return bool
-     */
-    public function hasProvider($provider)
-    {
-        foreach ($this->providers as $p) {
-            if ($p->provider === $provider) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

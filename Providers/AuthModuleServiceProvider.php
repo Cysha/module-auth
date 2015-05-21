@@ -50,21 +50,6 @@ class AuthModuleServiceProvider extends BaseModuleProvider
         $userModel = 'Cms\Modules\Auth\Models\User';
         Config::set('auth.model', $userModel);
         Config::set('auth.table', with(new $userModel)->getTable());
-
-        // if socialite or the socialiteproviders package is installed, load em
-        $loadSocialite = false;
-        if (class_exists('SocialiteProviders\Manager\ServiceProvider')) {
-            $loadSocialite = true;
-            $this->app->register('SocialiteProviders\Manager\ServiceProvider');
-
-        } elseif (class_exists('Laravel\Socialite\SocialiteServiceProvider')) {
-            $loadSocialite = true;
-            $this->app->register('Laravel\Socialite\SocialiteServiceProvider');
-        }
-
-        if ($loadSocialite === true) {
-            AliasLoader::getInstance()->alias('Socialite', 'Laravel\Socialite\Facades\Socialite');
-        }
     }
 
 }

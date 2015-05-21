@@ -8,6 +8,8 @@ use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 class AuthController extends BaseModuleController
 {
 
+    public $layout = '2-column-left';
+
     /**
      * The Guard implementation.
      *
@@ -22,8 +24,6 @@ class AuthController extends BaseModuleController
      */
     protected $user;
 
-
-    public $layout = '2-column-left';
 
     /**
      * Create a new authentication controller instance.
@@ -50,10 +50,6 @@ class AuthController extends BaseModuleController
      */
     public function getLogin()
     {
-        if (!$this->auth->guest()) {
-            return redirect(route('pxcms.user.dashboard'));
-        }
-
         return $this->setView('partials.core.login', [], 'theme');
     }
 
