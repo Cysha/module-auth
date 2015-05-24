@@ -118,7 +118,7 @@ return [
                 if (Lock::can('manage.read', 'auth_user')) {
                     $return[] = [
                         'btn-title' => 'View User',
-                        'btn-link'  => sprintf('/admin/users/%d/view', $model->id),
+                        'btn-link'  => route('admin.user.view', $model->id),
                         'btn-class' => 'btn btn-default btn-xs btn-labeled',
                         'btn-icon'  => 'fa fa-file-text-o'
                     ];
@@ -127,7 +127,7 @@ return [
                 if (Lock::can('manage.update', 'auth_user')) {
                     $return[] = [
                         'btn-title' => 'Edit',
-                        'btn-link'  => sprintf('/admin/users/%d/edit', $model->id),
+                        'btn-link'  => route('admin.user.edit', $model->id),
                         'btn-class' => 'btn btn-warning btn-xs btn-labeled',
                         'btn-icon'  => 'fa fa-pencil'
                     ];
