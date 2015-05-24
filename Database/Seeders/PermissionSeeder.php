@@ -7,7 +7,7 @@ class PermissionSeeder extends Seeder
 {
     public function run()
     {
-        $permissionGroups = array_column(config('cms'), 'permissions');
+        $permissionGroups = get_array_column(config('cms'), 'permissions');
 
         $seedModel = 'Cms\Modules\Auth\Models\Permission';
         foreach ($permissionGroups as $group) {
