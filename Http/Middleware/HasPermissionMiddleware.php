@@ -41,7 +41,9 @@ class HasPermissionMiddleware
 
             if (Lock::cannot($perm, $resource)) {
                 return redirect()->back()
-                    ->with('error', trans('auth::auth.permissions.unauthorized'));
+                    ->with('error', trans('auth::auth.permissions.unauthorized', [
+                        'permission' => $perm, 'resource' => $resource
+                    ]));
             }
         }
 

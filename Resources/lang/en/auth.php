@@ -2,7 +2,7 @@
 
 return [
     'permissions.authenticated' => 'You need to be authenticated to get there.',
-    'permissions.unauthorized'  => 'You do not have the neccesary permissions for that.',
+    'permissions.unauthorized'  => 'You do not have the neccesary permissions for that. (:permission@:resource)',
 
 
     'user.deleted'              => 'Email / Password combination you provided cannot be found, Please try again.',
