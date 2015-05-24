@@ -9,7 +9,33 @@ $router->group([
     'hasPermission' => 'manage@auth_user'
 ], function (Router $router) {
 
-    $router->get('add', ['as' => 'admin.user.add', 'uses' => 'UserManagerController@userManager']);
+    $router->get('add', ['as' => 'admin.user.add', 'uses' => 'UserManagerController@userManager', 'middleware' => 'hasPermission', 'hasPermission' => 'create@auth_user']);
+
+    $router->group(['prefix' => '{auth_user_id}', 'namespace' => 'User'], function (Router $router) {
+
+        $router->group(['middleware' => 'hasPermission', 'hasPermission' => 'manage.update@auth_user'], function (Router $router) {
+            $router->group(['prefix' => 'password'], function (Router $router) {
+                $router->post('/', ['uses' => 'PasswordController@postForm']);
+                $router->get('/', ['as' => 'admin.user.password', 'uses' => 'PasswordController@getForm']);
+            });
+
+            $router->group(['prefix' => 'provider'], function (Router $router) {
+                $router->post('/', ['uses' => 'ProviderController@postForm']);
+                $router->get('/', ['as' => 'admin.user.provider', 'uses' => 'ProviderController@getForm']);
+            });
+
+            $router->group(['prefix' => 'edit'], function (Router $router) {
+                $router->post('/', ['uses' => 'InfoController@postForm']);
+                $router->get('/', ['as' => 'admin.user.edit', 'uses' => 'InfoController@getForm']);
+            });
+        });
+
+        $router->group(['prefix' => 'view', 'middleware' => 'hasPermission', 'hasPermission' => 'manage.read@auth_user'], function (Router $router) {
+            $router->get('/', ['as' => 'admin.user.view', 'uses' => 'InfoController@getIndex']);
+        });
+
+        $router->get('/', ['as' => 'admin.user.index', 'uses' => 'InfoController@redirect']);
+    });
 
     $router->post('/', ['uses' => 'UserManagerController@userManager']);
     $router->get('/', ['as' => 'admin.user.manager', 'uses' => 'UserManagerController@userManager']);

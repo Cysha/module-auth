@@ -41,5 +41,11 @@ class AuthRoutingProvider extends CmsRoutingProvider
 
             return with(new $model)->where('username', $user)->firstOrFail();
         });
+
+        $router->bind('auth_user_id', function ($id) {
+            $model = config('auth.model');
+
+            return with(new $model)->findOrFail($id);
+        });
     }
 }
