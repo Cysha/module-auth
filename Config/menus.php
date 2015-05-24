@@ -5,11 +5,12 @@ return [
     'backend_sidebar' => [
         'User Management' => [
             [
-                'route'      => 'admin.user.manager',
-                'text'       => 'Users',
-                'icon'       => 'fa-user',
-                'order'      => 1,
-                'permission' => 'manage@auth_user'
+                'route'         => 'admin.user.manager',
+                'text'          => 'Users',
+                'icon'          => 'fa-user',
+                'order'         => 1,
+                'permission'    => 'manage@auth_user',
+                'activePattern' => '\/{backend}\/users\/*',
             ],
             [
                 'route'      => 'admin.role.manager',
