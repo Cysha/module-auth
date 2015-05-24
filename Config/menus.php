@@ -2,8 +2,8 @@
 
 return [
 
-    'acp_menu' => [
-        'User Manager' => [
+    'backend_sidebar' => [
+        'User Management' => [
             [
                 'route'      => 'admin.user.manager',
                 'text'       => 'Users',
