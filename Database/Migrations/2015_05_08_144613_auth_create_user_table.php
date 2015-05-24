@@ -17,8 +17,7 @@ class AuthCreateUserTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->string('username')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->text('avatar');
 

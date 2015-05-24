@@ -17,7 +17,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         LockAware;
 
     protected $table = 'users';
-    protected $fillable = ['id', 'username', 'first_name', 'last_name', 'password', 'email', 'verified_at', 'disabled_at'];
+    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
@@ -52,15 +52,10 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function getScreennameAttribute()
     {
         if (empty($this->username)) {
-            return $this->fullName;
+            return $this->name;
         }
 
-        return $this->use_nick == 1 ? $this->fullName : $this->username;
-    }
-
-    public function getFullNameAttribute()
-    {
-        return implode(' ', [$this->first_name, $this->last_name]);
+        return $this->use_nick == 1 ? $this->name : $this->username;
     }
 
     public function getAvatarAttribute($val, $size = 64)
@@ -75,7 +70,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
         return $val;
     }
-
 
     public function setPasswordAttribute($password)
     {
