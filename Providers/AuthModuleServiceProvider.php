@@ -37,6 +37,7 @@ class AuthModuleServiceProvider extends BaseModuleProvider
      */
     protected $bindings = [
         'Cms\Modules\Auth\Repositories\User' => ['RepositoryInterface' => 'EloquentRepository'],
+        'Cms\Modules\Auth\Repositories\Role' => ['RepositoryInterface' => 'EloquentRepository'],
     ];
 
     /**

@@ -17,6 +17,7 @@ class BaseUserController extends BaseAdminController
     public function getUserDetails(Auth\Models\User $user)
     {
         Former::populate($user);
+        $this->theme->setTitle('User Manager <small>> '.$user->screenname.'</small>');
 
         return compact('user');
     }

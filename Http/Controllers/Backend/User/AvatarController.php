@@ -3,22 +3,19 @@
 use Illuminate\Http\Request;
 use Cms\Modules\Auth as Auth;
 
-class InfoController extends BaseUserController
+class AvatarController extends BaseUserController
 {
-    public function getIndex(Auth\Models\User $user)
-    {
-    }
 
     public function getForm(Auth\Models\User $user)
     {
         $data = $this->getUserDetails($user);
 
-        return $this->setView('admin.user.edit-basic', $data);
+        return $this->setView('admin.user.avatar', $data);
     }
 
     public function postForm(Auth\Models\User $user, Request $input)
     {
-        $input = $input->only(['username', 'name', 'email']);
+        $input = $input->only(['avatar']);
 
         $user->hydrateFromInput($input);
 

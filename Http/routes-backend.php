@@ -19,6 +19,16 @@ $router->group([
                 $router->get('/', ['as' => 'admin.user.password', 'uses' => 'PasswordController@getForm']);
             });
 
+            $router->group(['prefix' => 'avatar'], function (Router $router) {
+                $router->post('/', ['uses' => 'AvatarController@postForm']);
+                $router->get('/', ['as' => 'admin.user.avatar', 'uses' => 'AvatarController@getForm']);
+            });
+
+            $router->group(['prefix' => 'roles'], function (Router $router) {
+                $router->post('/', ['uses' => 'RoleController@postForm']);
+                $router->get('/', ['as' => 'admin.user.role', 'uses' => 'RoleController@getForm']);
+            });
+
             $router->group(['prefix' => 'edit'], function (Router $router) {
                 $router->post('/', ['uses' => 'InfoController@postForm']);
                 $router->get('/', ['as' => 'admin.user.edit', 'uses' => 'InfoController@getForm']);

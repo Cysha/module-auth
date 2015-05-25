@@ -4,14 +4,14 @@
 {!! Former::horizontal_open() !!}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Basic User Info</h3>
+            <h3 class="panel-title">Roles</h3>
         </div>
         <div class="panel-body">
-            {!! Former::text('username') !!}
-
-            {!! Former::text('name') !!}
-
-            {!! Former::text('email') !!}
+            {!! Form::DBSelect('roles[]', $roles)
+                ->id('roles')
+                ->multiple('true')
+                ->select($selected)
+                ->label(false) !!}
         </div>
     </div>
 

@@ -25,8 +25,6 @@ class AuthCreateRolesTables extends Migration
             $table->integer('role_id')->unsigned()->index();
             $table->string('caller_type', 100);
             $table->integer('caller_id')->unsigned()->index();
-
-            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

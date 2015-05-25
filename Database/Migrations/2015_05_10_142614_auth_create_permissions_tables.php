@@ -26,9 +26,6 @@ class AuthCreatePermissionsTables extends Migration
             $table->increments('id');
             $table->integer('permission_id')->unsigned()->index();
             $table->integer('role_id')->unsigned()->index();
-
-            $table->foreign('permission_id')->references('id')->on('permissions');
-            $table->foreign('role_id')->references('id')->on('roles');
         });
 
         Schema::create('permissionables', function (Blueprint $table) {
@@ -36,8 +33,6 @@ class AuthCreatePermissionsTables extends Migration
             $table->integer('permission_id')->unsigned()->index();
             $table->string('caller_type', 100);
             $table->integer('caller_id')->unsigned()->index();
-
-            $table->foreign('permission_id')->references('id')->on('permissions');
         });
     }
 

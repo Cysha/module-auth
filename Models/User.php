@@ -17,7 +17,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         LockAware;
 
     protected $table = 'users';
-    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'verified_at', 'disabled_at'];
+    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
@@ -34,15 +34,13 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function roles()
     {
         return $this->belongsToMany(__NAMESPACE__.'\Role', 'roleables', 'caller_id', 'role_id')
-            ->where('caller_type', $this->getCallerType())
-            ->remember(10);
+            ->where('caller_type', $this->getCallerType());
     }
 
     public function permissions()
     {
         return $this->belongsToMany(__NAMESPACE__.'\Permission', 'permissionables', 'caller_id', 'role_id')
-            ->where('caller_type', $this->getCallerType())
-            ->remember(10);
+            ->where('caller_type', $this->getCallerType());
     }
 
 
@@ -60,15 +58,12 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getAvatarAttribute($val, $size = 64)
     {
-        if (empty($val) || $val == 'gravatar') {
-            return sprintf(
-                'http://www.gravatar.com/avatar/%s.png?s=%d&d=mm&rating=g',
-                md5($this->attributes['email']),
-                $size
-            );
+
+        if (empty($val) || $val === 'gravatar') {
+            return $this->gravatar($size);
         }
 
-        return $val;
+        return $this->urlAvatar();
     }
 
     public function setPasswordAttribute($password)
@@ -79,9 +74,32 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     /**
      * Other Methods
      */
-    public function avatar($size)
+    public function getAvatarList()
     {
-        return $this->getAvatarAttribute($this->getOriginal('avatar'), $size);
+        $avatars = [];
+
+        $avatars['gravatar'] = $this->gravatar('64');
+
+        $oriAvatar = $this->getOriginal('avatar');
+        if (!empty($origAvatar)) {
+            $avatars['url'] = $oriAvatar;
+        }
+
+        return $avatars;
+    }
+
+    public function urlAvatar()
+    {
+        return $this->getOriginal('avatar');
+    }
+
+    public function gravatar($size)
+    {
+        return sprintf(
+            'http://www.gravatar.com/avatar/%s.png?s=%d&d=mm&rating=g',
+            md5($this->attributes['email']),
+            $size
+        );
     }
 
     public function verify($code)
