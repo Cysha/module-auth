@@ -17,12 +17,16 @@ class PasswordController extends BaseUserController
     {
         $input = $input->only(['password', 'password_confirmation']);
 
-        $user->hydrateFromInput($input);
-
-        if ($user->save() === false) {
-            return Redirect::back()->withErrors($user->getErrors());
+        if ($input['password'] !== $input['password_confirmation']) {
+            return redirect()->back()->withError('Passwords did not match, try again!');
         }
 
-        return Redirect::route('admin.user.password', $user->id)->withInfo('Password Updated');
+        $user->hydrateFromInput(array_only($input, 'password'));
+
+        if ($user->save() === false) {
+            return redirect()->back()->withErrors($user->getErrors());
+        }
+
+        return redirect()->back()->withInfo('Password Updated');
     }
 }
