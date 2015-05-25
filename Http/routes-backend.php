@@ -19,11 +19,6 @@ $router->group([
                 $router->get('/', ['as' => 'admin.user.password', 'uses' => 'PasswordController@getForm']);
             });
 
-            $router->group(['prefix' => 'provider'], function (Router $router) {
-                $router->post('/', ['uses' => 'ProviderController@postForm']);
-                $router->get('/', ['as' => 'admin.user.provider', 'uses' => 'ProviderController@getForm']);
-            });
-
             $router->group(['prefix' => 'edit'], function (Router $router) {
                 $router->post('/', ['uses' => 'InfoController@postForm']);
                 $router->get('/', ['as' => 'admin.user.edit', 'uses' => 'InfoController@getForm']);
