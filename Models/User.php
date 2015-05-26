@@ -85,6 +85,12 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             $avatars['url'] = $oriAvatar;
         }
 
+        if (app('modules')->find('Social')) {
+            foreach ($this->providers()->get() as $provider) {
+                $avatars[$provider->provider] = $provider->avatar;
+            }
+        }
+
         return $avatars;
     }
 

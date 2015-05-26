@@ -19,7 +19,7 @@
                     <td>{!! Former::radio('avatar')->radios([
                         $name => ['name' => 'avatar', 'value' => $avatar]
                     ])->label(false) !!}</td>
-                    <td><img src="{{ $avatar }}" alt=""></td>
+                    <td><img src="{{ $avatar }}" alt="" style="height: 80px; width: 80px;"></td>
                 </tr>
             @endforeach
             </tbody>
