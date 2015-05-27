@@ -1,9 +1,9 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Backend;
 
-use Cms\Modules\Core\Http\Controllers\BaseAdminController;
+use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 use Cms\Modules\Admin\Traits\DataTableTrait;
 
-class UserManagerController extends BaseAdminController
+class UserManagerController extends BaseBackendController
 {
     use DataTableTrait;
 

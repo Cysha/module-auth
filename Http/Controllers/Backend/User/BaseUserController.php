@@ -1,10 +1,10 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
-use Cms\Modules\Core\Http\Controllers\BaseAdminController;
+use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 use Cms\Modules\Auth as Auth;
 use Former;
 
-class BaseUserController extends BaseAdminController
+class BaseUserController extends BaseBackendController
 {
     public function boot()
     {

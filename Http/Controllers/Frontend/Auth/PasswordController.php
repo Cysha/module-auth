@@ -1,11 +1,11 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
-use Cms\Modules\Core\Http\Controllers\BaseModuleController;
+use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class PasswordController extends BaseModuleController
+class PasswordController extends BaseFrontendController
 {
     /*
     |--------------------------------------------------------------------------
