@@ -49,8 +49,6 @@ class PermissionManager
                     'sorting'   => true,
                     'width'     => '5%',
                 ],
-<<<<<<< Updated upstream
-=======
                 'readable_name' => [
                     'th'        => 'Readable Name',
                     'tr'        => function ($model) {
@@ -60,7 +58,6 @@ class PermissionManager
                     'filtering' => true,
                     'width'     => '20%',
                 ],
->>>>>>> Stashed changes
                 'resource_type' => [
                     'th'        => 'Resource Type',
                     'tr'        => function ($model) {
