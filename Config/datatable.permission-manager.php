@@ -44,6 +44,15 @@ return [
             'sorting'   => true,
             'width'     => '5%',
         ],
+        'readable_name' => [
+            'th'        => 'Readable Name',
+            'tr'        => function ($model) {
+                return $model->readable_name;
+            },
+            'sorting'   => true,
+            'filtering' => true,
+            'width'     => '20%',
+        ],
         'resource_type' => [
             'th'        => 'Resource Type',
             'tr'        => function ($model) {

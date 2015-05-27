@@ -25,6 +25,24 @@ class Role extends BaseModel implements Caller
         return $query->whereName($group)->get();
     }
 
+    public function hasPermission( $id )
+    {
+        if( $this->permissions->has($id) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getPermissionProperty( $id, $key )
+    {
+        if( $this->hasPermission($id) ) {
+            return $this->permissions->get($id)->$key;
+        }
+
+        return false;
+    }
+
     /**
      * Beatswitch\Lock Methods
      */

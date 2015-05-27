@@ -12,10 +12,11 @@ class PermissionSeeder extends Seeder
         $seedModel = 'Cms\Modules\Auth\Models\Permission';
         foreach ($permissionGroups as $group) {
             foreach ($group as $type => $permissions) {
-                foreach ($permissions as $perm) {
+                foreach ($permissions as $action => $name) {
                     $permission = with(new $seedModel)->fill([
                         'type'              => 'privilege',
-                        'action'            => $perm,
+                        'action'            => $action,
+                        'readable_name'     => $name,
                         'resource_type'     => $type,
                         'resource_id'       => NULL,
                         'created_at'        => Carbon::now(),

@@ -56,7 +56,18 @@ $router->group([
     $router->get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
 
     $router->post('/', ['uses' => 'RoleManagerController@roleManager']);
-    $router->get('/', ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
+    $router->get('/',  ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
+
+    $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function ( Router $router )
+    {
+        $router->group(['middleware' => ['hasPermission'], 'hasPermission' => 'manage.update@auth_role'], function( Router $router )
+        {
+            $router->get('/edit',        ['as' => 'admin.role.edit',        'uses' => 'InfoController@getForm']);
+            $router->get('/permissions', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@getForm']);
+        });
+
+        $router->get('/', ['as' => 'admin.role.index', 'uses' => 'InfoController@redirect']);
+    });
 });
 
 // URI: /{backend}/permissions

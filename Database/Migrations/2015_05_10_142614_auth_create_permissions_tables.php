@@ -17,6 +17,7 @@ class AuthCreatePermissionsTables extends Migration
             $table->string('type', 10);
             $table->string('action', 100);
             $table->string('resource_type', 100)->nullable();
+            $table->string('readable_name', 100)->nullable();
             $table->integer('resource_id')->unsigned()->nullable();
 
             $table->timestamps();

@@ -60,4 +60,35 @@ return [
         ],
     ],
 
+    'backend_role_menu' => [
+        [
+            'route'      => ['admin.role.edit', ['auth_user_id' => 'segment:3']],
+            'text'       => 'Basic Info',
+            'icon'       => 'fa-user',
+            'order'      => 1,
+            'permission' => 'manage.update@auth_user'
+        ],
+        [
+            'route'      => ['admin.user.password', ['auth_user_id' => 'segment:3']],
+            'text'       => 'Password',
+            'icon'       => 'fa-key',
+            'order'      => 2,
+            'permission' => 'manage.update@auth_user'
+        ],
+        [
+            'route'      => ['admin.user.avatar', ['auth_user_id' => 'segment:3']],
+            'text'       => 'Avatars',
+            'icon'       => 'fa-picture-o',
+            'order'      => 3,
+            'permission' => 'manage.update@auth_user'
+        ],
+        [
+            'route'      => ['admin.user.role', ['auth_user_id' => 'segment:3']],
+            'text'       => 'Roles',
+            'icon'       => 'fa-users',
+            'order'      => 4,
+            'permission' => 'manage.update@auth_user'
+        ],
+    ],
+
 ];
