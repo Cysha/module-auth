@@ -1,6 +1,7 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Backend;
 
 use Cms\Modules\Core\Http\Controllers\BaseBackendController;
+use Cms\Modules\Auth\Datatables\RoleManager;
 use Cms\Modules\Admin\Traits\DataTableTrait;
 
 class RoleManagerController extends BaseBackendController
@@ -9,7 +10,7 @@ class RoleManagerController extends BaseBackendController
 
     public function roleManager()
     {
-        return $this->renderDataTable('cms.auth.datatable.role-manager');
+        return $this->renderDataTable(with(new RoleManager)->boot());
     }
 
 }

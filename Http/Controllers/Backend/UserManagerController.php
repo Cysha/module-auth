@@ -1,6 +1,7 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Backend;
 
 use Cms\Modules\Core\Http\Controllers\BaseBackendController;
+use Cms\Modules\Auth\Datatables\UserManager;
 use Cms\Modules\Admin\Traits\DataTableTrait;
 
 class UserManagerController extends BaseBackendController
@@ -9,7 +10,7 @@ class UserManagerController extends BaseBackendController
 
     public function userManager()
     {
-        return $this->renderDataTable('cms.auth.datatable.user-manager');
+        return $this->renderDataTable(with(new UserManager)->boot());
     }
 
 }
