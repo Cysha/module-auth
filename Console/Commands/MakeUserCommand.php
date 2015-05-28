@@ -1,7 +1,7 @@
 <?php namespace Cms\Modules\Auth\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Cms\Modules\Core\Console\BaseCommand;
+use Cms\Modules\Core\Console\Commands\BaseCommand;
 use Carbon\Carbon;
 
 class MakeUserCommand extends BaseCommand
