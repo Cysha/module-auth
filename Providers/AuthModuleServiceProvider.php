@@ -26,7 +26,8 @@ class AuthModuleServiceProvider extends BaseModuleProvider
      */
     protected $commands = [
         'Auth' => [
-            'make:user' => 'MakeUserCommand'
+            'make:user' => 'MakeUserCommand',
+            'module:publish-permissions' => 'ModulePublishPermissionsCommand',
         ],
     ];
 
