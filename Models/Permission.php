@@ -4,7 +4,7 @@ class Permission extends BaseModel
 {
 
     protected $table = 'permissions';
-    protected $fillable = ['id', 'type', 'action', 'resource_type', 'resource_id'];
+    protected $fillable = ['id', 'type', 'action', 'resource_type', 'resource_id', 'readable_name'];
 
 
     public function roles()
