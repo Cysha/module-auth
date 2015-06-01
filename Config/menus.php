@@ -33,7 +33,7 @@ return [
         [
             'route'      => ['admin.user.edit', ['auth_user_id' => 'segment:3']],
             'text'       => 'Basic Info',
-            'icon'       => 'fa-user',
+            'icon'       => 'fa-file-text-o',
             'order'      => 1,
             'permission' => 'manage.update@auth_user'
         ],
@@ -62,32 +62,25 @@ return [
 
     'backend_role_menu' => [
         [
-            'route'      => ['admin.role.edit', ['auth_user_id' => 'segment:3']],
+            'route'      => ['admin.role.permissions', ['auth_role_id' => 'segment:3']],
             'text'       => 'Basic Info',
-            'icon'       => 'fa-user',
+            'icon'       => 'fa-file-text-o',
             'order'      => 1,
-            'permission' => 'manage.update@auth_user'
+            'permission' => 'manage.update@auth_role'
         ],
         [
-            'route'      => ['admin.user.password', ['auth_user_id' => 'segment:3']],
-            'text'       => 'Password',
-            'icon'       => 'fa-key',
-            'order'      => 2,
-            'permission' => 'manage.update@auth_user'
+            'route'      => ['admin.role.permissions', ['auth_role_id' => 'segment:3']],
+            'text'       => 'Permissions',
+            'icon'       => 'fa-check-square-o',
+            'order'      => 1,
+            'permission' => 'manage.update@auth_role'
         ],
         [
-            'route'      => ['admin.user.avatar', ['auth_user_id' => 'segment:3']],
-            'text'       => 'Avatars',
-            'icon'       => 'fa-picture-o',
-            'order'      => 3,
-            'permission' => 'manage.update@auth_user'
-        ],
-        [
-            'route'      => ['admin.user.role', ['auth_user_id' => 'segment:3']],
-            'text'       => 'Roles',
+            'route'      => ['admin.role.permissions', ['auth_role_id' => 'segment:3']],
+            'text'       => 'Manage Users on this Role',
             'icon'       => 'fa-users',
-            'order'      => 4,
-            'permission' => 'manage.update@auth_user'
+            'order'      => 1,
+            'permission' => 'manage.update@auth_role'
         ],
     ],
 

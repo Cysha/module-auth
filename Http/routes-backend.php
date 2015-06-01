@@ -5,7 +5,7 @@ use Illuminate\Routing\Router;
 // URI: /{backend}/users
 $router->group([
     'prefix'        => 'users',
-    'middleware'    => 'hasPermission',
+    'middleware'    => ['hasPermission'],
     'hasPermission' => 'manage@auth_user'
 ], function (Router $router) {
 
@@ -58,10 +58,8 @@ $router->group([
     $router->post('/', ['uses' => 'RoleManagerController@roleManager']);
     $router->get('/',  ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
 
-    $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function ( Router $router )
-    {
-        $router->group(['middleware' => ['hasPermission'], 'hasPermission' => 'manage.update@auth_role'], function( Router $router )
-        {
+    $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function (Router $router) {
+        $router->group(['middleware' => ['hasPermission'], 'hasPermission' => 'manage.update@auth_role'], function (Router $router) {
             $router->get('/edit',        ['as' => 'admin.role.edit',        'uses' => 'InfoController@getForm']);
             $router->get('/permissions', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@getForm']);
         });

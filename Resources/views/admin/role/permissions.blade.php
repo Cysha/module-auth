@@ -1,6 +1,6 @@
-@extends(partial('auth::admin.user._layout'))
+@extends(partial('auth::admin.role._layout'))
 
-@section('user-form')
+@section('role-form')
 {!! Former::horizontal_open() !!}
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -63,8 +63,8 @@
 {!! Former::close() !!}
 
 <script>
-    (function($){
-        $('th .form-control').on('change', function(){
+    (function ($) {
+        $('th .form-control').on('change', function () {
             var className = $(this).find(':selected').attr('class'),
                 selector = 'tr.' + $(this).closest('tr').attr('class') + ' td .form-control';
 

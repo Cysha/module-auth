@@ -1,17 +1,13 @@
-@extends(partial('auth::admin.user._layout'))
+@extends(partial('auth::admin.role._layout'))
 
-@section('user-form')
+@section('role-form')
 {!! Former::horizontal_open() !!}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Basic User Info</h3>
+            <h3 class="panel-title">Basic Role Info</h3>
         </div>
         <div class="panel-body">
-            {!! Former::text('username') !!}
-
             {!! Former::text('name') !!}
-
-            {!! Former::text('email') !!}
         </div>
     </div>
 
