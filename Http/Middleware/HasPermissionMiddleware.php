@@ -32,14 +32,16 @@ class HasPermissionMiddleware
         foreach ($permissions as $perm) {
             list($perm, $resource) = explode('@', $perm);
 
-            // only needs to have 1 missing and access is denied
-            \Debug::console([
-                'Checking permission:',
-                [$perm, $resource],
-                Lock::can($perm, $resource)
-            ]);
+            // check see if the string has an id on the end
+            if (strpos($resource, ':') !== false) {
+                list($resource, $id) = explode(':', $resource);
+                $test = Lock::cannot($perm, $resource, $id);
+            } else {
+                $test = Lock::cannot($perm, $resource);
+            }
 
-            if (Lock::cannot($perm, $resource)) {
+            // if the permission test is false, redirect back with an error
+            if ($test === false) {
                 return redirect()->back()
                     ->with('error', trans('auth::auth.permissions.unauthorized', [
                         'permission' => $perm, 'resource' => $resource
