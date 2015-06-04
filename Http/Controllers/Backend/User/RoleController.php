@@ -4,9 +4,7 @@ use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
 use Illuminate\Http\Request;
 use Cms\Modules\Auth as Auth;
 
-use Cms\Modules\Core\Http\Controllers\BaseBackendController;
-
-class RoleController extends BaseBackendController
+class RoleController extends BaseUserController
 {
 
     public function getForm(Auth\Models\User $user, RoleRepo $roles)
