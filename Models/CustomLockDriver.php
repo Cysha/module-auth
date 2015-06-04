@@ -16,7 +16,8 @@ class CustomLockDriver implements Driver
      */
     public function getCacheKey()
     {
-        return implode(':', ['lock']+func_get_args());
+        $uid = \Auth::check() ? \Auth::id() : 0;
+        return implode(':', ['lock', $uid]+func_get_args());
     }
 
     /**
@@ -27,7 +28,7 @@ class CustomLockDriver implements Driver
      */
     public function getCallerPermissions(LockCaller $caller)
     {
-        $key = $this->getCacheKey($caller->getCallerType(), $caller->getCallerId());
+        $key = $this->getCacheKey(__FUNCTION__, $caller->getCallerType(), $caller->getCallerId());
         $permissions = Cache::remember($key, 1, function () use ($caller) {
             return DB::table('permissions')
             ->join('permissionables', function ($join) use ($caller) {
@@ -79,7 +80,7 @@ class CustomLockDriver implements Driver
      */
     public function removeCallerPermission(LockCaller $caller, LockPermission $permission)
     {
-        $key = $this->getCacheKey($permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $key = $this->getCacheKey(__FUNCTION__, $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
         $permission = Cache::remember($key, 1, function () use ($permission) {
             return (array) DB::table('permissions')
                 ->where('type', $permission->getType())
@@ -110,7 +111,7 @@ class CustomLockDriver implements Driver
      */
     public function hasCallerPermission(LockCaller $caller, LockPermission $permission)
     {
-        $key = $this->getCacheKey($permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $key = $this->getCacheKey(__FUNCTION__, $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
         return Cache::remember($key, 1, function () use ($permission) {
             return (bool) DB::table('permissions')
                 ->where('type', $permission->getType())
@@ -129,7 +130,7 @@ class CustomLockDriver implements Driver
      */
     public function getRolePermissions(LockRole $role)
     {
-        $key = $this->getCacheKey($role->getRoleName());
+        $key = $this->getCacheKey(__FUNCTION__, $role->getRoleName());
         $permissions = Cache::remember($key, 1, function () use ($role) {
             return DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
@@ -181,7 +182,7 @@ class CustomLockDriver implements Driver
      */
     public function removeRolePermission(LockRole $role, LockPermission $permission)
     {
-        $key = $this->getCacheKey($permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $key = $this->getCacheKey(__FUNCTION__, $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
         $dbPermission = Cache::remember($key, 1, function () use ($permission) {
             return (array) DB::table('permissions')
             ->where('type', $permission->getType())
@@ -220,7 +221,7 @@ class CustomLockDriver implements Driver
      */
     public function hasRolePermission(LockRole $role, LockPermission $permission)
     {
-        $key = $this->getCacheKey($role->getRoleName(), $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
+        $key = $this->getCacheKey(__FUNCTION__, $role->getRoleName(), $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
         $permissionForRole = Cache::remember($key, 1, function () use ($role, $permission) {
             return (bool) DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
