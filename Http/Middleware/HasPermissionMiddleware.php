@@ -30,18 +30,10 @@ class HasPermissionMiddleware
 
         // roll over each permission and see if the user has it
         foreach ($permissions as $perm) {
-            list($perm, $resource) = explode('@', $perm);
-
-            // check see if the string has an id on the end
-            if (strpos($resource, ':') !== false) {
-                list($resource, $id) = explode(':', $resource);
-                $test = Lock::cannot($perm, $resource, $id);
-            } else {
-                $test = Lock::cannot($perm, $resource);
-            }
 
             // if the permission test is false, redirect back with an error
-            if ($test === false) {
+            if (hasPermission($perm) === false) {
+                list($perm, $resource) = processPermission($perm);
                 return redirect()->back()
                     ->with('error', trans('auth::auth.permissions.unauthorized', [
                         'permission' => $perm, 'resource' => $resource

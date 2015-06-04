@@ -22,6 +22,7 @@
         "LockManager": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\LockManager"
     },
     "files": [
-        "start.php"
+        "start.php",
+        "helpers.php"
     ]
 }
