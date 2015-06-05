@@ -59,9 +59,21 @@ $router->group([
     $router->get('/',  ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
 
     $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function (Router $router) {
-        $router->group(['middleware' => ['hasPermission'], 'hasPermission' => 'manage.update@auth_role'], function (Router $router) {
-            $router->get('/edit',        ['as' => 'admin.role.edit',        'uses' => 'InfoController@getForm']);
-            $router->get('/permissions', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@getForm']);
+        $router->group([
+            'middleware' => ['hasPermission'],
+            'hasPermission' => 'manage.update@auth_role'
+        ], function (Router $router) {
+
+            $router->get('edit', ['as' => 'admin.role.edit', 'uses' => 'InfoController@getForm']);
+
+            $router->group([
+                'prefix' => 'permissions',
+                'middleware' => ['hasPermission'],
+                'hasPermission' => 'manage.update@auth_role'
+            ], function (Router $router) {
+                $router->post('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@postForm']);
+                $router->get('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@getForm']);
+            });
         });
 
         $router->get('/', ['as' => 'admin.role.index', 'uses' => 'InfoController@redirect']);

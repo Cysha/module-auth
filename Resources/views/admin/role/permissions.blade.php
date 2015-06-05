@@ -6,67 +6,57 @@
         <div class="panel-heading">
             <h3 class="panel-title">Permissions</h3>
         </div>
-        <div class="panel-body no-padding">
-            <table class="table table-striped">
-                <thead>
-                    <th>Action</th>
-                    <th>Setting</th>
-                    <th>Calculated Setting</th>
-                </thead>
+        <div class="panel-body no-padding row">
+            <div class="col-md-3">
+                <ul class="nav nav-pills nav-stacked" id="permissions">
+                @set($active, false)
+                @foreach ($groups as $group)
+                    @if($active === false)
+                        @set($active, true)
+                        <li class="active">
+                    @else
+                        <li>
+                    @endif
 
-                <tbody>
-                    @set($old_group, null)
-                    @foreach( $permissions as $permission )
-                        @if( $old_group != $permission->resource_type )
-                           @set($old_group, $permission->resource_type)
-                            <tr class="resource_{{ $permission->resource_type }}">
-                                <th>
-                                    {{ ucwords( str_replace('_', ' ', $permission->resource_type ) ) }}
-                                </th>
-                                <th colspan="">
-                                    <select name="" class="form-control">
-                                        <option selected="selected"></option>
-                                        <option class="inherit">Inherit</option>
-                                        <option value="privilege" class="priv">Privilege</option>
-                                        <option value="restriction" class="restrict">Restriction</option>
-                                    </select>
-                                    <small>Apply to all in group</small>
-                                </th>
-                                <th></th>
-                            </tr>
-                        @endif
+                        <a href="#{{ str_slug($group) }}" data-toggle="pill">{{ ucwords(str_replace('_', ' ', $group)) }}</a>
+                    </li>
+                @endforeach
+                </ul>
+            </div>
 
-                        <tr class="resource_{{$permission->resource_type}}">
-                            <td>{{ $permission->readable_name }}</td>
-                            <td>
-                                <select name="permisisons[{{ $permission->id }}]" id="" class="form-control">
-                                    <option class="inherit">Inherit</option>
-                                    <option value="privilege" class="priv" {{ $role->getPermissionProperty($permission->id, 'type') == 'privilege' ? 'selected="selected"' : '' }}>
-                                        Privilege
-                                    </option>
-                                    <option value="restriction" class="restrict" {{ $role->getPermissionProperty($permission->id, 'type') == 'restriction' ? 'selected="selected"' : '' }}>
-                                        Restriction
-                                    </option>
-                                </select>
-                            </td>
-                            <td></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="col-md-9">
+                <div class="tab-content">
+                @set($active, false)
+                @foreach ($groups as $group)
+                    @if($active === false)
+                        @set($active, true)
+                        <div class="tab-pane active" id="{{ str_slug($group) }}">
+                    @else
+                        <div class="tab-pane" id="{{ str_slug($group) }}">
+                    @endif
+
+                        @include(partial('auth::admin.partials.permissions'), [
+                            'permissions' => $permissions->where('resource_type', $group),
+                            'role' => $role
+                        ])
+                    </div>
+                @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer clearfix">
+            <button class="btn-labeled btn btn-success pull-right" type="submit">
+                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span> Save
+            </button>
         </div>
     </div>
-
-    <button class="btn-labeled btn btn-success pull-right" type="submit">
-        <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span> Save
-    </button>
 {!! Former::close() !!}
 
 <script>
     (function ($) {
-        $('th .form-control').on('change', function () {
+        $('select.master-select').on('change', function () {
             var className = $(this).find(':selected').attr('class'),
-                selector = 'tr.' + $(this).closest('tr').attr('class') + ' td .form-control';
+                selector = $(this).closest('.tab-content').attr('class') + ' .permission-row select.form-control';
 
             $(selector).val( $(selector).find('option.' + className).val() );
         });

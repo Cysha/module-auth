@@ -27,7 +27,7 @@ return [
         'permissions.read' => 'Read the permissions on a role',
         'permissions.create' => 'Add a permission to a role',
         'permissions.delete' => 'Remove a permission from a role',
-],
+    ],
 
     'auth_permission' => [
         // backend manager

@@ -62,7 +62,7 @@ return [
 
     'backend_role_menu' => [
         [
-            'route'      => ['admin.role.permissions', ['auth_role_id' => 'segment:3']],
+            'route'      => ['admin.role.edit', ['auth_role_id' => 'segment:3']],
             'text'       => 'Basic Info',
             'icon'       => 'fa-file-text-o',
             'order'      => 1,

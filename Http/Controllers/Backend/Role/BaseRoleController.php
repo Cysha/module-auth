@@ -17,7 +17,7 @@ class BaseRoleController extends BaseBackendController
     public function getRoleDetails(Auth\Models\Role $role)
     {
         Former::populate($role);
-        $this->theme->setTitle('Role Manager <small>> '.$role->screenname.'</small>');
+        $this->theme->setTitle('Role Manager <small>> '.$role->name.'</small>');
 
         return compact('role');
     }
