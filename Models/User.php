@@ -1,13 +1,14 @@
 <?php namespace Cms\Modules\Auth\Models;
 
 use BeatSwitch\Lock\Callers\Caller;
+use BeatSwitch\Lock\Integrations\Laravel\Facades\Lock;
 use BeatSwitch\Lock\LockAware;
+use Cms\Modules\Core\Traits\DynamicRelationsTrait;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Cms\Modules\Core\Traits\DynamicRelationsTrait;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends BaseModel implements Caller, AuthenticatableContract, CanResetPasswordContract
 {
@@ -126,7 +127,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function isAdmin()
     {
-        return $this->hasRole('Admin');
+        return Lock::can('access', 'admin_config');
     }
 
     public function hasRole($role)

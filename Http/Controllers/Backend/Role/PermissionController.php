@@ -1,21 +1,20 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
 
 use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
-use Illuminate\Http\Request;
-use Cms\Modules\Auth as Auth;
-
-use Cms\Modules\Auth\Models\Role;
 use Cms\Modules\Auth\Models\Permission;
+use Illuminate\Support\Facades\DB;
+use Cms\Modules\Auth\Models\Role;
 use BeatSwitch\Lock\Manager;
+use Illuminate\Http\Request;
 
 class PermissionController extends BaseRoleController
 {
 
-    public function getForm(Auth\Models\Role $role, RoleRepo $roles)
+    public function getForm(Role $role, RoleRepo $roles)
     {
         $data = $this->getRoleDetails($role);
 
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('resource_type', 'asc')->get();
 
         $groups = [];
         $modulePermissions = get_array_column(config('cms'), 'admin.permission_manage');

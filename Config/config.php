@@ -8,6 +8,7 @@ return [
     ],
     'users' => [
         'require_activating' => false,
-        'default_user_group' => 3
+        'default_user_group' => 3,
+        'default_guest_group' => 4
     ],
 ];

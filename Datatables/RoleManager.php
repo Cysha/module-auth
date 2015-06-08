@@ -99,7 +99,7 @@ class RoleManager
                         return [
                             [
                                 'btn-title' => 'Edit',
-                                'btn-link'  => sprintf('/admin/roles/%s/edit', $model->id),
+                                'btn-link'  => route('admin.role.edit', $model->id),
                                 'btn-class' => 'btn btn-warning btn-xs btn-labeled',
                                 'btn-icon'  => 'fa fa-pencil'
                             ],

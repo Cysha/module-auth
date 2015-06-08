@@ -18,17 +18,21 @@
     @foreach ($permissions as $permission)
         <div class="row permission-row">
             <div class="col-md-5">
-                <span data-toggle="tooltip" data-title="{{ $permission->readable_name }}" data-placement="top" data-trigger="hover focus"><i class="fa fa-question-circle"></i></span>
+                @if (!empty($permission->readable_name))
+                <span data-toggle="tooltip" data-title="{{ $permission->readable_name }}" data-placement="top" data-trigger="hover focus">
+                    <i class="fa fa-question-circle"></i>
+                </span>
+                @endif
                 {{ ucwords(str_replace('.', ' ', $permission->action)) }}
             </div>
             <div class="col-md-7">
                 @set($type, $role->getPermissionProperty($permission->id, 'type'))
                 <select name="permissions[{{ $permission->action.'@'.$permission->resource_type }}]" class="form-control">
-                    <option class="inherit">Inherit</option>
-                    <option value="privilege" class="privilege"{{ $type == 'privilege' ? ' selected="selected"' : '' }}>
+                    <option value="inherit" class="inherit">Inherit</option>
+                    <option value="privilege" class="privilege"{{ $type === 'privilege' ? ' selected="selected"' : '' }}>
                         Allow
                     </option>
-                    <option value="restriction" class="restrict"{{ $type == 'restriction' ? ' selected="selected"' : '' }}>
+                    <option value="restriction" class="restrict"{{ $type === 'restriction' ? ' selected="selected"' : '' }}>
                         Deny
                     </option>
                 </select>

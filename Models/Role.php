@@ -25,19 +25,22 @@ class Role extends BaseModel implements Caller
         return $query->whereName($group)->get();
     }
 
-    public function hasPermission( $id )
+    public function hasPermission($id)
     {
-        if( $this->permissions->has($id) ) {
+        $perm = $this->permissions->find($id);
+
+        if ($perm !== null) {
             return true;
         }
 
         return false;
     }
 
-    public function getPermissionProperty( $id, $key )
+    public function getPermissionProperty($id, $key)
     {
-        if( $this->hasPermission($id) ) {
-            return $this->permissions->get($id)->$key;
+
+        if ($this->hasPermission($id)) {
+            return $this->permissions->find($id)->$key;
         }
 
         return false;

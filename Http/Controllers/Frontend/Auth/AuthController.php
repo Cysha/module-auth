@@ -1,9 +1,9 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
+use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 
 class AuthController extends BaseFrontendController
 {

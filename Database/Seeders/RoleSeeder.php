@@ -20,6 +20,10 @@ class RoleSeeder extends Seeder
                 'name'        => 'User',
                 'description' => 'User Role',
             ],
+            [
+                'name'        => 'Guest',
+                'description' => 'Guest Role',
+            ],
         ];
 
         $seedModel = 'Cms\Modules\Auth\Models\Role';
