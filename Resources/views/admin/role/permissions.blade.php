@@ -55,10 +55,13 @@
 <script>
     (function ($) {
         $('select.master-select').on('change', function () {
-            var className = $(this).find(':selected').attr('class'),
-                selector = $(this).closest('.tab-content').attr('class') + ' .permission-row select.form-control';
+            var value = $(this).find(':selected').attr('class');
 
-            $(selector).val( $(selector).find('option.' + className).val() );
+            $(this)
+                .parents('.permission-groups')      /* goto parent */
+                .find('.permission-row select')     /* find the children select boxes */
+                .val(value)                         /* change the values */
+                .change();                          /* trigger a change to make it update */
         });
     })(jQuery);
 </script>

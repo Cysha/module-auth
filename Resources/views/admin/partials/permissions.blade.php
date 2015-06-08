@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row permission-groups">
 @if (count($permissions))
     <div class="col-md-12">
         <div class="row">
@@ -10,10 +10,9 @@
                     <option disabled selected>Please Select</option>
                     <option class="inherit">Inherit</option>
                     <option class="privilege">Allow</option>
-                    <option class="restrict">Deny</option>
+                    <option class="restriction">Deny</option>
                 </select>
             </div>
-
         </div>
     @foreach ($permissions as $permission)
         <div class="row permission-row">
@@ -32,7 +31,7 @@
                     <option value="privilege" class="privilege"{{ $type === 'privilege' ? ' selected="selected"' : '' }}>
                         Allow
                     </option>
-                    <option value="restriction" class="restrict"{{ $type === 'restriction' ? ' selected="selected"' : '' }}>
+                    <option value="restriction" class="restriction"{{ $type === 'restriction' ? ' selected="selected"' : '' }}>
                         Deny
                     </option>
                 </select>
@@ -44,4 +43,3 @@
     <div class="alert alert-info">Info: No permissions could be found.</div>
 @endif
 </div>
-{!! \Debug::dump($permissions, ''); !!}

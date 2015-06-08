@@ -24,35 +24,43 @@ class PermissionController extends BaseRoleController
         }
         $groups = array_unique($groups);
 
+
         return $this->setView('admin.role.permissions', compact('role', 'permissions', 'groups'));
     }
 
-    public function postForm(Auth\Models\Role $role, RoleRepo $roles, Request $input)
+    public function postForm(Role $role, RoleRepo $roles, Request $input, Manager $lockManager)
     {
-        echo \Debug::dump($input->all(), '');die;
 
+        $lock = $lockManager->role($role->name);
         foreach ($input->get('permissions') as $permission => $mode) {
             list($permission, $resource) = processPermission($permission);
 
             switch (strtolower($mode)) {
                 case 'privilege':
-                    LockManager::role($role->name)->allow($permission, $resource);
+                    $lock->allow($permission, $resource);
                 break;
 
                 case 'restriction':
-                    LockManager::role($role->name)->deny($permission, $resource);
+                    $lock->deny($permission, $resource);
                 break;
 
                 case 'inherit':
-                    $perm_id = with(new Permission)
+                    $perm = with(new Permission)
                         ->whereAction($permission)
                         ->whereResourceType($resource)
-                        ->get()
-                        ->id;
+                        ->get();
 
-                    // TODO: fix me
+                    if ($perm !== null) {
+                        DB::table('permission_role')
+                            ->whereRoleId($role->id)
+                            ->whereIn('permission_id', $perm->lists('id')->toArray())
+                            ->delete();
+                    }
                 break;
             }
         }
+
+        return redirect()->back()
+            ->withInfo('Permissions Processed.');
     }
 }
