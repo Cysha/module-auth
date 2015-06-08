@@ -1,12 +1,12 @@
 <?php namespace Cms\Modules\Auth\Models;
 
-use BeatSwitch\Lock\Drivers\Driver;
-use BeatSwitch\Lock\Permissions\PermissionFactory;
-use BeatSwitch\Lock\Permissions\Permission as LockPermission;
 use BeatSwitch\Lock\Callers\Caller as LockCaller;
+use BeatSwitch\Lock\Drivers\Driver;
+use BeatSwitch\Lock\Permissions\Permission as LockPermission;
+use BeatSwitch\Lock\Permissions\PermissionFactory;
 use BeatSwitch\Lock\Roles\Role as LockRole;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use DB;
 use Cache;
 
 class CustomLockDriver implements Driver
@@ -187,6 +187,7 @@ class CustomLockDriver implements Driver
             'role_id'       => $objRole->id
         ]);
 
+        // TODO: fix this so it doesn't wipe out the entire cache
         artisan_call('cache:clear');
     }
 
@@ -224,6 +225,9 @@ class CustomLockDriver implements Driver
                 ->where('permission_id', $dbPermission['id'])
                 ->delete();
         }
+
+        // TODO: fix this so it doesn't wipe out the entire cache
+        artisan_call('cache:clear');
     }
 
     /**
