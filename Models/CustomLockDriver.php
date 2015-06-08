@@ -29,7 +29,7 @@ class CustomLockDriver implements Driver
     public function getCallerPermissions(LockCaller $caller)
     {
         $key = $this->getCacheKey(__FUNCTION__, $caller->getCallerType(), $caller->getCallerId());
-        $permissions = Cache::remember($key, 1, function () use ($caller) {
+        $permissions = Cache::tags('auth_permissions')->remember($key, 1, function () use ($caller) {
             return DB::table('permissions')
             ->join('permissionables', function ($join) use ($caller) {
                 $join->on('permissions.id', '=', 'permissionables.permission_id')
@@ -115,7 +115,7 @@ class CustomLockDriver implements Driver
     public function hasCallerPermission(LockCaller $caller, LockPermission $permission)
     {
         $key = $this->getCacheKey(__FUNCTION__, $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
-        return Cache::remember($key, 1, function () use ($permission) {
+        return Cache::tags('auth_permissions')->remember($key, 1, function () use ($permission) {
             return (bool) DB::table('permissions')
                 ->where('type', $permission->getType())
                 ->where('action', $permission->getAction())
@@ -134,7 +134,7 @@ class CustomLockDriver implements Driver
     public function getRolePermissions(LockRole $role)
     {
         $key = $this->getCacheKey(__FUNCTION__, $role->getRoleName());
-        $permissions = Cache::remember($key, 1, function () use ($role) {
+        $permissions = Cache::tags('auth_permissions')->remember($key, 1, function () use ($role) {
             return DB::table('permissions')
                 ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
                 ->join('roles', 'roles.id', '=', 'permission_role.role_id')
@@ -187,8 +187,8 @@ class CustomLockDriver implements Driver
             'role_id'       => $objRole->id
         ]);
 
-        // TODO: fix this so it doesn't wipe out the entire cache
-        artisan_call('cache:clear');
+        // clear this cache tag
+        Cache::tags('auth_permissions')->flush();
     }
 
     /**
@@ -226,8 +226,8 @@ class CustomLockDriver implements Driver
                 ->delete();
         }
 
-        // TODO: fix this so it doesn't wipe out the entire cache
-        artisan_call('cache:clear');
+        // clear this cache tag
+        Cache::tags('auth_permissions')->flush();
     }
 
     /**
@@ -241,7 +241,7 @@ class CustomLockDriver implements Driver
     {
         $key = $this->getCacheKey(__FUNCTION__, $role->getRoleName(), $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
 
-        $permissionForRole = Cache::remember($key, 1, function () use ($role, $permission) {
+        $permissionForRole = Cache::tags('auth_permissions')->remember($key, 1, function () use ($role, $permission) {
             return (bool) DB::table('permissions')
             ->join('permission_role', 'permissions.id', '=', 'permission_role.permission_id')
             ->join('roles', 'roles.id', '=', 'permission_role.role_id')
