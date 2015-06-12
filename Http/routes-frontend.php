@@ -32,8 +32,7 @@ $router->group(['prefix' => 'user', 'namespace' => 'ControlPanel'], function (Ro
 });
 
 // profiles
-$router->group(['prefix' => 'u/{auth_user}', 'namespace' => 'ControlPanel'], function (Router $router) {
-
+$router->group(['prefix' => 'u', 'namespace' => 'ControlPanel'], function (Router $router) {
 
     $router->get('/', ['as' => 'pxcms.user.view', 'uses' => 'DashboardController@getProfile']);
 });

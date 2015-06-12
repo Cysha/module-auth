@@ -8,25 +8,18 @@ return [
         'manage.read' => 'Read a user',
         'manage.update' => 'Update a user',
         'manage.delete' => 'Delete a user',
+
+        'roles.add' => 'Add a role to a user',
+        'roles.delete' => 'Delete user from this role',
     ],
 
     'auth_role' => [
         // backend manager
-        'manage' => 'Mange roles',
+        'manage' => 'Manage roles',
         'manage.create' => 'Create roles',
         'manage.read' => 'Read a role',
         'manage.update' => 'Update a role',
         'manage.delete' => 'Delete a role',
-
-        // user subscriptions
-        'users.read' => 'Access the users on a specific role',
-        'users.create' => 'Add a user to a role',
-        'users.delete' => 'Remove a user\'s role',
-
-        // permissions
-        'permissions.read' => 'Read the permissions on a role',
-        'permissions.create' => 'Add a permission to a role',
-        'permissions.delete' => 'Remove a permission from a role',
     ],
 
     'auth_permission' => [
@@ -36,5 +29,11 @@ return [
         'manage.read' => 'Read a permission',
         'manage.update' => 'Update a permission',
         'manage.delete' => 'Delete a permission',
+
+        'roles.add' => 'Add a permission to a role',
+        'roles.delete' => 'Delete a permission to a role',
+
+        'user.add' => 'Add a permission direct to a user',
+        'user.delete' => 'Delete a permission direct to a user',
     ],
 ];

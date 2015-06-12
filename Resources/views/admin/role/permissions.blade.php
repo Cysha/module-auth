@@ -49,46 +49,46 @@
                         <div class="tab-pane" id="t1_{{ $group }}">
                     @endif
 
-                    <div class="row">
-                        <div class="col-md-3 permissions-nav model">
-                            <ul class="nav nav-pills nav-stacked" id="permissions">
-                                <li class="disabled">Group</li>
+                        <div class="row">
+                            <div class="col-md-3 permissions-nav model">
+                                <ul class="nav nav-pills nav-stacked" id="permissions">
+                                    <li class="disabled">Group</li>
 
-                            @set($active_t2, false)
-                            @foreach($tier_two[$group] as $model)
-                                @if($active_t2 === false)
-                                    @set($active_t2, true)
-                                    <li class="active">
-                                @else
-                                    <li>
-                                @endif
+                                @set($active_t2, false)
+                                @foreach($tier_two[$group] as $model)
+                                    @if($active_t2 === false)
+                                        @set($active_t2, true)
+                                        <li class="active">
+                                    @else
+                                        <li>
+                                    @endif
 
-                                    <a href="#t2_{{ $group.'_'.$model }}" data-toggle="pill">{{ ucwords($model) }} <span class="badge pull-right">{{ count($permissions->where('resource_type', $group.'_'.$model)) }}</span></a>
-                                </li>
-                            @endforeach
-                            </ul>
-                        </div>
+                                        <a href="#t2_{{ $group.'_'.$model }}" data-toggle="pill">{{ ucwords($model) }} <span class="badge pull-right">{{ count($permissions->where('resource_type', $group.'_'.$model)) }}</span></a>
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </div>
 
-                        <div class="col-md-9">
-                            <div class="tab-content">
-                            @set($active_t2, false)
-                            @foreach($tier_two[$group] as $model)
-                                @if($active_t2 === false)
-                                    @set($active_t2, true)
-                                    <div class="tab-pane active" id="t2_{{ $group.'_'.$model }}">
-                                @else
-                                    <div class="tab-pane" id="t2_{{ $group.'_'.$model }}">
-                                @endif
-                                    @include(partial('auth::admin.partials.permissions'), [
-                                        'title' => ucwords($group.' > '.$model),
-                                        'permissions' => $permissions->where('resource_type', $group.'_'.$model),
-                                        'role' => $role,
-                                    ])
+                            <div class="col-md-9">
+                                <div class="tab-content">
+                                @set($active_t2, false)
+                                @foreach($tier_two[$group] as $model)
+                                    @if($active_t2 === false)
+                                        @set($active_t2, true)
+                                        <div class="tab-pane active" id="t2_{{ $group.'_'.$model }}">
+                                    @else
+                                        <div class="tab-pane" id="t2_{{ $group.'_'.$model }}">
+                                    @endif
+                                        @include(partial('auth::admin.partials.permissions'), [
+                                            'title' => ucwords($group.' &raquo; '.$model),
+                                            'permissions' => $permissions->where('resource_type', $group.'_'.$model),
+                                            'role' => $role,
+                                        ])
+                                    </div>
+                                @endforeach
                                 </div>
-                            @endforeach
                             </div>
                         </div>
-                    </div>
 
                     </div>
                 @endforeach
