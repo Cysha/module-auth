@@ -33,6 +33,12 @@ class ManipulateUserPermissionsDatatable
         $title = 'User: '.e($user->screenname);
         array_set($event->config, 'page.title', $title);
 
+
+        array_set($event->config, 'page.alert', [
+            'class' => 'info',
+            'text'  => '<i class="fa fa-info-circle"></i> This panel will show you all the permissions this user has.'
+        ]);
+
         // clear a few options out
         array_set($event->config, 'options.source', null);
 

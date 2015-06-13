@@ -49,13 +49,29 @@ class PermissionManager
                     'sorting'   => true,
                     'width'     => '5%',
                 ],
+                'module' => [
+                    'th'        => 'Module',
+                    'tr'        => function ($model) {
+                        return array_get(explode('_', $model->resource_type), 0);
+                    },
+                    'sorting'   => true,
+                    'filtering' => true,
+                    'width'     => '5%',
+                ],
+                'model' => [
+                    'th'        => 'Model',
+                    'tr'        => function ($model) {
+                        return array_get(explode('_', $model->resource_type), 1);
+                    },
+                    'sorting'   => true,
+                    'filtering' => true,
+                    'width'     => '5%',
+                ],
                 'readable_name' => [
                     'th'        => 'Readable Name',
                     'tr'        => function ($model) {
                         return $model->readable_name;
                     },
-                    'sorting'   => true,
-                    'filtering' => true,
                     'width'     => '20%',
                 ],
                 'resource_type' => [
@@ -63,8 +79,6 @@ class PermissionManager
                     'tr'        => function ($model) {
                         return $model->resource_type;
                     },
-                    'sorting'   => true,
-                    'filtering' => true,
                     'width'     => '10%',
                 ],
                 'action' => [
@@ -81,7 +95,7 @@ class PermissionManager
                         return $model->resource_id;
                     },
                     'filtering' => true,
-                    'width'     => '20%',
+                    'width'     => '10%',
                 ],
                 'roles' => [
                     'alias'     => 'roles',
@@ -97,7 +111,7 @@ class PermissionManager
                         return $roles;
                     },
                     'filtering' => true,
-                    'width'     => '15%',
+                    'width'     => '20%',
                 ],
                 'actions' => [
                     'th' => 'Actions',

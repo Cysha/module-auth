@@ -89,7 +89,9 @@ class UserManager
                 'verified' => [
                     'th'        => 'Verified',
                     'tr'        => function ($model) {
-                        return !is_null($model->verified_at) ? '<div class="label label-success">Verified</div>' : '<div class="label label-danger">Not Verified</div>';
+                        return !is_null($model->verified_at)
+                            ? '<div class="label label-success">Verified</div>'
+                            : '<div class="label label-danger">Not Verified</div>';
                     },
                     'tr-class'  => 'text-center',
                     'sorting'   => true,
@@ -99,7 +101,9 @@ class UserManager
                 'last_logged_at' => [
                     'th'        => 'Last Login',
                     'tr'        => function ($model) {
-                        return date_carbon($model->last_logged_at, 'd/m/Y H:i:s');
+                        return !is_null($model->last_logged_at)
+                            ? array_get(date_array($model->last_logged_at), 'element')
+                            : 'Never';
                     },
                     'th-class'  => 'hidden-xs hidden-sm',
                     'tr-class'  => 'hidden-xs hidden-sm',
@@ -109,7 +113,7 @@ class UserManager
                     'alias'     => 'created',
                     'th'        => 'Date Registered',
                     'tr'        => function ($model) {
-                        return date_carbon($model->created_at, 'd/m/Y H:i:s');
+                        return array_get(date_array($model->created_at), 'element');
                     },
                     'th-class'  => 'hidden-xs hidden-sm',
                     'tr-class'  => 'hidden-xs hidden-sm',
