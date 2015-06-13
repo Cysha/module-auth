@@ -8,6 +8,7 @@ class PasswordController extends BaseUserController
     public function getForm(Auth\Models\User $user)
     {
         $data = $this->getUserDetails($user);
+        $this->theme->breadcrumb()->add('Password', route('admin.user.edit', $user->id));
 
         return $this->setView('admin.user.password', $data, 'module');
     }

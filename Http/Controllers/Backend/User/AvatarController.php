@@ -9,6 +9,7 @@ class AvatarController extends BaseUserController
     public function getForm(Auth\Models\User $user)
     {
         $data = $this->getUserDetails($user);
+        $this->theme->breadcrumb()->add('Avatars', route('admin.user.avatar', $user->id));
 
         return $this->setView('admin.user.avatar', $data);
     }

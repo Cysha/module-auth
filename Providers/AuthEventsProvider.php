@@ -33,6 +33,10 @@ class AuthEventsProvider extends BaseEventsProvider
          */
         'Cms\Modules\Auth\Events\UserHasRegistered' => [
         ],
+
+        'Cms\Modules\Admin\Events\GotDatatableConfig' => [
+            'Cms\Modules\Auth\Events\Handlers\ManipulateUserPermissionsDatatable'
+        ],
     ];
 
     /**

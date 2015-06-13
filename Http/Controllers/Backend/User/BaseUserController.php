@@ -17,7 +17,8 @@ class BaseUserController extends BaseBackendController
     public function getUserDetails(Auth\Models\User $user)
     {
         Former::populate($user);
-        $this->theme->setTitle('User Manager <small>> '.$user->screenname.'</small>');
+        $this->theme->setTitle('User: '.e($user->screenname));
+        $this->theme->breadcrumb()->add($user->screenname, route('admin.user.edit', $user->id));
 
         return compact('user');
     }

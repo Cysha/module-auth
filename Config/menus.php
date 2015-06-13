@@ -58,6 +58,13 @@ return [
             'order'      => 4,
             'permission' => 'manage.update@auth_user'
         ],
+        [
+            'route'      => ['admin.user.permissions', ['auth_user_id' => 'segment:3']],
+            'text'       => 'Permissions',
+            'icon'       => 'fa-check-square-o',
+            'order'      => 5,
+            'permission' => 'manage.update@auth_user'
+        ],
     ],
 
     'backend_role_menu' => [

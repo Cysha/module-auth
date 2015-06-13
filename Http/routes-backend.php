@@ -33,6 +33,10 @@ $router->group([
                 $router->post('/', ['uses' => 'InfoController@postForm']);
                 $router->get('/', ['as' => 'admin.user.edit', 'uses' => 'InfoController@getForm']);
             });
+
+            $router->group(['prefix' => 'permissions'], function (Router $router) {
+                $router->get('/', ['as' => 'admin.user.permissions', 'uses' => 'PermissionController@manager']);
+            });
         });
 
         $router->group(['prefix' => 'view', 'middleware' => 'hasPermission', 'hasPermission' => 'manage.read@auth_user'], function (Router $router) {

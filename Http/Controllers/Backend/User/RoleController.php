@@ -15,6 +15,7 @@ class RoleController extends BaseUserController
         $this->theme->asset()->container('footer')->writeScript('make-multi', "jQuery(function () { jQuery('#roles').multiSelect(); });", ['multiselect-js']);
 
         $data = $this->getUserDetails($user);
+        $this->theme->breadcrumb()->add('Roles', route('admin.user.role', $user->id));
 
         // grab the roles
         $data['roles'] = $roles->all();
