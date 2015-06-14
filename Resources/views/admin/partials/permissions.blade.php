@@ -16,6 +16,9 @@
             <hr>
         </div>
     @foreach ($permissions as $permission)
+        @if ($permission->resource_id !== null)
+            @continue
+        @endif
         <div class="row permission-row">
             <div class="col-md-5"><h5>
                 @if (!empty($permission->readable_name))

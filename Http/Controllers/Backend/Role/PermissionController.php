@@ -60,6 +60,7 @@ class PermissionController extends BaseRoleController
             }
         }
 
+        artisan_call('cache:clear');
         return redirect()->back()
             ->withInfo('Permissions Processed.');
     }

@@ -18,7 +18,6 @@ class PermissionsController extends BaseController
         }
         $groups = array_unique($groups);
 
-        artisan_call('cache:clear');
         return $this->setView('controlpanel.permissions', compact('role', 'permissions', 'groups'));
     }
 

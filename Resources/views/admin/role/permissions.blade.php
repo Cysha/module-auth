@@ -2,6 +2,9 @@
 
 @section('role-form')
 {!! Former::horizontal_open() !!}
+        <div class="alert alert-info">
+            <p><strong>Warning:</strong> This panel will show any permission groups that has been specified. However, it will not show any permissions that have a resource_id attached.</p>
+        </div>
     <div class="panel panel-default panel-permissions">
         <div class="panel-heading">
             <h3 class="panel-title">Permissions</h3>
@@ -63,7 +66,7 @@
                                         <li>
                                     @endif
 
-                                        <a href="#t2_{{ $group.'_'.$model }}" data-toggle="pill">{{ ucwords($model) }} <span class="badge pull-right">{{ count($permissions->where('resource_type', $group.'_'.$model)) }}</span></a>
+                                        <a href="#t2_{{ $group.'_'.$model }}" data-toggle="pill">{{ ucwords($model) }} <span class="badge pull-right">{{ count($permissions->where('resource_type', $group.'_'.$model)->where('resource_id', NULL)) }}</span></a>
                                     </li>
                                 @endforeach
                                 </ul>
@@ -79,9 +82,11 @@
                                     @else
                                         <div class="tab-pane" id="t2_{{ $group.'_'.$model }}">
                                     @endif
+
+                                        @set($perms, $permissions->where('resource_type', $group.'_'.$model)->where('resource_id', NULL)->sortBy('resource_type'))
                                         @include(partial('auth::admin.partials.permissions'), [
                                             'title' => ucwords($group.' &raquo; '.$model),
-                                            'permissions' => $permissions->where('resource_type', $group.'_'.$model),
+                                            'permissions' => $perms,
                                             'role' => $role,
                                         ])
                                     </div>

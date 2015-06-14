@@ -26,7 +26,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     protected $link = [
         'route'      => 'pxcms.user.view',
-        'attributes' => ['name' => 'screenname'],
+        'attributes' => ['auth_user_id' => 'id'],
     ];
 
     /**
