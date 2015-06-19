@@ -30,12 +30,13 @@ class UserManager
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
-                'filtering'     => true,
-                'pagination'    => true,
-                'sorting'       => true,
-                'sort_column'   => 'id',
-                'source'        => 'admin.user.manager',
-                'collection'    => function () {
+                'pagination' => false,
+                'searching' => true,
+                'ordering' => false,
+                'sort_column' => 'id',
+                'sort_order' => 'desc',
+                'source' => 'admin.user.manager',
+                'collection' => function () {
                     $model = config('auth.model');
                     return $model::with('roles')->get();
                 },
@@ -46,34 +47,34 @@ class UserManager
              */
             'columns' => [
                 'id' => [
-                    'th'        => '&nbsp;',
-                    'tr'        => function ($model) {
+                    'th' => '&nbsp;',
+                    'tr' => function ($model) {
                         return $model->id;
                     },
-                    'sorting'   => true,
-                    'width'     => '5%',
+                    'orderable' => true,
+                    'width' => '5%',
                 ],
                 'name' => [
-                    'th'        => 'Screen Name',
-                    'tr'        => function ($model) {
+                    'th' => 'Screen Name',
+                    'tr' => function ($model) {
                         return $model->screenname;
                     },
-                    'sorting'   => true,
-                    'filtering' => true,
-                    'width'     => '10%',
+                    'orderable' => true,
+                    'searchable' => true,
+                    'width' => '10%',
                 ],
                 'email' => [
-                    'th'        => 'Email',
-                    'tr'        => function ($model) {
+                    'th' => 'Email',
+                    'tr' => function ($model) {
                         return $model->email;
                     },
-                    'filtering' => true,
-                    'width'     => '15%',
+                    'searchable' => true,
+                    'width' => '15%',
                 ],
                 'roles' => [
-                    'alias'     => 'roles',
-                    'th'        => 'Roles',
-                    'tr'        => function ($model) {
+                    'alias' => 'roles',
+                    'th' => 'Roles',
+                    'tr' => function ($model) {
                         $roles = null;
 
                         $tpl = '<span class="label label-default" style="background-color: %s;">%s</span>&nbsp;';
@@ -83,41 +84,41 @@ class UserManager
 
                         return $roles;
                     },
-                    'filtering' => true,
-                    'width'     => '15%',
+                    'searchable' => true,
+                    'width' => '15%',
                 ],
                 'verified' => [
-                    'th'        => 'Verified',
-                    'tr'        => function ($model) {
+                    'th' => 'Verified',
+                    'tr' => function ($model) {
                         return !is_null($model->verified_at)
                             ? '<div class="label label-success">Verified</div>'
                             : '<div class="label label-danger">Not Verified</div>';
                     },
-                    'tr-class'  => 'text-center',
-                    'sorting'   => true,
-                    'filtering' => true,
-                    'width'     => '5%',
+                    'tr-class' => 'text-center',
+                    'orderable' => true,
+                    'searchable' => true,
+                    'width' => '5%',
                 ],
                 'last_logged_at' => [
-                    'th'        => 'Last Login',
-                    'tr'        => function ($model) {
+                    'th' => 'Last Login',
+                    'tr' => function ($model) {
                         return !is_null($model->last_logged_at)
                             ? array_get(date_array($model->last_logged_at), 'element')
                             : 'Never';
                     },
-                    'th-class'  => 'hidden-xs hidden-sm',
-                    'tr-class'  => 'hidden-xs hidden-sm',
-                    'width'     => '12%',
+                    'th-class' => 'hidden-xs hidden-sm',
+                    'tr-class' => 'hidden-xs hidden-sm',
+                    'width' => '12%',
                 ],
                 'created_at' => [
-                    'alias'     => 'created',
-                    'th'        => 'Date Registered',
-                    'tr'        => function ($model) {
+                    'alias' => 'created',
+                    'th' => 'Date Registered',
+                    'tr' => function ($model) {
                         return array_get(date_array($model->created_at), 'element');
                     },
-                    'th-class'  => 'hidden-xs hidden-sm',
-                    'tr-class'  => 'hidden-xs hidden-sm',
-                    'width'     => '12%',
+                    'th-class' => 'hidden-xs hidden-sm',
+                    'tr-class' => 'hidden-xs hidden-sm',
+                    'width' => '12%',
                 ],
                 'actions' => [
                     'th' => 'Actions',

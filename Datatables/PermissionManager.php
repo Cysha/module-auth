@@ -26,12 +26,13 @@ class PermissionManager
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
-                'filtering'     => true,
-                'pagination'    => true,
-                'sorting'       => true,
-                'sort_column'   => 'id',
-                'source'        => 'admin.permission.manager',
-                'collection'    => function () {
+                'pagination' => false,
+                'searching' => true,
+                'ordering' => false,
+                'sort_column' => 'id',
+                'sort_order' => 'desc',
+                'source' => 'admin.permission.manager',
+                'collection' => function () {
                     $model = 'Cms\Modules\Auth\Models\Permission';
                     return $model::with('roles')->get();
                 },
@@ -42,65 +43,65 @@ class PermissionManager
              */
             'columns' => [
                 'id' => [
-                    'th'        => '&nbsp;',
-                    'tr'        => function ($model) {
+                    'th' => '&nbsp;',
+                    'tr' => function ($model) {
                         return $model->id;
                     },
-                    'sorting'   => true,
-                    'width'     => '5%',
+                    'orderable' => true,
+                    'width' => '5%',
                 ],
                 'module' => [
-                    'th'        => 'Module',
-                    'tr'        => function ($model) {
+                    'th' => 'Module',
+                    'tr' => function ($model) {
                         return array_get(explode('_', $model->resource_type), 0);
                     },
-                    'sorting'   => true,
-                    'filtering' => true,
-                    'width'     => '5%',
+                    'orderable' => true,
+                    'searchable' => true,
+                    'width' => '5%',
                 ],
                 'model' => [
-                    'th'        => 'Model',
-                    'tr'        => function ($model) {
+                    'th' => 'Model',
+                    'tr' => function ($model) {
                         return array_get(explode('_', $model->resource_type), 1);
                     },
-                    'sorting'   => true,
-                    'filtering' => true,
-                    'width'     => '5%',
+                    'orderable' => true,
+                    'searchable' => true,
+                    'width' => '5%',
                 ],
                 'readable_name' => [
-                    'th'        => 'Readable Name',
-                    'tr'        => function ($model) {
+                    'th' => 'Readable Name',
+                    'tr' => function ($model) {
                         return $model->readable_name;
                     },
-                    'width'     => '20%',
+                    'width' => '20%',
                 ],
                 'resource_type' => [
-                    'th'        => 'Resource Type',
-                    'tr'        => function ($model) {
+                    'th' => 'Resource Type',
+                    'tr' => function ($model) {
                         return $model->resource_type;
                     },
-                    'width'     => '10%',
+                    'width' => '10%',
                 ],
                 'action' => [
-                    'th'        => 'Action',
-                    'tr'        => function ($model) {
+                    'th' => 'Action',
+                    'tr' => function ($model) {
                         return $model->action;
                     },
                     'filtering' => true,
-                    'width'     => '20%',
+                    'width' => '20%',
                 ],
                 'resource_id' => [
-                    'th'        => 'Resource ID',
-                    'tr'        => function ($model) {
+                    'th' => 'Resource ID',
+                    'tr' => function ($model) {
                         return $model->resource_id;
                     },
                     'filtering' => true,
-                    'width'     => '10%',
+                    'width' => '10%',
                 ],
                 'roles' => [
-                    'alias'     => 'roles',
-                    'th'        => 'Roles',
-                    'tr'        => function ($model) {
+                    'alias' => 'roles',
+                    'th' => 'Roles',
+                    'tr' => function ($model) {
                         $roles = null;
 
                         $tpl = '<span class="label label-default" style="background-color: %s;">%s</span>&nbsp;';

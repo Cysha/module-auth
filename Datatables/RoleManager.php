@@ -30,12 +30,13 @@ class RoleManager
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
-                'filtering'     => true,
-                'pagination'    => true,
-                'sorting'       => true,
-                'sort_column'   => 'id',
-                'source'        => 'admin.role.manager',
-                'collection'    => function () {
+                'pagination' => false,
+                'searching' => true,
+                'ordering' => false,
+                'sort_column' => 'id',
+                'sort_order' => 'desc',
+                'source' => 'admin.role.manager',
+                'collection' => function () {
                     $model = 'Cms\Modules\Auth\Models\Role';
                     return $model::with('users')->get();
                 },
@@ -46,48 +47,48 @@ class RoleManager
              */
             'columns' => [
                 'id' => [
-                    'th'        => '&nbsp;',
-                    'tr'        => function ($model) {
+                    'th' => '&nbsp;',
+                    'tr' => function ($model) {
                         return $model->id;
                     },
-                    'sorting'   => true,
-                    'width'     => '5%',
+                    'orderable' => true,
+                    'width' => '5%',
                 ],
                 'name' => [
-                    'th'        => 'Role Name',
-                    'tr'        => function ($model) {
+                    'th' => 'Role Name',
+                    'tr' => function ($model) {
                         return $model->name;
                     },
-                    'filtering' => true,
-                    'width'     => '15%',
+                    'searchable' => true,
+                    'width' => '15%',
                 ],
                 'users' => [
-                    'th'        => 'User Count',
-                    'tr'        => function ($model) {
+                    'th' => 'User Count',
+                    'tr' => function ($model) {
                         return $model->userCount;
                     },
-                    'filtering' => true,
-                    'width'     => '15%',
+                    'searchable' => true,
+                    'width' => '15%',
                 ],
                 'created_at' => [
-                    'alias'     => 'created',
-                    'th'        => 'Date Created',
-                    'tr'        => function ($model) {
+                    'alias' => 'created',
+                    'th' => 'Date Created',
+                    'tr' => function ($model) {
                         return date_fuzzy($model->created_at);
                     },
-                    'th-class'  => 'hidden-xs hidden-sm',
-                    'tr-class'  => 'hidden-xs hidden-sm',
-                    'width'     => '15%',
+                    'th-class' => 'hidden-xs hidden-sm',
+                    'tr-class' => 'hidden-xs hidden-sm',
+                    'width' => '15%',
                 ],
                 'updated_at' => [
-                    'alias'     => 'updated',
-                    'th'        => 'Last Updated',
-                    'tr'        => function ($model) {
+                    'alias' => 'updated',
+                    'th' => 'Last Updated',
+                    'tr' => function ($model) {
                         return date_fuzzy($model->updated_at);
                     },
-                    'th-class'  => 'hidden-xs hidden-sm',
-                    'tr-class'  => 'hidden-xs hidden-sm',
-                    'width'     => '15%',
+                    'th-class' => 'hidden-xs hidden-sm',
+                    'tr-class' => 'hidden-xs hidden-sm',
+                    'width' => '15%',
                 ],
                 'actions' => [
                     'th' => 'Actions',
