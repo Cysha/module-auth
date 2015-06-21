@@ -158,23 +158,28 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
      */
     public function transform()
     {
-        return [
-            'id'         => (int)$this->id,
-            'username'   => (string) $this->username,
+        $return = [
+            'id' => (int)$this->id,
+            'username' => (string) $this->username,
             'screenname' => (string) $this->screenname,
-            'name'       => (string) $this->name,
-            'href'       => (string) $this->makeLink(true),
-            'link'       => (string) $this->makeLink(false),
+            'name' => (string) $this->name,
+            'href' => (string) $this->makeLink(true),
+            'link' => (string) $this->makeLink(false),
 
-            'email'      => (string) $this->email,
-            'avatar'     => (string) $this->avatar,
+            'email' => (string) $this->email,
+            'avatar' => (string) $this->avatar,
 
-            'roles'      => $this->getCallerRoles(),
-
-
-            'verified'   => date_array($this->verified_at),
+            'verified' => date_array($this->verified_at),
             'registered' => date_array($this->created_at),
+
+            'roles' => [],
         ];
+
+        if ($this->roles !== null) {
+            $return['roles'] = $this->getCallerRoles();
+        }
+
+        return $return;
     }
 
 }
