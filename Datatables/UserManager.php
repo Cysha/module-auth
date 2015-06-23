@@ -35,6 +35,7 @@ class UserManager
                 'ordering' => false,
                 'sort_column' => 'id',
                 'sort_order' => 'desc',
+                'column_search' => true,
                 'source' => 'admin.user.manager',
                 'collection' => function () {
                     $model = config('auth.model');
@@ -96,7 +97,6 @@ class UserManager
                     },
                     'tr-class' => 'text-center',
                     'orderable' => true,
-                    'searchable' => true,
                     'width' => '5%',
                 ],
                 'last_logged_at' => [
