@@ -6,13 +6,6 @@ use BeatSwitch\Lock\Manager;
 
 class ManipulateUserApiKeyDatatable
 {
-    protected $manager;
-
-    public function __construct(Manager $lockManager)
-    {
-        $this->manager = $lockManager;
-    }
-
     /**
      * Handle the event.
      *
@@ -43,8 +36,7 @@ class ManipulateUserApiKeyDatatable
         array_set($event->config, 'options.source', null);
 
         // rebuild the collection
-        $manager = $this->manager;
-        array_set($event->config, 'options.collection', function () use ($manager, $user) {
+        array_set($event->config, 'options.collection', function () use ($user) {
             $model = 'Cms\Modules\Auth\Models\ApiKey';
             return $model::where('user_id', $user->id)->get();
         });
@@ -52,7 +44,6 @@ class ManipulateUserApiKeyDatatable
         // rejig the columns
         array_set($event->config, 'columns.actions', null);
         array_set($event->config, 'columns.user', null);
-
 
         return $event->config;
     }
