@@ -37,6 +37,10 @@ $router->group([
             $router->group(['prefix' => 'permissions'], function (Router $router) {
                 $router->get('/', ['as' => 'admin.user.permissions', 'uses' => 'PermissionController@manager']);
             });
+
+            $router->group(['prefix' => 'apikey'], function (Router $router) {
+                $router->get('/', ['as' => 'admin.user.apikey', 'uses' => 'ApiKeyController@manager']);
+            });
         });
 
         $router->group(['prefix' => 'view', 'middleware' => 'hasPermission', 'hasPermission' => 'manage.read@auth_user'], function (Router $router) {
@@ -59,9 +63,6 @@ $router->group([
 
     $router->get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
 
-    $router->post('/', ['uses' => 'RoleManagerController@roleManager']);
-    $router->get('/',  ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
-
     $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function (Router $router) {
         $router->group([
             'middleware' => ['hasPermission'],
@@ -82,6 +83,9 @@ $router->group([
 
         $router->get('/', ['as' => 'admin.role.index', 'uses' => 'InfoController@redirect']);
     });
+
+    $router->post('/', ['uses' => 'RoleManagerController@roleManager']);
+    $router->get('/',  ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
 });
 
 // URI: /{backend}/permissions
@@ -95,4 +99,28 @@ $router->group([
 
     $router->post('/', ['uses' => 'PermissionManagerController@permissionManager']);
     $router->get('/', ['as' => 'admin.permission.manager', 'uses' => 'PermissionManagerController@permissionManager']);
+});
+
+// URI: /{backend}/api
+$router->group([
+    'prefix' => 'api',
+    'middleware' => 'hasPermission',
+    'hasPermission' => 'api@auth_config'
+], function (Router $router) {
+
+    $router->group(['prefix' => 'create', 'namespace' => 'Api'], function (Router $router) {
+        $router->post('/', ['uses' => 'CreateController@postForm']);
+        $router->get('/', ['as' => 'admin.apikey.create', 'uses' => 'CreateController@getForm']);
+    });
+
+    $router->get('/', ['as' => 'admin.apikey.manager', 'uses' => 'ApiManagerController@manager']);
+});
+
+// URI: /{backend}/config
+$router->group([
+    'prefix' => 'config',
+    'namespace' => 'Config'
+], function (Router $router) {
+
+    $router->get('api', ['as' => 'admin.config.api', 'uses' => 'ApiController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'api@auth_config']);
 });

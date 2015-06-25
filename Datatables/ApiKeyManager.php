@@ -1,0 +1,134 @@
+<?php namespace Cms\Modules\Auth\Datatables;
+
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
+use Lock;
+
+class ApiKeyManager
+{
+    public function boot()
+    {
+        return [
+            /**
+             * Page Decoration Values
+             */
+            'page' => [
+                'title' => '<i class="fa fa-fw fa-puzzle-piece"></i> Api Manager',
+                'header' => [
+                    [
+                        'btn-text' => 'Add Key',
+                        'btn-link' => 'admin.apikey.create',
+                        'btn-class' => 'btn btn-info btn-labeled',
+                        'btn-icon' => 'fa fa-fw fa-refresh'
+                    ]
+                ]
+            ],
+
+            /**
+             * Set up some table options, these will be passed back to the view
+             */
+            'options' => [
+                'pagination' => false,
+                'searching' => false,
+                'ordering' => false,
+                'sort_column' => 'order',
+                'sort_order' => 'desc',
+                'source' => 'admin.apikey.manager',
+                'collection' => function () {
+                    $model = 'Cms\Modules\Auth\Models\ApiKey';
+                    return $model::all();
+                },
+            ],
+
+            /**
+             * Lists the tables columns
+             */
+            'columns' => [
+                'user' => [
+                    'th' => 'User',
+                    'tr' => function ($model) {
+                        return $model->user->screenname;
+                    },
+                    'orderable' => true,
+                    'searchable' => true,
+                    'width' => '10%',
+                ],
+
+                'active' => [
+                    'th' => 'Active',
+                    'tr' => function ($model) {
+                        return (\Carbon\Carbon::now()->lte($model->expires_at))
+                            ? '<div class="label label-success">Active</div>'
+                            : '<div class="label label-danger">Not Active</div>';
+                    },
+                    'width' => '10%',
+                ],
+
+                'key' => [
+                    'th' => 'Key',
+                    'tr' => function ($model) {
+                        return $model->key;
+                    },
+                    'width' => '10%',
+                ],
+
+                'description' => [
+                    'th' => 'Description',
+                    'tr' => function ($model) {
+                        return $model->description;
+                    },
+                    'width' => '25%',
+                ],
+
+                'created_at' => [
+                    'th' => 'Created',
+                    'tr' => function ($model) {
+                        return date_fuzzy($model->created_at);
+                    },
+                    'th-class' => 'hidden-xs hidden-sm',
+                    'tr-class' => 'hidden-xs hidden-sm',
+                    'width' => '15%',
+                ],
+
+                'expires_at' => [
+                    'th' => 'Expiry Date',
+                    'tr' => function ($model) {
+                        return date_fuzzy($model->expires_at);
+                    },
+                    'th-class' => 'hidden-xs hidden-sm',
+                    'tr-class' => 'hidden-xs hidden-sm',
+                    'width' => '15%',
+                ],
+
+                'actions' => [
+                    'th' => 'Actions',
+                    'tr' => function ($model) {
+                        $return = [];
+                        return $return;
+
+                        if (Lock::can('manage.read', 'auth_user')) {
+                            $return[] = [
+                                'btn-title' => 'View User',
+                                'btn-link'  => route('admin.user.view', $model->name),
+                                'btn-class' => 'btn btn-default btn-xs btn-labeled',
+                                'btn-icon'  => 'fa fa-file-text-o'
+                            ];
+                        }
+
+                        if (Lock::can('manage.update', 'auth_user')) {
+                            $return[] = [
+                                'btn-title' => 'Edit',
+                                'btn-link'  => route('admin.user.edit', $model->name),
+                                'btn-class' => 'btn btn-warning btn-xs btn-labeled',
+                                'btn-icon'  => 'fa fa-pencil'
+                            ];
+                        }
+
+                        return $return;
+                    },
+                ],
+            ]
+        ];
+
+    }
+}

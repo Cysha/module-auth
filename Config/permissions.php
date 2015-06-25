@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'auth_config' => [
+        'api' => 'Manage Api Settings',
+    ],
+
     'auth_user' => [
         // backend manager
         'manage' => 'Manage users',
@@ -9,8 +13,17 @@ return [
         'manage.update' => 'Update a user',
         'manage.delete' => 'Delete a user',
 
-        'roles.add' => 'Add a role to a user',
-        'roles.delete' => 'Delete user from this role',
+        'roles' => 'Manage roles for a user',
+        'roles.add' => 'Add roles to a user',
+        'roles.delete' => 'Delete roles from a user',
+
+        'permissions' => 'Manage permissions for a user',
+        'permissions.add' => 'Add permissions to a user',
+        'permissions.delete' => 'Delete permissions from a user',
+
+        'apikey' => 'Manage apikeys for a user',
+        'apikey.add' => 'Add apikeys to a user',
+        'apikey.delete' => 'Delete apikeys from a user',
     ],
 
     'auth_role' => [

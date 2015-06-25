@@ -5,6 +5,7 @@ return [
         'auth_user',
         'auth_role',
         'auth_permission',
+        'auth_config',
     ],
 
     /**

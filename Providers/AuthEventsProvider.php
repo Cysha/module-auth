@@ -35,7 +35,8 @@ class AuthEventsProvider extends BaseEventsProvider
         ],
 
         'Cms\Modules\Admin\Events\GotDatatableConfig' => [
-            'Cms\Modules\Auth\Events\Handlers\ManipulateUserPermissionsDatatable'
+            'Cms\Modules\Auth\Events\Handlers\ManipulateUserPermissionsDatatable',
+            'Cms\Modules\Auth\Events\Handlers\ManipulateUserApiKeyDatatable'
         ],
     ];
 

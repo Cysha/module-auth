@@ -5,10 +5,11 @@ class ApiKey extends BaseModel
 {
     public $table = 'api_auth';
     public $fillable = ['user_id', 'key', 'description', 'expires_at'];
+    protected $dates = ['created_at', 'updated_at', 'expires_at'];
 
     public function user()
     {
-        $authModel = app('auth.model');
+        $authModel = config('auth.model');
         return $this->belongsTo($authModel);
     }
 

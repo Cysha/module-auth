@@ -1,0 +1,16 @@
+<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Api;
+
+use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
+use Illuminate\Http\Request;
+use Cms\Modules\Auth as Auth;
+
+class CreateController extends BaseApiController
+{
+
+    public function getForm(Auth\Models\ApiKey $key)
+    {
+        $data = $this->getKeyDetails($key);
+
+        return $this->setView('admin.key.edit-basic', $data);
+    }
+}
