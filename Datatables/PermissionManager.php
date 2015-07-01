@@ -117,28 +117,23 @@ class PermissionManager
                 'actions' => [
                     'th' => 'Actions',
                     'tr' => function ($model) {
-                        $return = [];
-                        return $return;
-
-                        if (Lock::can('manage.view', 'auth_permission')) {
-                            $return[] = [
+                        return [];
+                        return [
+                            [
                                 'btn-title' => 'View',
-                                'btn-link'  => sprintf('/admin/permissions/%d/view', $model->id),
+                                'btn-link' => sprintf('/admin/permissions/%d/view', $model->id),
                                 'btn-class' => 'btn btn-default btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-file-text-o'
-                            ];
-                        }
-
-                        if (Lock::can('manage.update', 'auth_permission')) {
-                            $return[] = [
+                                'btn-icon' => 'fa fa-file-text-o',
+                                'hasPermission' => 'manage.view@auth_permission',
+                            ],
+                            [
                                 'btn-title' => 'Edit',
-                                'btn-link'  => sprintf('/admin/permissions/%d/edit', $model->id),
+                                'btn-link' => sprintf('/admin/permissions/%d/edit', $model->id),
                                 'btn-class' => 'btn btn-warning btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-pencil'
-                            ];
-                        }
-
-                        return $return;
+                                'btn-icon' => 'fa fa-pencil',
+                                'hasPermission' => 'manage.update@auth_permission',
+                            ]
+                        ];
                     },
                 ],
             ],

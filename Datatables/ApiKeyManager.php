@@ -17,9 +17,10 @@ class ApiKeyManager
                 'header' => [
                     [
                         'btn-text' => 'Add Key',
-                        'btn-link' => 'admin.apikey.create',
+                        'btn-route' => 'admin.apikey.create',
                         'btn-class' => 'btn btn-info btn-labeled',
-                        'btn-icon' => 'fa fa-fw fa-refresh'
+                        'btn-icon' => 'fa fa-fw fa-refresh',
+                        'hasPermission' => 'apikey.add@auth_user',
                     ]
                 ]
             ],
@@ -103,29 +104,19 @@ class ApiKeyManager
                 'actions' => [
                     'th' => 'Actions',
                     'tr' => function ($model) {
-                        $return = [];
-                        return $return;
-
-                        if (Lock::can('manage.read', 'auth_user')) {
-                            $return[] = [
-                                'btn-title' => 'View User',
-                                'btn-link'  => route('admin.user.view', $model->name),
-                                'btn-class' => 'btn btn-default btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-file-text-o'
-                            ];
-                        }
-
-                        if (Lock::can('manage.update', 'auth_user')) {
-                            $return[] = [
-                                'btn-title' => 'Edit',
-                                'btn-link'  => route('admin.user.edit', $model->name),
-                                'btn-class' => 'btn btn-warning btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-pencil'
-                            ];
-                        }
-
-                        return $return;
+                        return [
+                            [
+                                'btn-title' => 'Remove Key',
+                                'btn-link' => route('admin.apikey.remove', $model->id),
+                                'btn-class' => 'btn btn-danger btn-xs btn-labeled',
+                                'btn-icon' => 'fa fa-times',
+                                'btn-method' => 'delete',
+                                'btn-extras' => 'data-remote="true" data-confirm="Are you sure you want to delete entry #'.$model->id.'?" data-disable-with="<i class=\'fa fa-refresh fa-spin\'></i>"',
+                                'hasPermission' => 'apikey.delete@auth_user',
+                            ]
+                        ];
                     },
+                    'width' => '5%',
                 ],
             ]
         ];

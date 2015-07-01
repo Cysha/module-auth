@@ -42,7 +42,6 @@ class ManipulateUserApiKeyDatatable
         });
 
         // rejig the columns
-        array_set($event->config, 'columns.actions', null);
         array_set($event->config, 'columns.user', null);
 
         return $event->config;

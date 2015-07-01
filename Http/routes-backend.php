@@ -113,6 +113,14 @@ $router->group([
         $router->get('/', ['as' => 'admin.apikey.create', 'uses' => 'CreateController@getForm']);
     });
 
+    $router->group(['prefix' => '{auth_apikey_id}', 'namespace' => 'Api'], function (Router $router) {
+
+        $router->group(['prefix' => 'remove'], function (Router $router) {
+            $router->delete('/', ['as' => 'admin.apikey.remove', 'uses' => 'RemoveController@deleteApiKey']);
+        });
+
+    });
+
     $router->get('/', ['as' => 'admin.apikey.manager', 'uses' => 'ApiManagerController@manager']);
 });
 

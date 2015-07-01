@@ -51,5 +51,9 @@ class AuthRoutingProvider extends CmsRoutingProvider
         $router->bind('auth_role_id', function ($id) {
             return with(new \Cms\Modules\Auth\Models\Role)->with('permissions')->findOrFail($id);
         });
+
+        $router->bind('auth_apikey_id', function ($id) {
+            return with(new \Cms\Modules\Auth\Models\ApiKey)->findOrFail($id);
+        });
     }
 }
