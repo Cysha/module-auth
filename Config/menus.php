@@ -77,7 +77,7 @@ return [
             'text' => 'Roles',
             'icon' => 'fa-users',
             'order' => 4,
-            'permission' => 'role@auth_user',
+            'permission' => 'roles@auth_user',
         ],
         [
             'route' => ['admin.user.permissions', ['auth_user_id' => 'segment:3']],
