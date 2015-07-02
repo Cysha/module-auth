@@ -22,11 +22,11 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
-    protected $identifiableName = 'screenname';
 
+    protected $identifiableName = 'screenname';
     protected $link = [
         'route'      => 'pxcms.user.view',
-        'attributes' => ['auth_user_id' => 'id'],
+        'attributes' => ['auth_user' => 'username'],
     ];
 
     /**
@@ -163,8 +163,11 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             'username' => (string) $this->username,
             'screenname' => (string) $this->screenname,
             'name' => (string) $this->name,
-            'href' => (string) $this->makeLink(true),
-            'link' => (string) $this->makeLink(false),
+
+            'links' => [
+                'self' => (string) $this->makeLink(true),
+                'html' => (string) $this->screenname, #$this->makeLink(false),
+            ],
 
             'email' => (string) $this->email,
             'avatar' => (string) $this->avatar,
