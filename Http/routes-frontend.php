@@ -31,9 +31,3 @@ $router->group(['prefix' => 'user', 'namespace' => 'ControlPanel'], function (Ro
     $router->get('permissions', ['as' => 'pxcms.user.permissions', 'uses' => 'PermissionsController@getForm']);
     $router->get('/', ['as' => 'pxcms.user.dashboard', 'uses' => 'DashboardController@getIndex']);
 });
-
-// profiles
-$router->group(['prefix' => 'user/{auth_user_id}', 'namespace' => 'ControlPanel'], function (Router $router) {
-
-    $router->get('/', ['as' => 'pxcms.user.view', 'uses' => 'DashboardController@getProfile']);
-});
