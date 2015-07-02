@@ -59,7 +59,7 @@ class CustomLockDriver implements Driver
             'resource_id'   => $permission->getResourceId(),
         ])->first();
         if ($objPerm === null) {
-            $objPerm = DB::table('permissions')->insert([
+            $id = DB::table('permissions')->insertGetId([
                 'type'          => $permission->getType(),
                 'action'        => $permission->getAction(),
                 'resource_type' => $permission->getResourceType(),
@@ -67,6 +67,8 @@ class CustomLockDriver implements Driver
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now(),
             ]);
+
+            $objPerm = DB::table('permissions')->find($id);
         }
 
         // create a subsequent permissionable record
@@ -157,14 +159,14 @@ class CustomLockDriver implements Driver
     {
 
         // if permission already exists in this config, use that
-        $objPerm = DB::table('permissions')->where([
-            'type'          => $permission->getType(),
-            'action'        => $permission->getAction(),
-            'resource_type' => $permission->getResourceType(),
-            'resource_id'   => $permission->getResourceId(),
-        ])->first();
+        $objPerm = DB::table('permissions')
+            ->where('type', $permission->getType())
+            ->where('action', $permission->getAction())
+            ->where('resource_type', $permission->getResourceType())
+            ->where('resource_id', $permission->getResourceId())
+            ->first();
         if ($objPerm === null) {
-            $objPerm = DB::table('permissions')->insert([
+            $id = DB::table('permissions')->insertGetId([
                 'type'          => $permission->getType(),
                 'action'        => $permission->getAction(),
                 'resource_type' => $permission->getResourceType(),
@@ -172,10 +174,12 @@ class CustomLockDriver implements Driver
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now(),
             ]);
+
+            $objPerm = DB::table('permissions')->find($id);
         }
 
         // if role exists, otherwise create it
-        $objRole = DB::table('roles')->where(['name' => $role->getRoleName()])->first();
+        $objRole = DB::table('roles')->where('name', $role->getRoleName())->first();
         if ($objRole === null) {
             $objRole = DB::table('roles')->insert([
                 'name' => $role->getRoleName(),
