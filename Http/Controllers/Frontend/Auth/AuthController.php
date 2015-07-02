@@ -121,7 +121,7 @@ class AuthController extends BaseFrontendController
         // create the user
         $user = $this->user->createWithRoles(
             $request->all(),
-            config('cms.auth.config.users.default_user_group'),
+            config('cms.auth.config.roles.user_group'),
             config('cms.auth.config.users.require_activating', false)
         );
 
