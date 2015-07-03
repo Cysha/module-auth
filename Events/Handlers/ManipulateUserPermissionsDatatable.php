@@ -21,7 +21,7 @@ class ManipulateUserPermissionsDatatable
      */
     public function handle(GotDatatableConfig $event)
     {
-        if (Request::url() !== route('admin.user.permissions', Request::segment(3))) {
+        if (Request::route()->getName() !== 'admin.user.permissions') {
             return;
         }
 

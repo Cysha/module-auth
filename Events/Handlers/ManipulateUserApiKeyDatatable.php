@@ -14,7 +14,7 @@ class ManipulateUserApiKeyDatatable
      */
     public function handle(GotDatatableConfig $event)
     {
-        if (Request::url() !== route('admin.user.apikey', Request::segment(3))) {
+        if (Request::route()->getName() !== 'admin.user.apikey') {
             return;
         }
 
