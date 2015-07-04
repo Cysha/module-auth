@@ -50,7 +50,8 @@ class AuthController extends BaseFrontendController
      */
     public function getLogin()
     {
-        return $this->setView('partials.core.login', [], 'theme');
+        $this->setLayout('1-column');
+        return $this->setView('partials.pages.login', [], 'theme');
     }
 
     /**
@@ -93,7 +94,8 @@ class AuthController extends BaseFrontendController
      */
     public function getRegister()
     {
-        return $this->setView('partials.core.register', [], 'theme');
+        $this->setLayout('1-column');
+        return $this->setView('partials.pages.register', [], 'theme');
     }
 
     /**
@@ -101,7 +103,7 @@ class AuthController extends BaseFrontendController
      */
     public function getRegistered()
     {
-        return $this->setView('partials.core.registered', [], 'theme');
+        return $this->setView('partials.pages.registered', [], 'theme');
     }
 
     /**

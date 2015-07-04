@@ -172,6 +172,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             'email' => (string) $this->email,
             'avatar' => (string) $this->avatar,
 
+            'last_logged_at' => date_array($this->last_logged_at),
             'verified' => date_array($this->verified_at),
             'registered' => date_array($this->created_at),
 
