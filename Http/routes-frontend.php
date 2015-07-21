@@ -5,7 +5,7 @@ use Illuminate\Routing\Router;
 // Authentication
 $router->group(['namespace' => 'Auth'], function ($router) {
     // social has its own login route so dont define it here
-    if (!app('modules')->get('Social')->enabled()) {
+    if (!app('modules')->has('Social') || !app('modules')->get('Social')->enabled()) {
         $router->get('login', ['as' => 'pxcms.user.login', 'uses' => 'AuthController@getLogin']);
     }
 
