@@ -25,7 +25,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     protected $identifiableName = 'screenname';
     protected $link = [
-        'route'      => 'pxcms.user.view',
+        'route'      => 'pxcms.user.dashboard',#'pxcms.user.view',
         'attributes' => ['auth_user' => 'username'],
     ];
 
