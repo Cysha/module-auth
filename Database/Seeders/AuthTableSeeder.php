@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class AuthDatabaseSeeder extends Seeder
+class AuthTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
