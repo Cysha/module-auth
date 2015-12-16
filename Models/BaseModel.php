@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Models;
+<?php
+
+namespace Cms\Modules\Auth\Models;
 
 use Cms\Modules\Core\Models\BaseModel as CBM;
 

@@ -11,7 +11,7 @@ return [
     ],
     'roles' => [
         'admin_group' => 1,
-        'user_group' => 3,
+        'user_group'  => 3,
         'guest_group' => 4,
     ],
 ];

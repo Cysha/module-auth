@@ -1,47 +1,48 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
+
+namespace Cms\Modules\Auth\Datatables;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
-use Lock;
 
 class ApiKeyManager
 {
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
-                'title' => '<i class="fa fa-fw fa-puzzle-piece"></i> Api Manager',
+                'title'  => '<i class="fa fa-fw fa-puzzle-piece"></i> Api Manager',
                 'header' => [
                     [
-                        'btn-text' => 'Add Key',
-                        'btn-route' => 'admin.apikey.create',
-                        'btn-class' => 'btn btn-info btn-labeled',
-                        'btn-icon' => 'fa fa-fw fa-refresh',
+                        'btn-text'      => 'Add Key',
+                        'btn-route'     => 'admin.apikey.create',
+                        'btn-class'     => 'btn btn-info btn-labeled',
+                        'btn-icon'      => 'fa fa-fw fa-refresh',
                         'hasPermission' => 'apikey.add@auth_user',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
-                'pagination' => false,
-                'searching' => false,
-                'ordering' => false,
+                'pagination'  => false,
+                'searching'   => false,
+                'ordering'    => false,
                 'sort_column' => 'order',
-                'sort_order' => 'desc',
-                'source' => 'admin.apikey.manager',
-                'collection' => function () {
+                'sort_order'  => 'desc',
+                'source'      => 'admin.apikey.manager',
+                'collection'  => function () {
                     $model = 'Cms\Modules\Auth\Models\ApiKey';
+
                     return $model::all();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -50,9 +51,9 @@ class ApiKeyManager
                     'tr' => function ($model) {
                         return $model->user->screenname;
                     },
-                    'orderable' => true,
+                    'orderable'  => true,
                     'searchable' => true,
-                    'width' => '10%',
+                    'width'      => '10%',
                 ],
 
                 'active' => [
@@ -88,7 +89,7 @@ class ApiKeyManager
                     },
                     'th-class' => 'hidden-xs hidden-sm',
                     'tr-class' => 'hidden-xs hidden-sm',
-                    'width' => '15%',
+                    'width'    => '15%',
                 ],
 
                 'expires_at' => [
@@ -98,7 +99,7 @@ class ApiKeyManager
                     },
                     'th-class' => 'hidden-xs hidden-sm',
                     'tr-class' => 'hidden-xs hidden-sm',
-                    'width' => '15%',
+                    'width'    => '15%',
                 ],
 
                 'actions' => [
@@ -106,20 +107,19 @@ class ApiKeyManager
                     'tr' => function ($model) {
                         return [
                             [
-                                'btn-title' => 'Remove Key',
-                                'btn-link' => route('admin.apikey.remove', $model->id),
-                                'btn-class' => 'btn btn-danger btn-xs btn-labeled',
-                                'btn-icon' => 'fa fa-times',
-                                'btn-method' => 'delete',
-                                'btn-extras' => 'data-remote="true" data-confirm="Are you sure you want to delete entry #'.$model->id.'?" data-disable-with="<i class=\'fa fa-refresh fa-spin\'></i>"',
+                                'btn-title'     => 'Remove Key',
+                                'btn-link'      => route('admin.apikey.remove', $model->id),
+                                'btn-class'     => 'btn btn-danger btn-xs btn-labeled',
+                                'btn-icon'      => 'fa fa-times',
+                                'btn-method'    => 'delete',
+                                'btn-extras'    => 'data-remote="true" data-confirm="Are you sure you want to delete entry #'.$model->id.'?" data-disable-with="<i class=\'fa fa-refresh fa-spin\'></i>"',
                                 'hasPermission' => 'apikey.delete@auth_user',
-                            ]
+                            ],
                         ];
                     },
                     'width' => '5%',
                 ],
-            ]
+            ],
         ];
-
     }
 }

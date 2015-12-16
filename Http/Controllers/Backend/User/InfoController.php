@@ -1,14 +1,15 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
 
-use Illuminate\Http\Request;
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+
 use Cms\Modules\Auth;
+use Illuminate\Http\Request;
 
 class InfoController extends BaseUserController
 {
     public function boot()
     {
         parent::boot();
-
     }
 
     public function getIndex(Auth\Models\User $user)

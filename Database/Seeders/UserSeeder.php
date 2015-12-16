@@ -1,7 +1,9 @@
-<?php namespace Cms\Modules\Auth\Database\Seeders;
+<?php
 
-use Illuminate\Database\Seeder;
+namespace Cms\Modules\Auth\Database\Seeders;
+
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -20,7 +22,7 @@ class UserSeeder extends Seeder
 
         $seedModel = config('auth.model');
         foreach ($models as $model) {
-            $user = with(new $seedModel);
+            $user = with(new $seedModel());
             $user->fill(array_except($model, 'role'));
             $save = $user->save();
 

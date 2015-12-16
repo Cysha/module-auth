@@ -1,6 +1,6 @@
-<?php namespace Cms\Modules\Admin\Http\Controllers\Backend\Config;
+<?php
 
-use Cms\Modules\Admin\Http\Controllers\Backend\Config\BaseConfigController;
+namespace Cms\Modules\Admin\Http\Controllers\Backend\Config;
 
 class ApiController extends BaseConfigController
 {

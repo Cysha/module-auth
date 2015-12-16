@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AuthCreateApikeyTables extends Migration
 {
@@ -32,5 +32,4 @@ class AuthCreateApikeyTables extends Migration
     {
         Schema::drop('api_auth');
     }
-
 }

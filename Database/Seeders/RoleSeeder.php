@@ -1,7 +1,8 @@
-<?php namespace Cms\Modules\Auth\Database\Seeders;
+<?php
+
+namespace Cms\Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
 
 class RoleSeeder extends Seeder
 {
@@ -28,7 +29,7 @@ class RoleSeeder extends Seeder
 
         $seedModel = 'Cms\Modules\Auth\Models\Role';
         foreach ($models as $model) {
-            $role = with(new $seedModel);
+            $role = with(new $seedModel());
             $role->fill($model);
             $save = $role->save();
 

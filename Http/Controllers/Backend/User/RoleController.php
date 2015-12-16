@@ -1,12 +1,13 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
 
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+
+use Cms\Modules\Auth as Auth;
 use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
 use Illuminate\Http\Request;
-use Cms\Modules\Auth as Auth;
 
 class RoleController extends BaseUserController
 {
-
     public function getForm(Auth\Models\User $user, RoleRepo $roles)
     {
         $this->theme->asset()->add('multiselect-css', '/modules/auth/multiselect/css/multi-select.css', 'app.css');

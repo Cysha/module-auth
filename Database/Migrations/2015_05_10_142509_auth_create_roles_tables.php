@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AuthCreateRolesTables extends Migration
 {
@@ -38,5 +38,4 @@ class AuthCreateRolesTables extends Migration
         Schema::drop('roleables');
         Schema::drop('roles');
     }
-
 }

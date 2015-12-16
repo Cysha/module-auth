@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
@@ -7,7 +9,6 @@ use Illuminate\Http\Request;
 
 class AuthController extends BaseFrontendController
 {
-
     public $layout = '2-column-left';
 
     /**
@@ -18,18 +19,18 @@ class AuthController extends BaseFrontendController
     protected $auth;
 
     /**
-     * User Repository
+     * User Repository.
      *
      * @var \Cms\Modules\Auth\Repositories\User\RepositoryInterface
      */
     protected $user;
 
-
     /**
      * Create a new authentication controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Guard  $auth
-     * @param  \Cms\Modules\Auth\Repositories\User\RepositoryInterface $user
+     * @param \Illuminate\Contracts\Auth\Guard                        $auth
+     * @param \Cms\Modules\Auth\Repositories\User\RepositoryInterface $user
+     *
      * @return void
      */
     public function __construct(Guard $auth, UserRepo $user)
@@ -51,11 +52,12 @@ class AuthController extends BaseFrontendController
     public function getLogin()
     {
         $this->setLayout('1-column');
+
         return $this->setView('partials.core.login', [], 'theme');
     }
 
     /**
-     * Process the login details and check if the user can be authenticated
+     * Process the login details and check if the user can be authenticated.
      */
     public function postLogin(Request $request)
     {
@@ -67,6 +69,7 @@ class AuthController extends BaseFrontendController
         $credentials = $request->only('email', 'password');
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
             event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(\Auth::user()->id));
+
             return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
         }
 
@@ -79,7 +82,7 @@ class AuthController extends BaseFrontendController
     }
 
     /**
-     * Process a Logout
+     * Process a Logout.
      */
     public function getLogout()
     {
@@ -90,11 +93,12 @@ class AuthController extends BaseFrontendController
     }
 
     /**
-     * Show the register form
+     * Show the register form.
      */
     public function getRegister()
     {
         $this->setLayout('1-column');
+
         return $this->setView('partials.core.register', [], 'theme');
     }
 
@@ -107,7 +111,7 @@ class AuthController extends BaseFrontendController
     }
 
     /**
-     * Process a register request
+     * Process a register request.
      */
     public function postRegister(Request $request)
     {
@@ -139,5 +143,4 @@ class AuthController extends BaseFrontendController
         return redirect(route(config('cms.auth.config.paths.redirect_register', 'pxcms.pages.home')))
             ->withInfo(trans('auth::auth.user.registered'));
     }
-
 }

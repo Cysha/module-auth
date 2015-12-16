@@ -6,7 +6,7 @@ use Illuminate\Routing\Router;
 $router->group([
     'prefix'        => 'users',
     'middleware'    => ['hasPermission'],
-    'hasPermission' => 'manage@auth_user'
+    'hasPermission' => 'manage@auth_user',
 ], function (Router $router) {
 
     $router->get('add', ['as' => 'admin.user.add', 'uses' => 'UserManagerController@userManager', 'middleware' => 'hasPermission', 'hasPermission' => 'create@auth_user']);
@@ -58,23 +58,23 @@ $router->group([
 $router->group([
     'prefix'        => 'roles',
     'middleware'    => ['hasPermission'],
-    'hasPermission' => 'manage@auth_role'
+    'hasPermission' => 'manage@auth_role',
 ], function (Router $router) {
 
     $router->get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
 
     $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function (Router $router) {
         $router->group([
-            'middleware' => ['hasPermission'],
-            'hasPermission' => 'manage.update@auth_role'
+            'middleware'    => ['hasPermission'],
+            'hasPermission' => 'manage.update@auth_role',
         ], function (Router $router) {
 
             $router->get('edit', ['as' => 'admin.role.edit', 'uses' => 'InfoController@getForm']);
 
             $router->group([
-                'prefix' => 'permissions',
-                'middleware' => ['hasPermission'],
-                'hasPermission' => 'manage.update@auth_role'
+                'prefix'        => 'permissions',
+                'middleware'    => ['hasPermission'],
+                'hasPermission' => 'manage.update@auth_role',
             ], function (Router $router) {
                 $router->post('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@postForm']);
                 $router->get('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@getForm']);
@@ -85,14 +85,14 @@ $router->group([
     });
 
     $router->post('/', ['uses' => 'RoleManagerController@roleManager']);
-    $router->get('/',  ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
+    $router->get('/', ['as' => 'admin.role.manager', 'uses' => 'RoleManagerController@roleManager']);
 });
 
 // URI: /{backend}/permissions
 $router->group([
     'prefix'        => 'permissions',
     'middleware'    => ['hasPermission'],
-    'hasPermission' => 'manage@auth_permission'
+    'hasPermission' => 'manage@auth_permission',
 ], function (Router $router) {
 
     $router->get('add', ['as' => 'admin.permission.add', 'uses' => 'PermissionManagerController@permissionManager']);
@@ -103,9 +103,9 @@ $router->group([
 
 // URI: /{backend}/api
 $router->group([
-    'prefix' => 'api',
-    'middleware' => 'hasPermission',
-    'hasPermission' => 'api@auth_config'
+    'prefix'        => 'api',
+    'middleware'    => 'hasPermission',
+    'hasPermission' => 'api@auth_config',
 ], function (Router $router) {
 
     $router->group(['prefix' => 'create', 'namespace' => 'Api'], function (Router $router) {
@@ -126,8 +126,8 @@ $router->group([
 
 // URI: /{backend}/config
 $router->group([
-    'prefix' => 'config',
-    'namespace' => 'Config'
+    'prefix'    => 'config',
+    'namespace' => 'Config',
 ], function (Router $router) {
 
     $router->get('api', ['as' => 'admin.config.api', 'uses' => 'ApiController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'api@auth_config']);

@@ -1,8 +1,10 @@
-<?php namespace Cms\Modules\Auth\Console\Commands;
+<?php
 
-use Symfony\Component\Console\Input\InputArgument;
-use Cms\Modules\Core\Console\Commands\BaseCommand;
+namespace Cms\Modules\Auth\Console\Commands;
+
 use Carbon\Carbon;
+use Cms\Modules\Core\Console\Commands\BaseCommand;
+use Symfony\Component\Console\Input\InputArgument;
 
 class MakeUserCommand extends BaseCommand
 {
@@ -39,16 +41,18 @@ class MakeUserCommand extends BaseCommand
 
         if (in_array(null, $userInfo) === true) {
             $this->info('The information required could not be gathered. Please try again.');
+
             return;
         }
 
         $authModel = config('auth.model');
-        $user = with(new $authModel);
+        $user = with(new $authModel());
         $user->fill($userInfo);
         $save = $user->save();
 
         if ($save) {
             $this->info('User registered successfully');
+
             return;
         }
 
@@ -57,11 +61,10 @@ class MakeUserCommand extends BaseCommand
 
     protected function getArguments()
     {
-        return array(
-            array('username',   InputArgument::OPTIONAL, 'Username to register this user with.'),
-            array('email',      InputArgument::OPTIONAL, 'Users email address.'),
-            array('password',   InputArgument::OPTIONAL, 'Password to set.'),
-        );
+        return [
+            ['username',   InputArgument::OPTIONAL, 'Username to register this user with.'],
+            ['email',      InputArgument::OPTIONAL, 'Users email address.'],
+            ['password',   InputArgument::OPTIONAL, 'Password to set.'],
+        ];
     }
-
 }
