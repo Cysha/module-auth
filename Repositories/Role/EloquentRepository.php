@@ -1,8 +1,9 @@
-<?php namespace Cms\Modules\Auth\Repositories\Role;
+<?php
 
-use Illuminate\Database\Eloquent\Collection;
-use Cms\Modules\Core\Repositories\BaseEloquentRepository;
+namespace Cms\Modules\Auth\Repositories\Role;
+
 use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as UserRepository;
+use Cms\Modules\Core\Repositories\BaseEloquentRepository;
 
 class EloquentRepository extends BaseEloquentRepository implements UserRepository
 {

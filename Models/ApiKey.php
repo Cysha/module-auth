@@ -1,5 +1,6 @@
-<?php namespace Cms\Modules\Auth\Models;
+<?php
 
+namespace Cms\Modules\Auth\Models;
 
 class ApiKey extends BaseModel
 {
@@ -10,6 +11,7 @@ class ApiKey extends BaseModel
     public function user()
     {
         $authModel = config('auth.model');
+
         return $this->belongsTo($authModel);
     }
 

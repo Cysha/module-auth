@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Events;
+<?php
+
+namespace Cms\Modules\Auth\Events;
 
 use Illuminate\Queue\SerializesModels;
 
@@ -17,5 +19,4 @@ class UserHasLoggedIn
     {
         $this->userId = $userId;
     }
-
 }

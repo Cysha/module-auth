@@ -1,8 +1,9 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 class DashboardController extends BaseController
 {
-
     public function getIndex()
     {
         return $this->setView('controlpanel.user', [
@@ -16,5 +17,4 @@ class DashboardController extends BaseController
             'user' => $user->transform(),
         ]);
     }
-
 }

@@ -1,10 +1,9 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
 
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+namespace Cms\Modules\Auth\Providers;
+
 use Cms\Modules\Core\Providers\BaseEventsProvider;
-use Cms\Modules\Core;
-use Cms\Modules\Auth;
-use Cache;
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 
 class AuthEventsProvider extends BaseEventsProvider
 {
@@ -14,7 +13,7 @@ class AuthEventsProvider extends BaseEventsProvider
      * @var array
      */
     protected $listen = [
-        /**
+        /*
          * AuthController@postLogin
          * AuthController@postRegister
          */
@@ -22,13 +21,13 @@ class AuthEventsProvider extends BaseEventsProvider
             'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
         ],
 
-        /**
+        /*
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserIsRegistering' => [
         ],
 
-        /**
+        /*
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserHasRegistered' => [
@@ -36,7 +35,7 @@ class AuthEventsProvider extends BaseEventsProvider
 
         'Cms\Modules\Admin\Events\GotDatatableConfig' => [
             'Cms\Modules\Auth\Events\Handlers\ManipulateUserPermissionsDatatable',
-            'Cms\Modules\Auth\Events\Handlers\ManipulateUserApiKeyDatatable'
+            'Cms\Modules\Auth\Events\Handlers\ManipulateUserApiKeyDatatable',
         ],
     ];
 
@@ -49,16 +48,15 @@ class AuthEventsProvider extends BaseEventsProvider
 
     ];
 
-
     /**
      * Register any other events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
+     *
      * @return void
      */
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);
     }
-
 }

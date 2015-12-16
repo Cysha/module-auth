@@ -1,8 +1,10 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend;
+<?php
 
-use Cms\Modules\Core\Http\Controllers\BaseBackendController;
-use Cms\Modules\Auth\Datatables\PermissionManager;
+namespace Cms\Modules\Auth\Http\Controllers\Backend;
+
 use Cms\Modules\Admin\Traits\DataTableTrait;
+use Cms\Modules\Auth\Datatables\PermissionManager;
+use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 
 class PermissionManagerController extends BaseBackendController
 {
@@ -10,7 +12,6 @@ class PermissionManagerController extends BaseBackendController
 
     public function permissionManager()
     {
-        return $this->renderDataTable(with(new PermissionManager)->boot());
+        return $this->renderDataTable(with(new PermissionManager())->boot());
     }
-
 }

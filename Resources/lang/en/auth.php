@@ -4,13 +4,11 @@ return [
     'permissions.authenticated' => 'You need to be authenticated to get there.',
     'permissions.unauthorized'  => 'You do not have the neccesary permissions for that. (:permission@:resource::resource_id)',
 
-
-    'user.deleted'              => 'Email / Password combination you provided cannot be found, Please try again.',
-    'user.notfound'             => 'Email / Password combination you provided cannot be found, Please try again.',
+    'user.deleted'               => 'Email / Password combination you provided cannot be found, Please try again.',
+    'user.notfound'              => 'Email / Password combination you provided cannot be found, Please try again.',
     'user.incorrect_credentials' => 'Email / Password combination you provided cannot be found, Please try again.',
 
     'user.logged_out_successfully' => 'You have successfully logged out.',
-
 
     // user register errors
     'register.username.unique' => 'Username you have picked is already in use, choose another one.',

@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
+
+namespace Cms\Modules\Auth\Datatables;
 
 use Lock;
 
@@ -7,43 +9,44 @@ class UserManager
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
                 'title' => 'User Manager',
                 'alert' => [
                     'class' => 'info',
-                    'text'  => '<i class="fa fa-info-circle"></i> You can manage your users from here.'
+                    'text'  => '<i class="fa fa-info-circle"></i> You can manage your users from here.',
                 ],
                 'header' => [
                     [
                         'btn-text'  => 'Create User',
                         'btn-link'  => 'admin.user.add',
                         'btn-class' => 'btn btn-info btn-labeled',
-                        'btn-icon'  => 'fa fa-plus'
+                        'btn-icon'  => 'fa fa-plus',
                     ],
                 ],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
-                'pagination' => false,
-                'searching' => true,
-                'ordering' => false,
-                'sort_column' => 'id',
-                'sort_order' => 'desc',
+                'pagination'    => false,
+                'searching'     => true,
+                'ordering'      => false,
+                'sort_column'   => 'id',
+                'sort_order'    => 'desc',
                 'column_search' => true,
-                'source' => 'admin.user.manager',
-                'collection' => function () {
+                'source'        => 'admin.user.manager',
+                'collection'    => function () {
                     $model = config('auth.model');
+
                     return $model::with('roles')->get();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -53,16 +56,16 @@ class UserManager
                         return $model->id;
                     },
                     'orderable' => true,
-                    'width' => '5%',
+                    'width'     => '5%',
                 ],
                 'name' => [
                     'th' => 'Screen Name',
                     'tr' => function ($model) {
                         return $model->screenname;
                     },
-                    'orderable' => true,
+                    'orderable'  => true,
                     'searchable' => true,
-                    'width' => '10%',
+                    'width'      => '10%',
                 ],
                 'email' => [
                     'th' => 'Email',
@@ -70,12 +73,12 @@ class UserManager
                         return $model->email;
                     },
                     'searchable' => true,
-                    'width' => '15%',
+                    'width'      => '15%',
                 ],
                 'roles' => [
                     'alias' => 'roles',
-                    'th' => 'Roles',
-                    'tr' => function ($model) {
+                    'th'    => 'Roles',
+                    'tr'    => function ($model) {
                         $roles = null;
 
                         $tpl = '<span class="label label-default" style="background-color: %s;">%s</span>&nbsp;';
@@ -86,7 +89,7 @@ class UserManager
                         return $roles;
                     },
                     'searchable' => true,
-                    'width' => '15%',
+                    'width'      => '15%',
                 ],
                 'verified' => [
                     'th' => 'Verified',
@@ -95,9 +98,9 @@ class UserManager
                             ? '<div class="label label-success">Verified</div>'
                             : '<div class="label label-danger">Not Verified</div>';
                     },
-                    'tr-class' => 'text-center',
+                    'tr-class'  => 'text-center',
                     'orderable' => true,
-                    'width' => '5%',
+                    'width'     => '5%',
                 ],
                 'last_logged_at' => [
                     'th' => 'Last Login',
@@ -108,17 +111,17 @@ class UserManager
                     },
                     'th-class' => 'hidden-xs hidden-sm',
                     'tr-class' => 'hidden-xs hidden-sm',
-                    'width' => '12%',
+                    'width'    => '12%',
                 ],
                 'created_at' => [
                     'alias' => 'created',
-                    'th' => 'Date Registered',
-                    'tr' => function ($model) {
+                    'th'    => 'Date Registered',
+                    'tr'    => function ($model) {
                         return array_get(date_array($model->created_at), 'element');
                     },
                     'th-class' => 'hidden-xs hidden-sm',
                     'tr-class' => 'hidden-xs hidden-sm',
-                    'width' => '12%',
+                    'width'    => '12%',
                 ],
                 'actions' => [
                     'th' => 'Actions',
@@ -130,7 +133,7 @@ class UserManager
                                 'btn-title' => 'View User',
                                 'btn-link'  => route('admin.user.view', $model->id),
                                 'btn-class' => 'btn btn-default btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-file-text-o'
+                                'btn-icon'  => 'fa fa-file-text-o',
                             ];
                         }
 
@@ -139,15 +142,14 @@ class UserManager
                                 'btn-title' => 'Edit',
                                 'btn-link'  => route('admin.user.edit', $model->id),
                                 'btn-class' => 'btn btn-warning btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-pencil'
+                                'btn-icon'  => 'fa fa-pencil',
                             ];
                         }
 
                         return $return;
                     },
                 ],
-            ]
+            ],
         ];
-
     }
 }

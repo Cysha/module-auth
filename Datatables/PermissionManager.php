@@ -1,13 +1,13 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
 
-use Lock;
+namespace Cms\Modules\Auth\Datatables;
 
 class PermissionManager
 {
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
@@ -22,23 +22,24 @@ class PermissionManager
                 // ],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
-                'pagination' => false,
-                'searching' => true,
-                'ordering' => false,
+                'pagination'  => false,
+                'searching'   => true,
+                'ordering'    => false,
                 'sort_column' => 'id',
-                'sort_order' => 'desc',
-                'source' => 'admin.permission.manager',
-                'collection' => function () {
+                'sort_order'  => 'desc',
+                'source'      => 'admin.permission.manager',
+                'collection'  => function () {
                     $model = 'Cms\Modules\Auth\Models\Permission';
+
                     return $model::with('roles')->get();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -48,25 +49,25 @@ class PermissionManager
                         return $model->id;
                     },
                     'orderable' => true,
-                    'width' => '5%',
+                    'width'     => '5%',
                 ],
                 'module' => [
                     'th' => 'Module',
                     'tr' => function ($model) {
                         return array_get(explode('_', $model->resource_type), 0);
                     },
-                    'orderable' => true,
+                    'orderable'  => true,
                     'searchable' => true,
-                    'width' => '5%',
+                    'width'      => '5%',
                 ],
                 'model' => [
                     'th' => 'Model',
                     'tr' => function ($model) {
                         return array_get(explode('_', $model->resource_type), 1);
                     },
-                    'orderable' => true,
+                    'orderable'  => true,
                     'searchable' => true,
-                    'width' => '5%',
+                    'width'      => '5%',
                 ],
                 'readable_name' => [
                     'th' => 'Readable Name',
@@ -88,7 +89,7 @@ class PermissionManager
                         return $model->action;
                     },
                     'filtering' => true,
-                    'width' => '20%',
+                    'width'     => '20%',
                 ],
                 'resource_id' => [
                     'th' => 'Resource ID',
@@ -96,12 +97,12 @@ class PermissionManager
                         return $model->resource_id;
                     },
                     'filtering' => true,
-                    'width' => '10%',
+                    'width'     => '10%',
                 ],
                 'roles' => [
                     'alias' => 'roles',
-                    'th' => 'Roles',
-                    'tr' => function ($model) {
+                    'th'    => 'Roles',
+                    'tr'    => function ($model) {
                         $roles = null;
 
                         $tpl = '<span class="label label-default" style="background-color: %s;">%s</span>&nbsp;';
@@ -118,26 +119,26 @@ class PermissionManager
                     'th' => 'Actions',
                     'tr' => function ($model) {
                         return [];
+
                         return [
                             [
-                                'btn-title' => 'View',
-                                'btn-link' => sprintf('/admin/permissions/%d/view', $model->id),
-                                'btn-class' => 'btn btn-default btn-xs btn-labeled',
-                                'btn-icon' => 'fa fa-file-text-o',
+                                'btn-title'     => 'View',
+                                'btn-link'      => sprintf('/admin/permissions/%d/view', $model->id),
+                                'btn-class'     => 'btn btn-default btn-xs btn-labeled',
+                                'btn-icon'      => 'fa fa-file-text-o',
                                 'hasPermission' => 'manage.view@auth_permission',
                             ],
                             [
-                                'btn-title' => 'Edit',
-                                'btn-link' => sprintf('/admin/permissions/%d/edit', $model->id),
-                                'btn-class' => 'btn btn-warning btn-xs btn-labeled',
-                                'btn-icon' => 'fa fa-pencil',
+                                'btn-title'     => 'Edit',
+                                'btn-link'      => sprintf('/admin/permissions/%d/edit', $model->id),
+                                'btn-class'     => 'btn btn-warning btn-xs btn-labeled',
+                                'btn-icon'      => 'fa fa-pencil',
                                 'hasPermission' => 'manage.update@auth_permission',
-                            ]
+                            ],
                         ];
                     },
                 ],
             ],
         ];
-
     }
 }

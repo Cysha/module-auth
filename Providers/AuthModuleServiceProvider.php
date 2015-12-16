@@ -1,12 +1,12 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\BaseModuleProvider;
-use Illuminate\Foundation\AliasLoader;
 use Config;
 
 class AuthModuleServiceProvider extends BaseModuleProvider
 {
-
     /**
      * Register the defined middleware.
      *
@@ -26,13 +26,13 @@ class AuthModuleServiceProvider extends BaseModuleProvider
      */
     protected $commands = [
         'Auth' => [
-            'make:user' => 'MakeUserCommand',
+            'make:user'                  => 'MakeUserCommand',
             'module:publish-permissions' => 'ModulePublishPermissionsCommand',
         ],
     ];
 
     /**
-     * Register repository bindings to the IoC
+     * Register repository bindings to the IoC.
      *
      * @var array
      */
@@ -42,7 +42,7 @@ class AuthModuleServiceProvider extends BaseModuleProvider
     ];
 
     /**
-     * Register Auth related stuffs
+     * Register Auth related stuffs.
      */
     public function register()
     {
@@ -51,7 +51,6 @@ class AuthModuleServiceProvider extends BaseModuleProvider
         // override some config settings
         $userModel = 'Cms\Modules\Auth\Models\User';
         Config::set('auth.model', $userModel);
-        Config::set('auth.table', with(new $userModel)->getTable());
+        Config::set('auth.table', with(new $userModel())->getTable());
     }
-
 }

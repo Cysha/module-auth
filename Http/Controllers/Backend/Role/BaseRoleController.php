@@ -1,7 +1,9 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
+<?php
 
-use Cms\Modules\Core\Http\Controllers\BaseBackendController;
+namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
+
 use Cms\Modules\Auth as Auth;
+use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 use Former;
 
 class BaseRoleController extends BaseBackendController
@@ -21,5 +23,4 @@ class BaseRoleController extends BaseBackendController
 
         return compact('role');
     }
-
 }

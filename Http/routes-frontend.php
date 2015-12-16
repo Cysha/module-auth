@@ -17,7 +17,6 @@ $router->group(['namespace' => 'Auth'], function ($router) {
     $router->post('register', 'AuthController@postRegister');
     $router->get('registered', ['as' => 'pxcms.user.registered', 'uses' => 'AuthController@getRegistered']);
 
-
     $router->controller('password', 'PasswordController', [
         'getEmail' => 'pxcms.user.forgotpassword',
         'getReset' => 'pxcms.user.resetpassword',
@@ -26,7 +25,6 @@ $router->group(['namespace' => 'Auth'], function ($router) {
 
 // user control panel
 $router->group(['prefix' => 'user', 'namespace' => 'ControlPanel'], function (Router $router) {
-
 
     $router->get('permissions', ['as' => 'pxcms.user.permissions', 'uses' => 'PermissionsController@getForm']);
     $router->get('/', ['as' => 'pxcms.user.dashboard', 'uses' => 'DashboardController@getIndex']);

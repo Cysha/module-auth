@@ -1,11 +1,12 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\CmsRoutingProvider;
 use Illuminate\Routing\Router;
 
 class AuthRoutingProvider extends CmsRoutingProvider
 {
-
     protected $namespace = 'Cms\Modules\Auth\Http\Controllers';
 
     /**
@@ -13,7 +14,7 @@ class AuthRoutingProvider extends CmsRoutingProvider
      */
     protected function getFrontendRoute()
     {
-        return __DIR__ . '/../Http/routes-frontend.php';
+        return __DIR__.'/../Http/routes-frontend.php';
     }
 
     /**
@@ -21,7 +22,7 @@ class AuthRoutingProvider extends CmsRoutingProvider
      */
     protected function getBackendRoute()
     {
-        return __DIR__ . '/../Http/routes-backend.php';
+        return __DIR__.'/../Http/routes-backend.php';
     }
 
     /**
@@ -29,7 +30,7 @@ class AuthRoutingProvider extends CmsRoutingProvider
      */
     protected function getApiRoute()
     {
-        return __DIR__ . '/../Http/routes-api.php';
+        return __DIR__.'/../Http/routes-api.php';
     }
 
     public function boot(Router $router)
@@ -39,21 +40,21 @@ class AuthRoutingProvider extends CmsRoutingProvider
         $router->bind('auth_user', function ($user) {
             $model = config('auth.model');
 
-            return with(new $model)->where('username', $user)->firstOrFail();
+            return with(new $model())->where('username', $user)->firstOrFail();
         });
 
         $router->bind('auth_user_id', function ($id) {
             $model = config('auth.model');
 
-            return with(new $model)->findOrFail($id);
+            return with(new $model())->findOrFail($id);
         });
 
         $router->bind('auth_role_id', function ($id) {
-            return with(new \Cms\Modules\Auth\Models\Role)->with('permissions')->findOrFail($id);
+            return with(new \Cms\Modules\Auth\Models\Role())->with('permissions')->findOrFail($id);
         });
 
         $router->bind('auth_apikey_id', function ($id) {
-            return with(new \Cms\Modules\Auth\Models\ApiKey)->findOrFail($id);
+            return with(new \Cms\Modules\Auth\Models\ApiKey())->findOrFail($id);
         });
     }
 }

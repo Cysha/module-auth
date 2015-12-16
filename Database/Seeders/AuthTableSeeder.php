@@ -1,7 +1,9 @@
-<?php namespace Cms\Modules\Auth\Database\Seeders;
+<?php
 
-use Illuminate\Database\Seeder;
+namespace Cms\Modules\Auth\Database\Seeders;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class AuthTableSeeder extends Seeder
 {
@@ -18,5 +20,4 @@ class AuthTableSeeder extends Seeder
         $this->call(__NAMESPACE__.'\UserSeeder');
         $this->call(__NAMESPACE__.'\PermissionSeeder');
     }
-
 }

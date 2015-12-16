@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Models;
+<?php
+
+namespace Cms\Modules\Auth\Models;
 
 use BeatSwitch\Lock\Callers\Caller;
 
@@ -38,7 +40,6 @@ class Role extends BaseModel implements Caller
 
     public function getPermissionProperty($id, $key)
     {
-
         if ($this->hasPermission($id)) {
             return $this->permissions->find($id)->$key;
         }
@@ -47,7 +48,7 @@ class Role extends BaseModel implements Caller
     }
 
     /**
-     * Beatswitch\Lock Methods
+     * Beatswitch\Lock Methods.
      */
     public function getCallerType()
     {
@@ -69,7 +70,7 @@ class Role extends BaseModel implements Caller
         return [
             'id'           => $this->id,
             'name'         => $this->name,
-            'count'        => $this->userCount
+            'count'        => $this->userCount,
         ];
     }
 }

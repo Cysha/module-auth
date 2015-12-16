@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Models;
+<?php
+
+namespace Cms\Modules\Auth\Models;
 
 use BeatSwitch\Lock\Callers\Caller;
 use BeatSwitch\Lock\Integrations\Laravel\Facades\Lock;
@@ -8,7 +10,6 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
 
 class User extends BaseModel implements Caller, AuthenticatableContract, CanResetPasswordContract
 {
@@ -25,12 +26,12 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     protected $identifiableName = 'screenname';
     protected $link = [
-        'route'      => 'pxcms.user.dashboard',#'pxcms.user.view',
+        'route'      => 'pxcms.user.dashboard', #'pxcms.user.view',
         'attributes' => ['auth_user' => 'username'],
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
     public function roles()
     {
@@ -44,9 +45,8 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             ->where('caller_type', $this->getCallerType());
     }
 
-
     /**
-     * Attributes
+     * Attributes.
      */
     public function getScreennameAttribute()
     {
@@ -59,7 +59,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getAvatarAttribute($val, $size = 64)
     {
-
         if (empty($val) || $val === 'gravatar') {
             return $this->gravatar($size);
         }
@@ -73,7 +72,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     }
 
     /**
-     * Other Methods
+     * Other Methods.
      */
     public function getAvatarList()
     {
@@ -112,7 +111,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function verify($code)
     {
         if ($this->usercode === md5($this->id.$code)) {
-
             $this->verified = 1;
 
             if ($this->save()) {
@@ -136,7 +134,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     }
 
     /**
-     * Beatswitch\Lock Methods
+     * Beatswitch\Lock Methods.
      */
     public function getCallerType()
     {
@@ -159,22 +157,22 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function transform()
     {
         $return = [
-            'id' => (int)$this->id,
-            'username' => (string) $this->username,
+            'id'         => (int) $this->id,
+            'username'   => (string) $this->username,
             'screenname' => (string) $this->screenname,
-            'name' => (string) $this->name,
+            'name'       => (string) $this->name,
 
             'links' => [
                 'self' => (string) $this->makeLink(true),
                 'html' => (string) $this->screenname, #$this->makeLink(false),
             ],
 
-            'email' => (string) $this->email,
+            'email'  => (string) $this->email,
             'avatar' => (string) $this->avatar,
 
             'last_logged_at' => date_array($this->last_logged_at),
-            'verified' => date_array($this->verified_at),
-            'registered' => date_array($this->created_at),
+            'verified'       => date_array($this->verified_at),
+            'registered'     => date_array($this->created_at),
 
             'roles' => [],
         ];
@@ -185,5 +183,4 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
         return $return;
     }
-
 }
