@@ -11,10 +11,6 @@ class InfoController extends BaseUserController
 
     }
 
-    public function getIndex(Auth\Models\User $user)
-    {
-    }
-
     public function getForm(Auth\Models\User $user)
     {
         $data = $this->getUserDetails($user);

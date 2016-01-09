@@ -19,7 +19,7 @@ class UserManager
                 'header' => [
                     [
                         'btn-text'  => 'Create User',
-                        'btn-link'  => 'admin.user.add',
+                        'btn-route'  => 'admin.user.add',
                         'btn-class' => 'btn btn-info btn-labeled',
                         'btn-icon'  => 'fa fa-plus'
                     ],
@@ -32,10 +32,10 @@ class UserManager
             'options' => [
                 'pagination' => false,
                 'searching' => true,
+                'column_search' => true,
                 'ordering' => false,
                 'sort_column' => 'id',
                 'sort_order' => 'desc',
-                'column_search' => true,
                 'source' => 'admin.user.manager',
                 'collection' => function () {
                     $model = config('auth.model');
@@ -55,7 +55,7 @@ class UserManager
                     'orderable' => true,
                     'width' => '5%',
                 ],
-                'name' => [
+                'screenname' => [
                     'th' => 'Screen Name',
                     'tr' => function ($model) {
                         return $model->screenname;

@@ -9,7 +9,11 @@ $router->group([
     'hasPermission' => 'manage@auth_user'
 ], function (Router $router) {
 
-    $router->get('add', ['as' => 'admin.user.add', 'uses' => 'UserManagerController@userManager', 'middleware' => 'hasPermission', 'hasPermission' => 'create@auth_user']);
+    $router->group(['prefix' => 'add',  'namespace' => 'User', 'middleware' => 'hasPermission', 'hasPermission' => 'manage.create@auth_user'], function(Router $router) {
+
+        $router->post('/', ['uses' => 'CreateController@postForm', ]);
+        $router->get('/', ['as' => 'admin.user.add', 'uses' => 'CreateController@getForm', ]);
+    });
 
     $router->group(['prefix' => '{auth_user_id}', 'namespace' => 'User'], function (Router $router) {
 
@@ -50,7 +54,6 @@ $router->group([
         $router->get('/', ['as' => 'admin.user.index', 'uses' => 'InfoController@redirect']);
     });
 
-    $router->post('/', ['uses' => 'UserManagerController@userManager']);
     $router->get('/', ['as' => 'admin.user.manager', 'uses' => 'UserManagerController@userManager']);
 });
 
