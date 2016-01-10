@@ -5,7 +5,7 @@ class DashboardController extends BaseController
 
     public function getIndex()
     {
-        return $this->setView('controlpanel.user', [
+        return $this->setView('controlpanel.dashboard', [
             'user' => \Auth::user()->transform(),
         ]);
     }

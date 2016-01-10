@@ -21,7 +21,7 @@
                         {!! Former::radio('avatar')->radios([
                             $name => ['name' => 'avatar', 'value' => $avatar]
                         ])->label(false) !!}
-                        <img src="{{ $avatar }}" alt="" style="height: 80px; width: 80px;">
+                        <img src="{{ $avatar }}" alt="{{ $user->screenname }}'s {{ $name }} Avatar" class="thumbnail" style="height: 80px; width: 80px;">
                     </label>
                 </div>
 
