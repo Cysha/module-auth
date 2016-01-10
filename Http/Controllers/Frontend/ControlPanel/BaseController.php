@@ -11,5 +11,14 @@ class BaseController extends BaseFrontendController
         $this->setLayout('1-column');
     }
 
+    public function getUserDetails() {
+        $data = [
+            'user' => \Auth::user()->transform(),
+        ];
+        $this->theme->setTitle('Control Panel');
+        $this->theme->breadcrumb()->add('Control Panel', route('pxcms.user.dashboard'));
+
+        return $data;
+    }
 
 }

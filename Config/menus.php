@@ -119,4 +119,43 @@ return [
         ],
     ],
 
+
+
+    'frontend_user_controlpanel' =>  [
+        [
+            'route' => 'pxcms.user.dashboard',
+            'text' => 'Dashboard',
+            'icon' => 'fa-file-text-o',
+            'order' => 1,
+            'permission' => null,
+        ],
+        [
+            'route' => 'pxcms.user.avatar',
+            'text' => 'Avatars',
+            'icon' => 'fa-picture-o',
+            'order' => 3,
+            'permission' => null,
+        ],
+        [
+            'route' => 'pxcms.user.notification',
+            'text' => 'Notifications',
+            'icon' => 'fa-envelope-o',
+            'order' => 4,
+            'permission' => null,
+        ],
+        [
+            'route' => 'pxcms.user.security',
+            'text' => 'Security',
+            'icon' => 'fa-lock',
+            'order' => 5,
+            'permission' => null,
+        ],
+        [
+            'route' => 'pxcms.user.settings',
+            'text' => 'Account',
+            'icon' => 'fa-user',
+            'order' => 6,
+            'permission' => null,
+        ],
+    ],
 ];

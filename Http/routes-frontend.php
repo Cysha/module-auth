@@ -25,9 +25,31 @@ $router->group(['namespace' => 'Auth'], function ($router) {
 });
 
 // user control panel
-$router->group(['prefix' => 'user', 'namespace' => 'ControlPanel'], function (Router $router) {
+$router->group(['prefix' => 'user', 'namespace' => 'ControlPanel', 'middleware' => 'auth'], function (Router $router) {
 
 
     $router->get('permissions', ['as' => 'pxcms.user.permissions', 'uses' => 'PermissionsController@getForm']);
+
+    $router->group(['prefix' => 'avatar'], function(Router $router) {
+        $router->post('/', ['uses' => 'AvatarController@postForm']);
+        $router->get('/', ['as' => 'pxcms.user.avatar', 'uses' => 'AvatarController@getForm']);
+    });
+
+    $router->group(['prefix' => 'notification'], function(Router $router) {
+        $router->post('/', ['uses' => 'NotificationController@postForm']);
+        $router->get('/', ['as' => 'pxcms.user.notification', 'uses' => 'NotificationController@getForm']);
+    });
+
+    $router->group(['prefix' => 'security'], function(Router $router) {
+        $router->post('update_password', ['as' => 'pxcms.user.update_password', 'uses' => 'SecurityController@updatePassword']);
+        $router->get('/', ['as' => 'pxcms.user.security', 'uses' => 'SecurityController@getForm']);
+    });
+
+    $router->group(['prefix' => 'settings'], function(Router $router) {
+        $router->post('/', ['uses' => 'SettingsController@postForm']);
+        $router->get('/', ['as' => 'pxcms.user.settings', 'uses' => 'SettingsController@getForm']);
+    });
+
     $router->get('/', ['as' => 'pxcms.user.dashboard', 'uses' => 'DashboardController@getIndex']);
+
 });
