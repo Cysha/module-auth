@@ -12,7 +12,7 @@
             <h3 class="panel-title">2 Factor Authentication</h3>
         </div>
         <div class="panel-body">
-            @if (!$user->has2fa)
+            @if (!$user->hasenabled2fa)
                 {!! Former::horizontal_open(route('pxcms.user.enable_2fa')) !!}
                     <p>2 Factor Authentication is currently disabled. If you would like to enable it, use the button below.</p>
                     <button class="btn-labeled btn btn-success" type="submit">
@@ -20,7 +20,7 @@
                     </button>
                 {!! Former::close() !!}
             @else
-                @if (!$user->verified_2fa)
+                @if (!$user->has2fa)
                 <p>2 Factor Authentication requires a small bit of setting up before it can be used, follow instructions below.</p>
                 <div class="row">
                     <div class="col-md-12">

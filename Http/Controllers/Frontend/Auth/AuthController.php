@@ -75,7 +75,7 @@ class AuthController extends BaseFrontendController
 
             // if they have 2fa, redirect em to put the code in
             if (Auth::user()->has2fa) {
-                return redirect()->to(route('pxcms.user.2fa'))->withInfo(trans('auth::auth.user.2fa_enabled'));
+                return redirect()->to(route('pxcms.user.2fa'));
             } else {
                 return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
             }
