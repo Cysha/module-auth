@@ -1,6 +1,7 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
+use Former;
 
 class BaseController extends BaseFrontendController
 {
@@ -12,13 +13,12 @@ class BaseController extends BaseFrontendController
     }
 
     public function getUserDetails() {
-        $data = [
-            'user' => \Auth::user()->transform(),
-        ];
+        $user = \Auth::user();
+        Former::populate($user);
         $this->theme->setTitle('Control Panel');
-        $this->theme->breadcrumb()->add('Control Panel', route('pxcms.user.dashboard'));
+        $this->theme->breadcrumb()->add(e($user->screenname).'\'s Control Panel', route('pxcms.user.dashboard'));
 
-        return $data;
+        return compact('user');
     }
 
 }

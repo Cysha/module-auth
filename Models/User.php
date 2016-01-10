@@ -18,7 +18,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         LockAware;
 
     protected $table = 'users';
-    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'verified_at', 'disabled_at'];
+    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'use_nick', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
@@ -50,10 +50,17 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
      */
     public function getScreennameAttribute()
     {
+        // admin wants to override what the user's screenname comes out as
+        if (($setting = config('cms.auth.config.users.force_screename', null)) !== null) {
+            $this->use_nick = $setting;
+        }
+
+        // this usually happens if social login was how they registered
         if (empty($this->username)) {
             return $this->name;
         }
 
+        // switch as needed
         return $this->use_nick == 1 ? $this->name : $this->username;
     }
 

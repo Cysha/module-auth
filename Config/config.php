@@ -8,6 +8,7 @@ return [
     ],
     'users' => [
         'require_activating' => false,
+        'force_screenname' => null,
     ],
     'roles' => [
         'admin_group' => 1,
