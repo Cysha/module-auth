@@ -88,6 +88,16 @@ class UserManager
                     'searchable' => true,
                     'width' => '15%',
                 ],
+                'has2fa' => [
+                    'th' => '2FA Enabled?',
+                    'tr' => function ($model) {
+                        return !is_null($model->has2fa)
+                            ? '<div class="label label-success">Enabled</div>'
+                            : '<div class="label label-danger">Not Enabled</div>';
+                    },
+                    'tr-class' => 'text-center',
+                    'width' => '5%',
+                ],
                 'verified' => [
                     'th' => 'Verified',
                     'tr' => function ($model) {
@@ -105,16 +115,6 @@ class UserManager
                         return !is_null($model->last_logged_at)
                             ? array_get(date_array($model->last_logged_at), 'element')
                             : 'Never';
-                    },
-                    'th-class' => 'hidden-xs hidden-sm',
-                    'tr-class' => 'hidden-xs hidden-sm',
-                    'width' => '12%',
-                ],
-                'created_at' => [
-                    'alias' => 'created',
-                    'th' => 'Date Registered',
-                    'tr' => function ($model) {
-                        return array_get(date_array($model->created_at), 'element');
                     },
                     'th-class' => 'hidden-xs hidden-sm',
                     'tr-class' => 'hidden-xs hidden-sm',
