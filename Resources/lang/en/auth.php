@@ -18,6 +18,7 @@ return [
     'user.2fa_disabled' => '2 Factor Authentication has been disabled, remember to remove this account from your device (:site_name::user_email).',
     'user.2fa_thanks' => 'Thanks for helping us to help you keep your account safe!',
     'user.2fa_code_error' => 'Code could not be verified.',
+    'user.2fa_enable_error' => 'Error: Could not enable 2 Factor Authentication',
 
     // user register errors
     'register.username.unique' => 'Username you have picked is already in use, choose another one.',
