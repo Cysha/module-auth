@@ -32,7 +32,7 @@ $router->group(['namespace' => 'Auth'], function ($router) {
 $router->group([
     'prefix' => 'user',
     'namespace' => 'ControlPanel',
-    'middleware' => ['auth']
+    'middleware' => 'auth',
 ], function (Router $router) {
 
 

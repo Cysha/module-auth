@@ -58,7 +58,11 @@ class AuthMiddleware {
 				return redirect()->guest(route('pxcms.user.login'));
 			}
 		} else {
-			return $this->enforce2fa();
+			$return = $this->enforce2fa();
+
+			if ($return !== null) {
+				return $return;
+			}
 		}
 
 		return $next($request);
@@ -66,9 +70,14 @@ class AuthMiddleware {
 
 
 	private function enforce2fa() {
+		// check if 2fa has already been verified
+		if ($this->session->has('verified_2fa', false) === true) {
+            return;
+		}
+
         // check to see if current user has 2fa enabled
         if (!$this->auth->user()->has2fa) {
-            return $next($request);
+            return;
         }
 
         // check if we have the session
