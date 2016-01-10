@@ -5,6 +5,7 @@ use Cms\Modules\Auth\Http\Requests\FrontendSecurityRequest;
 use Cms\Modules\Auth\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Google2FA;
 
 class SecurityController extends BaseController
@@ -36,6 +37,9 @@ class SecurityController extends BaseController
                 'verify_2fa' => trans('auth::auth.user.2fa_code_error'),
             ]);
         }
+
+        // set this session, stop the user being kicked out via the enforce part of auth middleware
+        Session::put('verified_2fa', true);
 
         $user->verified_2fa = 1;
         if ($user->save() === false) {
