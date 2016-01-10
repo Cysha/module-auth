@@ -18,7 +18,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         LockAware;
 
     protected $table = 'users';
-    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'use_nick', 'verified_at', 'disabled_at'];
+    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'use_nick', 'secret_2fa', 'verified_2fa', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
@@ -62,6 +62,11 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
         // switch as needed
         return $this->use_nick == 1 ? $this->name : $this->username;
+    }
+
+    public function getHas2faAttribute() {
+        // check if the user has enabled 2fa
+        return !empty($this->secret_2fa) && $this->verified_2fa;
     }
 
     public function getAvatarAttribute($val, $size = 64)
@@ -179,6 +184,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             'email' => (string) $this->email,
             'avatar' => (string) $this->avatar,
 
+            'has2fa' => $this->has2fa,
             'last_logged_at' => date_array($this->last_logged_at),
             'verified' => date_array($this->verified_at),
             'registered' => date_array($this->created_at),

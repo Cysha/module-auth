@@ -10,7 +10,8 @@
     "require": {
         "composer/installers"               : "dev-master",
 
-        "beatswitch/lock-laravel"           : "dev-master"
+        "beatswitch/lock-laravel"           : "dev-master",
+        "pragmarx/google2fa"                : "^0.7.1"
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/cysha/installers" }

@@ -12,6 +12,10 @@ $router->group(['namespace' => 'Auth'], function ($router) {
     $router->post('login', ['uses' => 'AuthController@postLogin']);
     $router->get('logout', ['as' => 'pxcms.user.logout', 'uses' => 'AuthController@getLogout']);
 
+    // 2fa
+    $router->post('login/2fa', ['uses' => 'AuthController@post2fa']);
+    $router->get('login/2fa', ['as' => 'pxcms.user.2fa', 'uses' => 'AuthController@get2fa']);
+
     // Registration
     $router->get('register', ['as' => 'pxcms.user.register', 'uses' => 'AuthController@getRegister']);
     $router->post('register', 'AuthController@postRegister');
@@ -25,7 +29,11 @@ $router->group(['namespace' => 'Auth'], function ($router) {
 });
 
 // user control panel
-$router->group(['prefix' => 'user', 'namespace' => 'ControlPanel', 'middleware' => 'auth'], function (Router $router) {
+$router->group([
+    'prefix' => 'user',
+    'namespace' => 'ControlPanel',
+    'middleware' => ['auth']
+], function (Router $router) {
 
 
     $router->get('permissions', ['as' => 'pxcms.user.permissions', 'uses' => 'PermissionsController@getForm']);
@@ -41,7 +49,14 @@ $router->group(['prefix' => 'user', 'namespace' => 'ControlPanel', 'middleware' 
     });
 
     $router->group(['prefix' => 'security'], function(Router $router) {
+        // 2fa stuff
+        $router->post('enable_2fa', ['as' => 'pxcms.user.enable_2fa', 'uses' => 'SecurityController@enable2fa']);
+        $router->post('disable_2fa', ['as' => 'pxcms.user.disable_2fa', 'uses' => 'SecurityController@disable2fa']);
+        $router->post('verify_2fa', ['as' => 'pxcms.user.verify_2fa', 'uses' => 'SecurityController@verify2fa']);
+
+        // password changing
         $router->post('update_password', ['as' => 'pxcms.user.update_password', 'uses' => 'SecurityController@updatePassword']);
+
         $router->get('/', ['as' => 'pxcms.user.security', 'uses' => 'SecurityController@getForm']);
     });
 

@@ -1,9 +1,13 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
+use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use PragmaRX\Google2FA\Google2FA;
 
 class AuthController extends BaseFrontendController
 {
@@ -42,7 +46,7 @@ class AuthController extends BaseFrontendController
             app('Illuminate\Filesystem\Filesystem')
         );
 
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => ['getLogout', 'get2fa', 'post2fa']]);
     }
 
     /**
@@ -66,8 +70,15 @@ class AuthController extends BaseFrontendController
         // grab the credentials, and use them to attempt an auth
         $credentials = $request->only('email', 'password');
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
-            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(\Auth::user()->id));
-            return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
+
+            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::user()->id));
+
+            // if they have 2fa, redirect em to put the code in
+            if (Auth::user()->has2fa) {
+                return redirect()->to(route('pxcms.user.2fa'))->withInfo(trans('auth::auth.user.2fa_enabled'));
+            } else {
+                return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
+            }
         }
 
         // if we get this far, we have a problem
@@ -87,6 +98,29 @@ class AuthController extends BaseFrontendController
 
         return redirect(route(config('cms.auth.paths.redirect_logout', 'pxcms.pages.home')))
             ->withInfo(trans('auth::auth.user.logged_out_successfully'));
+    }
+
+    public function get2fa()
+    {
+        $this->setLayout('1-column');
+        return $this->setView('partials.core.2fa', [], 'theme');
+    }
+
+    public function post2fa(Frontend2faRequest $input, Google2FA $google2fa)
+    {
+        $secret = $input->get('verify_2fa');
+        $user = Auth::user();
+
+        $valid = $google2fa->verifyKey($user->secret_2fa, $secret);
+        if ($valid === false) {
+            return redirect()->back()->withErrors([
+                'verify_2fa' => trans('auth::auth.user.2fa_code_error'),
+            ]);
+        } else {
+            Session::put('verified_2fa', true);
+        }
+
+        return redirect()->to(route('pxcms.pages.home'))->withInfo(trans('auth::auth.user.2fa_thanks'));
     }
 
     /**

@@ -1,8 +1,10 @@
 <?php namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\BaseModuleProvider;
-use Illuminate\Foundation\AliasLoader;
 use Config;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 
 class AuthModuleServiceProvider extends BaseModuleProvider
 {
@@ -14,7 +16,7 @@ class AuthModuleServiceProvider extends BaseModuleProvider
      */
     protected $middleware = [
         'Auth' => [
-            'hasRole'       => 'HasRoleMiddleware',
+            'hasRole' => 'HasRoleMiddleware',
             'hasPermission' => 'HasPermissionMiddleware',
         ],
     ];
