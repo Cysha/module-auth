@@ -14,7 +14,7 @@ class AuthCreatePermissionsTables extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type', 10);
+            $table->string('type', 11);
             $table->string('action', 100);
             $table->string('resource_type', 100)->nullable();
             $table->string('readable_name', 100)->nullable();
