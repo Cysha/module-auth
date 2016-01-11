@@ -22,13 +22,6 @@ return [
                     'activePattern' => '\/{backend}\/roles\/*',
                 ],
                 [
-                    'route' => 'admin.permission.manager',
-                    'text' => 'Permissions',
-                    'icon' => 'fa-check-square-o',
-                    'order' => 3,
-                    'permission' => 'manage@auth_permission',
-                ],
-                [
                     'route' => 'admin.apikey.manager',
                     'text' => 'Api Keys',
                     'icon' => 'fa-key',
