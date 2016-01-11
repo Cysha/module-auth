@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AuthAdd2FaColumn extends Migration
+class AuthAdd2faColumn extends Migration
 {
     /**
      * Run the migrations.
