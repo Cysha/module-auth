@@ -91,7 +91,7 @@ class UserManager
                 'has2fa' => [
                     'th' => '2FA Enabled?',
                     'tr' => function ($model) {
-                        return !is_null($model->has2fa)
+                        return $model->has2fa === '1'
                             ? '<div class="label label-success">Enabled</div>'
                             : '<div class="label label-danger">Not Enabled</div>';
                     },

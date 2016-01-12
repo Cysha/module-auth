@@ -71,7 +71,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getHas2faAttribute() {
         // check if the user has enabled 2fa
-        return !empty($this->secret_2fa) && $this->verified_2fa;
+        return !empty($this->secret_2fa) && $this->verified_2fa === '1';
     }
 
     public function getAvatarAttribute($val, $size = 64)
