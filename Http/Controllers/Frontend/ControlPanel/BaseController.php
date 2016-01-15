@@ -15,8 +15,8 @@ class BaseController extends BaseFrontendController
     public function getUserDetails() {
         $user = \Auth::user();
         Former::populate($user);
-        $this->theme->setTitle('Control Panel');
-        $this->theme->breadcrumb()->add(e($user->screenname).'\'s Control Panel', route('pxcms.user.dashboard'));
+        $this->theme->setTitle('Your Control Panel');
+        $this->theme->breadcrumb()->add('Your Control Panel', route('pxcms.user.dashboard'));
 
         return compact('user');
     }
