@@ -22,6 +22,9 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $with = ['roles'];
+    protected $casts = [
+        'verified_2fa' => 'bool',
+    ];
 
     protected $identifiableName = 'screenname';
     protected $link = [
@@ -71,7 +74,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getHas2faAttribute() {
         // check if the user has enabled 2fa
-        return !empty($this->secret_2fa) && $this->verified_2fa === '1';
+        return !empty($this->secret_2fa) && $this->verified_2fa;
     }
 
     public function getAvatarAttribute($val, $size = 64)
