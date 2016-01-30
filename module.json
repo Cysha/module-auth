@@ -15,11 +15,13 @@
         "Cms\\Modules\\Auth\\Providers\\CustomLockServiceProvider",
         "Cms\\Modules\\Auth\\Providers\\AuthModuleServiceProvider",
         "Cms\\Modules\\Auth\\Providers\\AuthEventsProvider",
-        "Cms\\Modules\\Auth\\Providers\\AuthRoutingProvider"
+        "Cms\\Modules\\Auth\\Providers\\AuthRoutingProvider",
+        "Cms\\Modules\\Auth\\Providers\\AuthServicesProvider"
     ],
     "aliases": {
         "Lock": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\Lock",
-        "LockManager": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\LockManager"
+        "LockManager": "BeatSwitch\\Lock\\Integrations\\Laravel\\Facades\\LockManager",
+        "Recaptcha": "Greggilbert\\Recaptcha\\Facades\\Recaptcha"
     },
     "files": [
         "start.php",
