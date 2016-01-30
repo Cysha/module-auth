@@ -3,6 +3,7 @@
 return [
     'auth_config' => [
         'api' => 'Manage Api Settings',
+        'users' => 'Manage User Settings',
     ],
 
     'auth_user' => [

@@ -133,5 +133,7 @@ $router->group([
     'namespace' => 'Config'
 ], function (Router $router) {
 
+    $router->get('users', ['as' => 'admin.config.users', 'uses' => 'UsersController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'users@auth_config']);
+
     $router->get('api', ['as' => 'admin.config.api', 'uses' => 'ApiController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'api@auth_config']);
 });

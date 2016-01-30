@@ -35,11 +35,18 @@ return [
 
     'backend_config_menu' => [
         [
+            'route' => 'admin.config.users',
+            'text' => 'User Settings',
+            'icon' => 'fa-users',
+            'order' => 6,
+            'permission' => 'api@auth_config',
+        ],
+        [
             'route' => 'admin.config.api',
             'text' => 'Api Settings',
             'icon' => 'fa-key',
-            'order' => 6,
-            'permission' => 'api@auth_config',
+            'order' => 7,
+            'permission' => 'users@auth_config',
         ],
     ],
 
@@ -111,8 +118,6 @@ return [
             'permission' => 'manage.update@auth_role',
         ],
     ],
-
-
 
     'frontend_user_controlpanel' =>  [
         [
