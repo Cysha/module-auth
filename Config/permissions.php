@@ -4,6 +4,7 @@ return [
     'auth_config' => [
         'api' => 'Manage Api Settings',
         'users' => 'Manage User Settings',
+        'authentication' => 'Manage Authentication Settings',
     ],
 
     'auth_user' => [

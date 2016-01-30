@@ -32,6 +32,29 @@
         </div>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Login Throttling</h3>
+        </div>
+        <div class="panel-body">
+            {!! Form::Config('cms.auth.config.users.login.throttlingEnabled', 'radio', 'false')
+                ->radios([
+                    'No' => ['value' => 'false'],
+                    'Yes' => ['value' => 'true'],
+                ])
+                ->label('Enable Login Throttling?')
+                ->inline()
+            !!}
+
+            {!! Form::Config('cms.auth.config.users.login.lockoutTime', 'number')
+                ->label('Lockout Time') !!}
+
+            {!! Form::Config('cms.auth.config.users.login.maxLoginAttempts', 'number')
+                ->label('Max Login Attempts') !!}
+
+        </div>
+    </div>
+
     <button class="btn-labeled btn btn-success pull-right" type="submit">
         <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span> Save
     </button>

@@ -135,5 +135,7 @@ $router->group([
 
     $router->get('users', ['as' => 'admin.config.users', 'uses' => 'UsersController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'users@auth_config']);
 
+    $router->get('authentication', ['as' => 'admin.config.authentication', 'uses' => 'AuthController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'authentication@auth_config']);
+
     $router->get('api', ['as' => 'admin.config.api', 'uses' => 'ApiController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'api@auth_config']);
 });

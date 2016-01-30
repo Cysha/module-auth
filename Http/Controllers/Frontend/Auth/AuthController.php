@@ -1,25 +1,22 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
-use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Cms\Modules\Auth\Http\Requests\FrontendRegisterRequest;
+use Cms\Modules\Auth\Http\Requests\FrontendLoginRequest;
+use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use PragmaRX\Google2FA\Google2FA;
+use Illuminate\Http\Request;
 
 class AuthController extends BaseFrontendController
 {
+    use ThrottlesLogins;
+
 
     public $layout = '2-column-left';
-
-    /**
-     * The Guard implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\Guard
-     */
-    protected $auth;
 
     /**
      * User Repository
@@ -28,23 +25,27 @@ class AuthController extends BaseFrontendController
      */
     protected $user;
 
+    protected $lockoutTime;
+    protected $maxLoginAttempts;
+
 
     /**
      * Create a new authentication controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Guard  $auth
      * @param  \Cms\Modules\Auth\Repositories\User\RepositoryInterface $user
      * @return void
      */
-    public function __construct(Guard $auth, UserRepo $user)
+    public function __construct(UserRepo $user)
     {
         // set dependencies
-        $this->auth = $auth;
         $this->user = $user;
         $this->_setDependencies(
             app('Teepluss\Theme\Contracts\Theme'),
             app('Illuminate\Filesystem\Filesystem')
         );
+
+        $this->lockoutTime = config('cms.auth.config.users.login.lockoutTime', 60);
+        $this->maxLoginAttempts = config('cms.auth.config.users.login.maxLoginAttempts', 5);
 
         $this->middleware('guest', ['except' => ['getLogout', 'get2fa', 'post2fa']]);
     }
@@ -64,11 +65,21 @@ class AuthController extends BaseFrontendController
     public function postLogin(FrontendLoginRequest $request)
     {
 
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = ($this->isUsingThrottlesLoginsTrait() && config('cms.auth.config.users.login.throttlingEnabled', 'false') === 'true');
+
+        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+            event(new \Cms\Modules\Auth\Events\NotifyUser(Auth::id(), 'auth::notify.account.lockout'));
+            return $this->sendLockoutResponse($request);
+        }
+
         // grab the credentials, and use them to attempt an auth
         $credentials = $request->only('email', 'password');
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
 
-            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::user()->id));
+            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
 
             // if they have 2fa, redirect em to put the code in
             if (Auth::user()->has2fa) {
@@ -78,7 +89,13 @@ class AuthController extends BaseFrontendController
             }
         }
 
-        // if we get this far, we have a problem
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        if ($throttles) {
+            $this->incrementLoginAttempts($request);
+        }
+
         return redirect()->back()
             ->withInput($request->only('email', 'remember'))
             ->withErrors([
@@ -151,17 +168,42 @@ class AuthController extends BaseFrontendController
             config('cms.auth.config.users.require_activating', false)
         );
 
+        event(new \Cms\Modules\Auth\Events\UserHasRegistered($user->id));
+
         // if the user requires activating, then dont log them in automatically
         if (config('cms.auth.config.users.require_activating', false) === false) {
             $this->auth->login($user);
             event(new \Cms\Modules\Auth\Events\UserHasLoggedIn($user->id));
         }
 
-        event(new \Cms\Modules\Auth\Events\UserHasRegistered($user->id));
-
         // redirect them back
         return redirect(route(config('cms.auth.config.paths.redirect_register', 'pxcms.pages.home')))
             ->withInfo(trans('auth::auth.user.registered'));
     }
 
+
+
+
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function loginUsername()
+    {
+       return 'email';
+    }
+
+    /**
+     * Determine if the class is using the ThrottlesLogins trait.
+     *
+     * @return bool
+     */
+    protected function isUsingThrottlesLoginsTrait()
+    {
+       return in_array(
+           ThrottlesLogins::class, class_uses_recursive(get_class($this))
+       );
+    }
 }

@@ -42,10 +42,17 @@ return [
             'permission' => 'api@auth_config',
         ],
         [
+            'route' => 'admin.config.authentication',
+            'text' => 'Authentication Settings',
+            'icon' => 'fa-lock',
+            'order' => 7,
+            'permission' => 'authentication@auth_config',
+        ],
+        [
             'route' => 'admin.config.api',
             'text' => 'Api Settings',
             'icon' => 'fa-key',
-            'order' => 7,
+            'order' => 8,
             'permission' => 'users@auth_config',
         ],
     ],

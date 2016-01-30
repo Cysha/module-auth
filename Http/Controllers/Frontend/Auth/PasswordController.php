@@ -23,15 +23,11 @@ class PasswordController extends BaseFrontendController
     /**
      * Create a new password controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Guard  $auth
-     * @param  \Illuminate\Contracts\Auth\PasswordBroker  $passwords
      * @return void
      */
-    public function __construct(Guard $auth, PasswordBroker $passwords)
+    public function __construct()
     {
         // set dependencies
-        $this->auth = $auth;
-        $this->passwords = $passwords;
         $this->_setDependencies(
             app('Teepluss\Theme\Contracts\Theme'),
             app('Illuminate\Filesystem\Filesystem')

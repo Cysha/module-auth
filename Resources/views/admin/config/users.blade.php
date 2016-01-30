@@ -19,8 +19,8 @@
                 ->disable()
                 ->inlineHelp('<i class="fa fa-warning"></i> Functionality not implemented')
             !!}
-            {!! Form::Config('cms.auth.config.users.force_screenname', 'radio', 'NULL')
-                ->radios([
+            {!! Form::Config('cms.auth.config.users.force_screenname', 'select', 'NULL')
+                ->options([
                     'Disable' => ['value' => 'NULL'],
                     'Username' => ['value' => '0'],
                     'Full Name' => ['value' => '1']
