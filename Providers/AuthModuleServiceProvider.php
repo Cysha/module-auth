@@ -54,6 +54,12 @@ class AuthModuleServiceProvider extends BaseModuleProvider
         $userModel = 'Cms\Modules\Auth\Models\User';
         Config::set('auth.model', $userModel);
         Config::set('auth.table', with(new $userModel)->getTable());
+
+        // attach view composer to the login & register form
+        view()->composer('theme.*::views.partials.core._login_form', 'Cms\Modules\Auth\Composers\Recaptcha@loginForm');
+        view()->composer('theme.*::views.partials.core._register_form', 'Cms\Modules\Auth\Composers\Recaptcha@registerForm');
+
+
     }
 
 }

@@ -61,11 +61,8 @@ class AuthController extends BaseFrontendController
     /**
      * Process the login details and check if the user can be authenticated
      */
-    public function postLogin(Request $request)
+    public function postLogin(FrontendLoginRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email', 'password' => 'required',
-        ]);
 
         // grab the credentials, and use them to attempt an auth
         $credentials = $request->only('email', 'password');
@@ -143,15 +140,8 @@ class AuthController extends BaseFrontendController
     /**
      * Process a register request
      */
-    public function postRegister(Request $request)
+    public function postRegister(FrontendRegisterRequest $request)
     {
-        // validate the form
-        $this->validate($request, [
-            'username' => 'required|max:255|unique:users',
-            'email'    => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
-
         event(new \Cms\Modules\Auth\Events\UserIsRegistering($request));
 
         // create the user
