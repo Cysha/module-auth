@@ -11,6 +11,10 @@ return [
 
     'user.logged_out_successfully' => 'You have successfully logged out.',
 
+    'user.secure_password' => 'Atleast 1 Digit, 1 Upper and Lower case, 1 Special Character and atleast 8 characters in length',
+    'user.expire_passwords' => 'Force passwords to expire after a set amount of time. Users with expired passwords will be forced to change it upon next login.',
+    'user.password_age' => 'How old can the passwords get before requiring reset.',
+
     // 2fa
     'user.2fa_enabled' => 'This account has 2 Factor Authentication enabled. Please input the code from your device to continue.',
     'user.2fa_verified' => '2 Factor Authentication verified successfully. Please ensure this is used from now on.',

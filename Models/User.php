@@ -21,6 +21,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'use_nick', 'secret_2fa', 'verified_2fa', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
+    protected $dates = ['pass_expire_on', 'last_logged_at', 'verified_at', 'disabled_at', 'created_at', 'updated_at'];
     protected $with = ['roles'];
     protected $casts = [
         'verified_2fa' => 'bool',

@@ -28,6 +28,15 @@ class FrontendLoginRequest extends Request
             'password' => 'required',
         ];
 
+        // if we wanted it there, enforce it
+        if ($this->needRecaptcha()) {
+            $rules['g-recaptcha-response'] = 'required|recaptcha';
+        }
+
+        return $rules;
+    }
+
+    private function needRecaptcha() {
         // test for recaptcha
         $setting = config('cms.auth.config.recaptcha.login_form', 'false');
 
@@ -38,11 +47,7 @@ class FrontendLoginRequest extends Request
             $setting = 'false';
         }
 
-        // if we wanted it there, enforce it
-        if ($setting === 'true') {
-            $rules['g-recaptcha-response'] = 'required|recaptcha';
-        }
-
-        return $rules;
+        return ($setting === 'true');
     }
+
 }

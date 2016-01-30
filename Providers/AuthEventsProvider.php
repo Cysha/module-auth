@@ -20,6 +20,7 @@ class AuthEventsProvider extends BaseEventsProvider
          */
         'Cms\Modules\Auth\Events\UserHasLoggedIn' => [
             'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
+            'Cms\Modules\Auth\Events\Handlers\CheckForExpiredPassword',
         ],
 
         /**

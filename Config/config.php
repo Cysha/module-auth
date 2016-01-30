@@ -13,7 +13,10 @@ return [
             'throttlingEnabled' => 'false',
             'lockoutTime' => 60,
             'maxLoginAttempts' => 5,
-        ]
+        ],
+        'force_password' => 'false',
+        'expire_passwords' => 'false',
+        'password_age' => 31536000, // 1 year
     ],
     'recaptcha' => [
         'login_form' => 'false',

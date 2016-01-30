@@ -26,9 +26,23 @@ class FrontendRegisterRequest extends Request
         $rules = [
             'username' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:8',
         ];
 
+        // if we wanted secure passwords, enable this...
+        if (config('cms.auth.users.login.force_password', 'false') === 'true') {
+            $rules['password'] .= '|regex:^(?=\d*)(?=[a-z]*)(?=[A-Z]*)(?=[\W]*).{8,}';
+        }
+
+        // if we wanted it there, enforce it
+        if ($this->needRecaptcha()) {
+            $rules['g-recaptcha-response'] = 'required|recaptcha';
+        }
+
+        return $rules;
+    }
+
+    private function needRecaptcha() {
         // test for recaptcha
         $setting = config('cms.auth.config.recaptcha.login_form', 'false');
 
@@ -39,11 +53,7 @@ class FrontendRegisterRequest extends Request
             $setting = 'false';
         }
 
-        // if we wanted it there, enforce it
-        if ($setting === 'true') {
-            $rules['g-recaptcha-response'] = 'required|recaptcha';
-        }
-
-        return $rules;
+        return ($setting === 'true');
     }
+
 }
