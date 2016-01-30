@@ -16,6 +16,8 @@
                 ])
                 ->label('Require Email Activation')
                 ->inline()
+                ->disable()
+                ->inlineHelp('<i class="fa fa-warning"></i> Functionality not implemented')
             !!}
             {!! Form::Config('cms.auth.config.users.force_screenname', 'radio', 'NULL')
                 ->radios([
