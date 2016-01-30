@@ -9,6 +9,23 @@
             <h3 class="panel-title">User Settings</h3>
         </div>
         <div class="panel-body">
+            {!! Form::Config('cms.auth.config.users.require_activating', 'radio', 'false')
+                ->radios([
+                    'Yes' => ['value' => 'true'],
+                    'No' => ['value' => 'false']
+                ])
+                ->label('Require Email Activation')
+                ->inline()
+            !!}
+            {!! Form::Config('cms.auth.config.users.force_screenname', 'radio', 'NULL')
+                ->radios([
+                    'Disable' => ['value' => 'NULL'],
+                    'Username' => ['value' => '0'],
+                    'Full Name' => ['value' => '1']
+                ])
+                ->label('Force Users Public Name')
+                ->inline()
+            !!}
 
         </div>
     </div>

@@ -7,8 +7,8 @@ return [
         'redirect_register' => 'pxcms.user.registered',
     ],
     'users' => [
-        'require_activating' => false,
-        'force_screenname' => null,
+        'require_activating' => 'false',
+        'force_screenname' => 'NULL',
     ],
     'roles' => [
         'admin_group' => 1,

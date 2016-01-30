@@ -54,7 +54,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function getScreennameAttribute()
     {
         // admin wants to override what the user's screenname comes out as
-        if (($setting = config('cms.auth.config.users.force_screename', null)) !== null) {
+        if (($setting = config('cms.auth.config.users.force_screenname', 'NULL')) !== 'NULL') {
             $this->use_nick = $setting;
         }
 
