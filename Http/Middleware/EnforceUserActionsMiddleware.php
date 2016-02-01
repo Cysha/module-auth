@@ -41,43 +41,45 @@ class EnforceUserActionsMiddleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		\Debug::console('attempting to enforce actions');
-		if (session('actions', null) === null) {
+        $actions = array_filter(session('actions', []));
+        if (!count($actions)) {
             return $next($request);
-		}
+        }
 
         // grab the first one and do it
-        $action = head(session('actions'));
-        if ($action !== null) {
-            \Debug::console(['first one', $action]);
-
+        $current = session('actions');
+        $key = key($current);
+        $action = head($current);
+        if (!empty($action)) {
             // check if we are already here
-            if (route($action) !== $request->url()) {
+            if ($action !== null && route($action) !== $request->url()) {
+                // reset the key
+                \Session::forget(sprintf('actions.%', $key));
                 return redirect()->route($action);
             }
         }
+
+        $return = null;
+        // check if we need to grab 2fa code
         if (session('actions.require_2fa', null) !== null) {
             $return = $this->enforce2fa();
-            if ($return !== null) {
-                return $return;
-            }
-        }
-        if (session('actions.reset_pass', null) !== null) {
+
+        // check if we need to reset the password (expired/admin reset)
+        } else if (session('actions.reset_pass', null) !== null) {
             $return = $this->enforcePassExpiry();
-            if ($return !== null) {
-                return $return;
-            }
         }
 
+        // if we got a return, return it?
+        if ($return !== null) {
+            return $return;
+        }
 
-
-		\Debug::console('no actions, continuing...');
+        // if we get this far, great show the form
         return $next($request);
 	}
 
 	private function enforce2fa() {
-		// check if 2fa has already been verified
-		if (session('actions.require_2fa', false) !== true) {
+		if (session('actions.require_2fa', null) !== null) {
             return;
 		}
 
@@ -86,14 +88,14 @@ class EnforceUserActionsMiddleware {
             return;
         }
 
-        // check if we have the session
-        if (session('actions.require_2fa', false) === true) {
-            // if not, make sure we are on the 2fa or login route, if not log em out
-            if (!$this->router->is('pxcms.user.2fa') || $this->router->is('pxcms.user.login')) {
-                $this->auth->logout();
-                return redirect()->route('pxcms.pages.login')
-                	->withError(trans('auth::auth.user.2fa_bypass'));
-            }
+        // if not, make sure we are on the 2fa or login route, if not log em out
+        if (in_array(request()->getUri(), [
+            route('pxcms.user.2fa'),
+            route('pxcms.user.logout')
+        ])) {
+            $this->auth->logout();
+            return redirect()->route('pxcms.user.login')
+            	->withError(trans('auth::auth.user.2fa_bypass'));
         }
     }
 
@@ -102,15 +104,16 @@ class EnforceUserActionsMiddleware {
             return;
 		}
 
-        if ($this->router->is('pxcms.user.pass_expired')) {
+        // check if we are already on the pass_expired route, or trying to logout
+        if (in_array(request()->getUri(), [
+            route('pxcms.user.pass_expired'),
+            route('pxcms.user.logout')
+        ])) {
             return;
         }
 
-        if (!$this->router->is('pxcms.user.pass_expired') || $this->router->is('pxcms.user.login')) {
-            dd([$this->router->is('pxcms.user.pass_expired')]);
-            return redirect()->route('pxcms.user.pass_expired')
-            	->withError(trans('auth::auth.user.pass_expired'));
-        }
+        return redirect()->route('pxcms.user.pass_expired')
+        	->withError(trans('auth::auth.user.pass_expired'));
 	}
 
 }

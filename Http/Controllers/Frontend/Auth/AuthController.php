@@ -1,15 +1,16 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
+use Cms\Modules\Auth\Http\Requests\ChangePasswordRequest;
+use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
+use Cms\Modules\Auth\Http\Requests\FrontendLoginRequest;
+use Cms\Modules\Auth\Http\Requests\FrontendRegisterRequest;
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
-use Cms\Modules\Auth\Http\Requests\FrontendRegisterRequest;
-use Cms\Modules\Auth\Http\Requests\FrontendLoginRequest;
-use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
-use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use PragmaRX\Google2FA\Google2FA;
 
 class AuthController extends BaseFrontendController
 {
@@ -46,8 +47,6 @@ class AuthController extends BaseFrontendController
 
         $this->lockoutTime = config('cms.auth.config.users.login.lockoutTime', 60);
         $this->maxLoginAttempts = config('cms.auth.config.users.login.maxLoginAttempts', 5);
-
-        $this->middleware('guest', ['except' => ['getLogout', 'get2fa', 'post2fa']]);
     }
 
     /**
@@ -104,6 +103,7 @@ class AuthController extends BaseFrontendController
     public function getLogout()
     {
         $this->auth->logout();
+        \Session::flush();
 
         return redirect(route(config('cms.auth.paths.redirect_logout', 'pxcms.pages.home')))
             ->withInfo(trans('auth::auth.user.logged_out_successfully'));
@@ -181,8 +181,21 @@ class AuthController extends BaseFrontendController
     public function getPassExpired()
     {
         $this->setLayout('1-column');
-        dd('here');
         return $this->setView('controlpanel.partials.change_password', []);
+    }
+
+    public function postPassExpired(ChangePasswordRequest $input, UserRepo $userRepo)
+    {
+        // try and update the password
+        $return = $userRepo->updatePassword(Auth::user(), $input);
+        if (is_array($return)) {
+            return redirect()->back()
+                ->withErrors($return);
+        }
+
+        // redirect home!
+        return redirect()->to('/')
+            ->withInfo(trans('auth::auth.user.password_changed'));
     }
 
     /**

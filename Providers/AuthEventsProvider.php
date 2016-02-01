@@ -36,6 +36,13 @@ class AuthEventsProvider extends BaseEventsProvider
         'Cms\Modules\Auth\Events\UserHasRegistered' => [
         ],
 
+        /**
+         * SecurityController@postRegister
+         */
+        'Cms\Modules\Auth\Events\UserPasswordWasChanged' => [
+            'Cms\Modules\Auth\Events\Handlers\RemovePasswordChangeLock',
+        ],
+
         'Cms\Modules\Admin\Events\GotDatatableConfig' => [
             'Cms\Modules\Auth\Events\Handlers\ManipulateUserPermissionsDatatable',
             'Cms\Modules\Auth\Events\Handlers\ManipulateUserApiKeyDatatable'

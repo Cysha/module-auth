@@ -14,6 +14,9 @@ return [
     'user.secure_password' => 'Atleast 1 Digit, 1 Upper and Lower case, 1 Special Character and atleast 8 characters in length',
     'user.expire_passwords' => 'Force passwords to expire after a set amount of time. Users with expired passwords will be forced to change it upon next login.',
     'user.password_age' => 'How old can the passwords get before requiring reset.',
+    'user.expired_password' => 'Either your password has expired or an Administrator has forcibly expired it, to continue you will need to set a new one.',
+
+    'user.password_changed' => 'Your password has been successfully changed.',
 
     // 2fa
     'user.2fa_enabled' => 'This account has 2 Factor Authentication enabled. Please input the code from your device to continue.',

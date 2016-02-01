@@ -9,19 +9,19 @@ $router->group(['namespace' => 'Auth'], function ($router) {
         $router->get('login', ['as' => 'pxcms.user.login', 'uses' => 'AuthController@getLogin']);
     }
 
-    $router->get('logout', ['as' => 'pxcms.user.logout', 'uses' => 'AuthController@getLogout']);
+    $router->get('logout', ['as' => 'pxcms.user.logout', 'uses' => 'AuthController@getLogout', 'middleware' => 'auth']);
 
 
     $router->group(['prefix' => 'login'], function(Router $router) {
         // 2fa
-        $router->group(['prefix' => '2fa'], function(Router $router) {
+        $router->group(['prefix' => '2fa', 'middleware' => 'auth'], function(Router $router) {
             $router->post('/', ['uses' => 'AuthController@post2fa']);
             $router->get('/', ['as' => 'pxcms.user.2fa', 'uses' => 'AuthController@get2fa']);
         });
 
         // password expired
-        $router->group(['prefix' => 'password_expired'], function(Router $router) {
-            $router->post('/', ['uses' => '\Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel\SecurityController@updatePassword']);
+        $router->group(['prefix' => 'password_expired', 'middleware' => 'auth'], function(Router $router) {
+            $router->post('/', ['uses' => 'AuthController@postPassExpired']);
             $router->get('/', ['as' => 'pxcms.user.pass_expired', 'uses' => 'AuthController@getPassExpired']);
         });
 
