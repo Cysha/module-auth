@@ -85,9 +85,6 @@ class SecurityController extends BaseController
         return redirect()->back()->withInfo(trans('auth::auth.user.2fa_enabled'));
     }
 
-    /**
-     * TODO: check out https://github.com/Cysha/pxcms-auth/issues/4 for augmenting this...
-     */
     public function updatePassword(FrontendSecurityRequest $input)
     {
         $newPass = $input->get('new_password', null);

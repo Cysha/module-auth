@@ -19,8 +19,9 @@ class AuthEventsProvider extends BaseEventsProvider
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserHasLoggedIn' => [
-            'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
+            'Cms\Modules\Auth\Events\Handlers\CheckFor2Fa',
             'Cms\Modules\Auth\Events\Handlers\CheckForExpiredPassword',
+            'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
         ],
 
         /**

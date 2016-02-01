@@ -79,14 +79,9 @@ class AuthController extends BaseFrontendController
         $credentials = $request->only('email', 'password');
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
 
-            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
+            $events = event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
 
-            // if they have 2fa, redirect em to put the code in
-            if (Auth::user()->has2fa) {
-                return redirect()->to(route('pxcms.user.2fa'));
-            } else {
-                return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
-            }
+            return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -130,11 +125,13 @@ class AuthController extends BaseFrontendController
             return redirect()->back()->withErrors([
                 'verify_2fa' => trans('auth::auth.user.2fa_code_error'),
             ]);
-        } else {
-            Session::put('verified_2fa', true);
         }
 
-        return redirect()->to(route('pxcms.pages.home'))->withInfo(trans('auth::auth.user.2fa_thanks'));
+        // the key was valid, forget about 2fa now
+        Session::forget('actions.require_2fa');
+
+        return redirect(route(config('cms.auth.paths.redirect_logout', 'pxcms.pages.home')))
+            ->withInfo(trans('auth::auth.user.2fa_thanks'));
     }
 
     /**
@@ -181,9 +178,12 @@ class AuthController extends BaseFrontendController
             ->withInfo(trans('auth::auth.user.registered'));
     }
 
-
-
-
+    public function getPassExpired()
+    {
+        $this->setLayout('1-column');
+        dd('here');
+        return $this->setView('controlpanel.partials.change_password', []);
+    }
 
     /**
      * Get the login username to be used by the controller.

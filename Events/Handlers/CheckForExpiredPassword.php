@@ -1,23 +1,10 @@
 <?php namespace Cms\Modules\Auth\Events\Handlers;
 
 use Cms\Modules\Auth\Events\UserHasLoggedIn;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class CheckForExpiredPassword
 {
-    protected $request;
-
-    /**
-     * Create the event handler.
-     *
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     /**
      * Handle the event.
      *
@@ -25,33 +12,34 @@ class CheckForExpiredPassword
      */
     public function handle(UserHasLoggedIn $event)
     {
-        // check to see if passwords can expire
-        if (config('cms.auth.config.users.expire_passwords', 'false') === 'false') {
-            return;
-        }
+        \Debug::console('triggering CheckForExpiredPassword');
 
-        // just bombing out here cause pxcms-auth#16
-        return false;
+        // check to see if passwords can expire
+        //if (config('cms.auth.config.users.expire_passwords', 'false') === 'false') {
+        //    return;
+        //}
 
         $authModel = config('auth.model');
 
         // find the user associated with this event
         $user = with(new $authModel)->find($event->userId);
-
-        if ($user !== null) {
-            return false;
+        if ($user === null) {
+            return;
         }
 
         // make sure theres actually an expiry
-        if ($user->pass_expires_on !== null) {
-            return false;
+        if ($user->pass_expires_on === null) {
+            return;
         }
 
-        // TODO: Finish this off >.<
-        if (Carbon::now()->gte($user->pass_expires_on)) {
-            $user->password = '';
-            $user->save();
+        // test to see if we have gone past the expiry
+        if (!Carbon::now()->gte($user->pass_expires_on)) {
+            return;
         }
+
+        \Debug::console('setting actions.reset_pass');
+        session(['actions.reset_pass' => 'pxcms.user.pass_expired']);
+        return true;
     }
 
 }

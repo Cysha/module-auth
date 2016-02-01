@@ -20,7 +20,7 @@
                     </button>
                 {!! Former::close() !!}
             @else
-                @if (!$user->has2fa)
+                @if (!$user->require2fa)
                 <p>2 Factor Authentication requires a small bit of setting up before it can be used, follow instructions below.</p>
                 <div class="row">
                     <div class="col-md-12">
