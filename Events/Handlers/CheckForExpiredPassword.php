@@ -4,7 +4,7 @@ use Cms\Modules\Auth\Events\UserHasLoggedIn;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class UpdateLastLogin
+class CheckForExpiredPassword
 {
     protected $request;
 
@@ -38,8 +38,17 @@ class UpdateLastLogin
         // find the user associated with this event
         $user = with(new $authModel)->find($event->userId);
 
+        if ($user !== null) {
+            return false;
+        }
+
+        // make sure theres actually an expiry
+        if ($user->pass_expires_on !== null) {
+            return false;
+        }
+
         // TODO: Finish this off >.<
-        if ($user !== null && Carbon::now()->gte($user->pass_expires_on)) {
+        if (Carbon::now()->gte($user->pass_expires_on)) {
             $user->password = '';
             $user->save();
         }

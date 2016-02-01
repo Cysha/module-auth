@@ -29,7 +29,7 @@ class FrontendRegisterRequest extends Request
             'password' => 'required|confirmed|min:8',
         ];
 
-        // if we wanted secure passwords, enable this...
+        // if we wanted secure passwords...
         if (config('cms.auth.users.login.force_password', 'false') === 'true') {
             $rules['password'] .= '|regex:^(?=\d*)(?=[a-z]*)(?=[A-Z]*)(?=[\W]*).{8,}';
         }

@@ -1,6 +1,7 @@
 <?php namespace Cms\Modules\Auth\Http\Requests;
 
 use Cms\Http\Requests\Request;
+use Auth;
 
 class BackendCreateUserRequest extends Request
 {
@@ -11,7 +12,7 @@ class BackendCreateUserRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return Auth::check() && Auth::user()->isAdmin();
     }
 
     /**

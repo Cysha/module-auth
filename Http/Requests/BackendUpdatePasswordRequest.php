@@ -3,7 +3,7 @@
 use Cms\Http\Requests\Request;
 use Auth;
 
-class FrontendSecurityRequest extends Request
+class BackendUpdatePasswordRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,7 +12,7 @@ class FrontendSecurityRequest extends Request
      */
     public function authorize()
     {
-        return Auth::check();
+        return Auth::check() && Auth::user()->isAdmin();
     }
 
     /**
@@ -23,15 +23,14 @@ class FrontendSecurityRequest extends Request
     public function rules()
     {
         $rules = [
-            'old_password' => 'required_with:new_password',
-            'new_password' => 'required_with:old_password|confirmed|min:8',
-            'new_password_confirmation' => 'required_with:old_password,new_password',
+            'password' => 'required|confirmed|min:8',
+            'password_confirmation' => 'required_with:password|min:8',
         ];
 
         // if we wanted secure passwords...
         if (config('cms.auth.users.login.force_password', 'false') === 'true') {
-            $rules['new_password'] .= '|regex:^(?=\d*)(?=[a-z]*)(?=[A-Z]*)(?=[\W]*).{8,}';
-            $rules['new_password_confirmation'] .= '|regex:^(?=\d*)(?=[a-z]*)(?=[A-Z]*)(?=[\W]*).{8,}';
+            $rules['password'] .= '|regex:^(?=\d*)(?=[a-z]*)(?=[A-Z]*)(?=[\W]*).{8,}';
+            $rules['password_confirmation'] .= '|regex:^(?=\d*)(?=[a-z]*)(?=[A-Z]*)(?=[\W]*).{8,}';
         }
 
         return $rules;
