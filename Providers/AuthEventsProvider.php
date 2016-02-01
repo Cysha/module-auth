@@ -19,8 +19,9 @@ class AuthEventsProvider extends BaseEventsProvider
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserHasLoggedIn' => [
-            'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
+            'Cms\Modules\Auth\Events\Handlers\CheckFor2Fa',
             'Cms\Modules\Auth\Events\Handlers\CheckForExpiredPassword',
+            'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
         ],
 
         /**
@@ -33,6 +34,13 @@ class AuthEventsProvider extends BaseEventsProvider
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserHasRegistered' => [
+        ],
+
+        /**
+         * SecurityController@postRegister
+         */
+        'Cms\Modules\Auth\Events\UserPasswordWasChanged' => [
+            'Cms\Modules\Auth\Events\Handlers\RemovePasswordChangeLock',
         ],
 
         'Cms\Modules\Admin\Events\GotDatatableConfig' => [

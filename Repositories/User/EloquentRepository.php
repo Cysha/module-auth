@@ -1,8 +1,12 @@
 <?php namespace Cms\Modules\Auth\Repositories\User;
 
-use Illuminate\Database\Eloquent\Collection;
-use Cms\Modules\Core\Repositories\BaseEloquentRepository;
+use Cms\Modules\Auth\Events\UserPasswordWasChanged;
+use Cms\Modules\Auth\Http\Requests\ChangePasswordRequest;
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepository;
+use Cms\Modules\Core\Repositories\BaseEloquentRepository;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class EloquentRepository extends BaseEloquentRepository implements UserRepository
 {
@@ -84,5 +88,57 @@ class EloquentRepository extends BaseEloquentRepository implements UserRepositor
     {
 
     }
+
+    /**
+     *
+     */
+    public function updatePassword($user, ChangePasswordRequest $input) {
+        if ($user === null) {
+            return [
+                'old_password' => 'Cant find user?',
+            ];
+        }
+
+        $oldPass = $input->get('old_password', null);
+        $newPass = $input->get('new_password', null);
+        $newPassConfirm = $input->get('new_password_confirmation', null);
+
+        // check the new passwords match first
+        if (md5($newPass) !== md5($newPassConfirm)) {
+            return [
+                'new_password' => 'Passwords do not match',
+                'new_password_confirmation' => 'Passwords do not match',
+            ];
+        }
+
+        // make sure the old & new passwords dont match
+        if (md5($newPass) === md5($oldPass)) {
+            return [
+                'old_password' => 'Old & New Password can\'t match',
+                'new_password' => 'Old & New Password can\'t match',
+            ];
+        }
+
+        // make sure its valid against current users password
+        if (!Hash::check($oldPass, $user->password)) {
+            return [
+                'old_password' => 'Old password doesnt match one on file.'
+            ];
+        }
+
+        // if all checks out, change the users password to the new one
+        // password auto gets run through bcrypt() via the model attributes
+        $user->hydrateFromInput(['password' => $newPass]);
+
+        // make sure we can save
+        if ($user->save() === false) {
+            return $user->getErrors();
+        }
+
+        event(new UserPasswordWasChanged($user));
+
+        return true;
+    }
+
 
 }

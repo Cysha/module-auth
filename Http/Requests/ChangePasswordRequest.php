@@ -3,7 +3,7 @@
 use Cms\Http\Requests\Request;
 use Auth;
 
-class FrontendSecurityRequest extends Request
+class ChangePasswordRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

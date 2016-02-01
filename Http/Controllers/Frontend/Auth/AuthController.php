@@ -1,15 +1,16 @@
 <?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
+use Cms\Modules\Auth\Http\Requests\ChangePasswordRequest;
+use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
+use Cms\Modules\Auth\Http\Requests\FrontendLoginRequest;
+use Cms\Modules\Auth\Http\Requests\FrontendRegisterRequest;
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
-use Cms\Modules\Auth\Http\Requests\FrontendRegisterRequest;
-use Cms\Modules\Auth\Http\Requests\FrontendLoginRequest;
-use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
-use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use PragmaRX\Google2FA\Google2FA;
 
 class AuthController extends BaseFrontendController
 {
@@ -46,8 +47,6 @@ class AuthController extends BaseFrontendController
 
         $this->lockoutTime = config('cms.auth.config.users.login.lockoutTime', 60);
         $this->maxLoginAttempts = config('cms.auth.config.users.login.maxLoginAttempts', 5);
-
-        $this->middleware('guest', ['except' => ['getLogout', 'get2fa', 'post2fa']]);
     }
 
     /**
@@ -79,14 +78,9 @@ class AuthController extends BaseFrontendController
         $credentials = $request->only('email', 'password');
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
 
-            event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
+            $events = event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
 
-            // if they have 2fa, redirect em to put the code in
-            if (Auth::user()->has2fa) {
-                return redirect()->to(route('pxcms.user.2fa'));
-            } else {
-                return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
-            }
+            return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -109,6 +103,7 @@ class AuthController extends BaseFrontendController
     public function getLogout()
     {
         $this->auth->logout();
+        \Session::flush();
 
         return redirect(route(config('cms.auth.paths.redirect_logout', 'pxcms.pages.home')))
             ->withInfo(trans('auth::auth.user.logged_out_successfully'));
@@ -130,11 +125,13 @@ class AuthController extends BaseFrontendController
             return redirect()->back()->withErrors([
                 'verify_2fa' => trans('auth::auth.user.2fa_code_error'),
             ]);
-        } else {
-            Session::put('verified_2fa', true);
         }
 
-        return redirect()->to(route('pxcms.pages.home'))->withInfo(trans('auth::auth.user.2fa_thanks'));
+        // the key was valid, forget about 2fa now
+        Session::forget('actions.require_2fa');
+
+        return redirect(route(config('cms.auth.paths.redirect_logout', 'pxcms.pages.home')))
+            ->withInfo(trans('auth::auth.user.2fa_thanks'));
     }
 
     /**
@@ -181,9 +178,25 @@ class AuthController extends BaseFrontendController
             ->withInfo(trans('auth::auth.user.registered'));
     }
 
+    public function getPassExpired()
+    {
+        $this->setLayout('1-column');
+        return $this->setView('controlpanel.partials.change_password', []);
+    }
 
+    public function postPassExpired(ChangePasswordRequest $input, UserRepo $userRepo)
+    {
+        // try and update the password
+        $return = $userRepo->updatePassword(Auth::user(), $input);
+        if (is_array($return)) {
+            return redirect()->back()
+                ->withErrors($return);
+        }
 
-
+        // redirect home!
+        return redirect()->to('/')
+            ->withInfo(trans('auth::auth.user.password_changed'));
+    }
 
     /**
      * Get the login username to be used by the controller.
