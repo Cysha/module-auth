@@ -55,10 +55,10 @@ $router->group([
         $router->get('/', ['as' => 'pxcms.user.avatar', 'uses' => 'AvatarController@getForm']);
     });
 
-    $router->group(['prefix' => 'notification'], function(Router $router) {
+    /*$router->group(['prefix' => 'notification'], function(Router $router) {
         $router->post('/', ['uses' => 'NotificationController@postForm']);
         $router->get('/', ['as' => 'pxcms.user.notification', 'uses' => 'NotificationController@getForm']);
-    });
+    });*/
 
     $router->group(['prefix' => 'security'], function(Router $router) {
         // 2fa stuff
