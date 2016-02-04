@@ -93,6 +93,10 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function getUploadDirAttribute() {
+        return ('uploads/'.sha1($this->id));
+    }
+
     /**
      * Other Methods
      */
@@ -100,16 +104,22 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     {
         $avatars = [];
 
+        // gravatar
         $avatars['gravatar'] = $this->gravatar('64');
 
-        $oriAvatar = $this->getOriginal('avatar');
-        if (!empty($origAvatar)) {
-            $avatars['url'] = $oriAvatar;
-        }
-
-        if (app('modules')->find('Social')) {
+        // socials
+        if (app('modules')->has('Social') && app('modules')->get('Social')->enabled()) {
+            \Debug::console($this->providers()->get());
             foreach ($this->providers()->get() as $provider) {
                 $avatars[$provider->provider] = $provider->avatar;
+            }
+        }
+
+        // uploadables
+        $avatarDir = \File::files($this->uploadDir);
+        if (!empty($avatarDir)) {
+            foreach ($avatarDir as $id => $avatar) {
+                $avatars['Upload '.($id+1)] = '/'.$avatar;
             }
         }
 

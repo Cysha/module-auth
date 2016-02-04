@@ -17,10 +17,10 @@
                 </div><div class="row">
                 @endif
                 <div class="col-md-3">
-                    <label>
-                        {!! Former::radio('avatar')->radios([
-                            $name => ['name' => 'avatar', 'value' => $avatar]
-                        ])->label(false) !!}
+                    {!! Former::radio('avatar')->radios([
+                        $name => ['id' => $name, 'value' => $avatar]
+                    ])->label(false) !!}
+                    <label for="{{ $name }}">
                         <img src="{{ $avatar }}" alt="{{ $user->screenname }}'s {{ $name }} Avatar" class="thumbnail" style="height: 80px; width: 80px;">
                     </label>
                 </div>
@@ -34,6 +34,7 @@
             </button>
         </div>
     </div>
+{!! Former::close() !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -41,10 +42,14 @@
         </div>
         <div class="panel-body">
             <div class="alert alert-info">
-                <strong>Information:</strong> This panel has functionality planned, but not yet implemented.
+                <strong>Information:</strong> Uploading an avatar will immediately set it as your active avatar.
             </div>
+
+            {!! Former::open()->route('pxcms.user.avatar.upload')->class('dropzone') !!}
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+            {!! Former::close() !!}
         </div>
     </div>
-
-{!! Former::close() !!}
 @stop

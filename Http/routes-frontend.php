@@ -51,6 +51,7 @@ $router->group([
     $router->get('permissions', ['as' => 'pxcms.user.permissions', 'uses' => 'PermissionsController@getForm']);
 
     $router->group(['prefix' => 'avatar'], function(Router $router) {
+        $router->post('upload', ['as' => 'pxcms.user.avatar.upload', 'uses' => 'AvatarController@uploadAvatar']);
         $router->post('/', ['uses' => 'AvatarController@postForm']);
         $router->get('/', ['as' => 'pxcms.user.avatar', 'uses' => 'AvatarController@getForm']);
     });
