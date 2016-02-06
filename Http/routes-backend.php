@@ -74,7 +74,13 @@ $router->group([
 
             $router->get('edit', ['as' => 'admin.role.edit', 'uses' => 'InfoController@getForm']);
 
-            $router->get('users', ['as' => 'admin.role.users', 'uses' => 'UserController@manager']);
+            $router->group(['prefix' => 'users'], function(Router $router) {
+
+                $router->delete('remove/{auth_user_id}', ['as' => 'admin.role.users.remove', 'uses' => 'UserController@deleteRemoveUser']);
+                $router->post('add', ['as' => 'admin.role.users.add', 'uses' => 'UserController@postAddUser']);
+
+                $router->get('/', ['as' => 'admin.role.users', 'uses' => 'UserController@manager']);
+            });
 
             $router->group(['prefix' => 'permissions'], function (Router $router) {
                 $router->post('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@postForm']);

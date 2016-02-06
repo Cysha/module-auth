@@ -6,6 +6,7 @@
             </div>
             <div class="panel-body">@menu('backend_role_menu')</div>
         </div>
+        @yield('role-sidebar')
     </div>
     <div class="col-md-{{ $col_two or '9'}}">
         @yield('role-form')
