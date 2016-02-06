@@ -23,8 +23,8 @@ class Widgets
     public function RegisteredTodayCount($view)
     {
         $count = $this->user
-            ->where('created_at', sprintf('%d-%d-%d 00:00:00', date('Y'), date('m'), date('d')), '>=')
-            ->where('created_at', sprintf('%d-%d-%d 23:59:59', date('Y'), date('m'), date('d')), '<')
+            ->where('created_at', sprintf('%d-%02d-%02d 00:00:00', date('Y'), date('m'), date('d')), '>=')
+            ->where('created_at', sprintf('%d-%02d-%02d 23:59:59', date('Y'), date('m'), date('d')), '<')
             ->get()
             ->count();
 
