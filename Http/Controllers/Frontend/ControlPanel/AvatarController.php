@@ -28,10 +28,12 @@ class AvatarController extends BaseController
         $user->hydrateFromInput($fields);
 
         if ($user->save() === false) {
-            return redirect()->back()->withError('Error: Avatar choice cannot be saved, please try again.');
+            return redirect()->back()
+                ->withError('Error: Avatar choice cannot be saved, please try again.');
         }
 
-        return redirect()->back()->withInfo('Avatar Choice Saved Successfully.');
+        return redirect()->back()
+            ->withInfo('Avatar Choice Saved Successfully.');
     }
 
     public function uploadAvatar(FrontendAvatarUploadRequest $input) {
