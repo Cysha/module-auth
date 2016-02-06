@@ -40,7 +40,9 @@ class ManipulateRoleUsersDatatable
         ]);
 
         // clear a few options out
+        array_set($event->config, 'page.header', null);
         array_set($event->config, 'options.source', null);
+        array_set($event->config, 'options.search', false);
         array_set($event->config, 'options.column_search', false);
 
         // rejig the columns
