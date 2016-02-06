@@ -118,7 +118,7 @@ return [
             'permission' => 'manage.update@auth_role',
         ],
         [
-            'route' => ['admin.role.permissions', ['auth_role_id' => 'segment:3']],
+            'route' => ['admin.role.users', ['auth_role_id' => 'segment:3']],
             'text' => 'Manage Users on this Role',
             'icon' => 'fa-users',
             'order' => 3,

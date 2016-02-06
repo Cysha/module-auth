@@ -1,5 +1,5 @@
 <div class="row">
-    @if (isset($user))
+    @if (Request::segment(3) !== 'add')
     <div class="col-md-{{ $col_one or '3'}}">
         <div class="panel panel-default">
             <div class="panel-heading">

@@ -33,4 +33,6 @@ return [
     'register.email.unique' => 'The email you provided is already attached to an account.',
     'register.password' => 'You didn\'t confirm your password correctly, or the password has been declined for security reasons.',
     'register.password.min' => 'The password you entered needs to be longer than :min characters long.',
+
+    'login.throttling' => 'Enabling this setting will prevent users from spamming the sites login form with invalid credentials.'
 ];

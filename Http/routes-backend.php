@@ -74,11 +74,9 @@ $router->group([
 
             $router->get('edit', ['as' => 'admin.role.edit', 'uses' => 'InfoController@getForm']);
 
-            $router->group([
-                'prefix' => 'permissions',
-                'middleware' => ['hasPermission'],
-                'hasPermission' => 'manage.update@auth_role'
-            ], function (Router $router) {
+            $router->get('users', ['as' => 'admin.role.users', 'uses' => 'UserController@manager']);
+
+            $router->group(['prefix' => 'permissions'], function (Router $router) {
                 $router->post('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@postForm']);
                 $router->get('/', ['as' => 'admin.role.permissions', 'uses' => 'PermissionController@getForm']);
             });

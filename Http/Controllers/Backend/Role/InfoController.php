@@ -13,4 +13,8 @@ class InfoController extends BaseRoleController
 
         return $this->setView('admin.role.edit-basic', $data);
     }
+
+    public function redirect(Auth\Models\Role $role) {
+        return redirect()->route('admin.role.edit', $role->id);
+    }
 }
