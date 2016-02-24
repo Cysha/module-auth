@@ -12,6 +12,15 @@ return [
                     'order' => 1,
                     'permission' => 'manage@auth_user',
                     'activePattern' => '\/{backend}\/users\/*',
+                    'label' => function() {
+                        $counter = \Cache::remember('auth.user.count', 60, function() {
+                            $authModel = config('auth.model');
+
+                            return app($authModel)->count();
+                        });
+
+                        return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
+                    },
                 ],
                 [
                     'route' => 'admin.role.manager',
@@ -20,6 +29,13 @@ return [
                     'order' => 2,
                     'permission' => 'manage@auth_role',
                     'activePattern' => '\/{backend}\/roles\/*',
+                    'label' => function() {
+                        $counter = \Cache::remember('auth.role.count', 60, function() {
+                            return app('Cms\Modules\Auth\Models\Role')->count();
+                        });
+
+                        return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
+                    },
                 ],
                 [
                     'route' => 'admin.apikey.manager',
@@ -28,6 +44,13 @@ return [
                     'order' => 4,
                     'permission' => 'api@auth_config',
                     'activePattern' => '\/{backend}\/apikey\/*',
+                    'label' => function() {
+                        $counter = \Cache::remember('auth.apikey.count', 60, function() {
+                            return app('Cms\Modules\Auth\Models\ApiKey')->count();
+                        });
+
+                        return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
+                    },
                 ],
             ],
         ],
