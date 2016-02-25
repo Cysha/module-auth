@@ -14,6 +14,15 @@ class BackendSidebar {
         return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
     }
 
+    private function apikeyCount($model) {
+        $counter = \Cache::remember('auth.apikey.count', 60, function() use($model) {
+            return app('Cms\Modules\Auth\Models\ApiKey')
+                ->count();
+        });
+
+        return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
+    }
+
     private function modelCount($model) {
         $counter = \Cache::remember('auth.'.strtolower($model).'.count', 60, function() use($model) {
             return app('Cms\Modules\Auth\Models\\'.ucwords($model))
