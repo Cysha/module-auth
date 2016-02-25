@@ -14,8 +14,8 @@ class BackendSidebar {
         return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
     }
 
-    private function apikeyCount($model) {
-        $counter = \Cache::remember('auth.apikey.count', 60, function() use($model) {
+    public function apikeyCount() {
+        $counter = \Cache::remember('auth.apikey.count', 60, function() {
             return app('Cms\Modules\Auth\Models\ApiKey')
                 ->count();
         });
