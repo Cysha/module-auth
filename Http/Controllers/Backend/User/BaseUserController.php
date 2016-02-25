@@ -11,7 +11,7 @@ class BaseUserController extends BaseBackendController
         parent::boot();
 
         $this->theme->setTitle('User Manager');
-        $this->theme->breadcrumb()->add('User Manager', route('admin.user.index'));
+        $this->theme->breadcrumb()->add('User Manager', route('admin.user.manager'));
     }
 
     public function getUserDetails(Auth\Models\User $user)

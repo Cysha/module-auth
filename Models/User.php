@@ -18,7 +18,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         LockAware;
 
     protected $table = 'users';
-    protected $fillable = ['id', 'username', 'name', 'password', 'email', 'avatar', 'use_nick', 'secret_2fa', 'verified_2fa', 'verified_at', 'disabled_at'];
+    protected $fillable = ['id', 'username', 'name', 'password', 'salt', 'email', 'avatar', 'use_nick', 'secret_2fa', 'verified_2fa', 'verified_at', 'disabled_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $appends = ['screenname', 'avatar'];
     protected $dates = ['pass_expires_on', 'last_logged_at', 'verified_at', 'disabled_at', 'created_at', 'updated_at'];
@@ -164,6 +164,30 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function hasRole($role)
     {
         return in_array($role, $this->getCallerRoles());
+    }
+
+    public function hasRoles($roles)
+    {
+        if (count(func_get_args()) == 1) {
+            $roles = [func_get_args()];
+        }else {
+            $roles = func_get_args();
+        }
+
+        if (empty($roles)) {
+            return false;
+        }
+
+        $return = true;
+        foreach ($roles as $role) {
+            $hasRole = in_array($role, $this->getCallerRoles());
+
+            if ($hasRole === false) {
+                $return = false;
+            }
+        }
+
+        return $return;
     }
 
     /**
