@@ -96,11 +96,11 @@ class CustomLockDriver implements Driver
                 ->first(['id']);
 
         DB::table('permissions')
-          ->where('id', $permission['id'])
+          ->where('id', $permission->id)
           ->delete();
 
         DB::table('permissionables')
-            ->where('permission_id', $permission['id'])
+            ->where('permission_id', $permission->id)
             ->where('caller_type', $caller->getCallerType())
             ->where('caller_id', $caller->getCallerId())
             ->delete();
@@ -218,15 +218,15 @@ class CustomLockDriver implements Driver
         if (!empty($dbPermission)) {
 
             DB::table('permissions')
-                ->where('id', $dbPermission['id'])
+                ->where('id', $dbPermission->id)
                 ->delete();
 
             DB::table('permissionables')
-                ->where('permission_id', $dbPermission['id'])
+                ->where('permission_id', $dbPermission->id)
                 ->delete();
 
             DB::table('permission_role')
-                ->where('permission_id', $dbPermission['id'])
+                ->where('permission_id', $dbPermission->id)
                 ->delete();
         }
 
