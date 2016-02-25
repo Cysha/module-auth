@@ -9,7 +9,7 @@ class CreateController extends BaseApiController
 
     public function getForm(Auth\Models\ApiKey $key)
     {
-        $data = $this->getKeyDetails($key);
+        $data = $this->getApiKeyDetails($key);
 
         return $this->setView('admin.key.edit-basic', $data);
     }
