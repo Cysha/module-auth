@@ -1,5 +1,5 @@
 {
-    "name": "cysha/pxcms-auth",
+    "name": "cysha/module-auth",
     "type": "pxcms-module",
     "description": "Authentication Module for Phoenix CMS v1",
     "license": "MIT",
