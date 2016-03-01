@@ -5,7 +5,7 @@ use Cms\Modules\Auth\Models;
 class BackendSidebar {
 
     public function userCount() {
-        $counter = \Cache::remember('auth.user.count', 60, function() {
+        $counter = \Cache::remember('sidebar.auth.user.count', 60, function() {
             $authModel = config('auth.model');
 
             return app($authModel)->count();
@@ -15,7 +15,7 @@ class BackendSidebar {
     }
 
     public function apikeyCount() {
-        $counter = \Cache::remember('auth.apikey.count', 60, function() {
+        $counter = \Cache::remember('sidebar.auth.apikey.count', 60, function() {
             return app('Cms\Modules\Auth\Models\ApiKey')
                 ->count();
         });
@@ -24,7 +24,7 @@ class BackendSidebar {
     }
 
     private function modelCount($model) {
-        $counter = \Cache::remember('auth.'.strtolower($model).'.count', 60, function() use($model) {
+        $counter = \Cache::remember('sidebar.auth.'.strtolower($model).'.count', 60, function() use($model) {
             return app('Cms\Modules\Auth\Models\\'.ucwords($model))
                 ->count();
         });
