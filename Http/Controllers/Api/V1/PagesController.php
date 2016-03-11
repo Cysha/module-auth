@@ -1,11 +1,12 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Api\V1;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Api\V1;
 
 use Cms\Modules\Core\Http\Controllers\BaseApiController;
 use Auth;
 
 class PagesController extends BaseApiController
 {
-
     public function getUser()
     {
         if (!$this->auth->check()) {
@@ -14,5 +15,4 @@ class PagesController extends BaseApiController
 
         return $this->sendResponse('ok', 200, $this->auth->user()->transform());
     }
-
 }

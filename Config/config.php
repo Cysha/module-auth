@@ -2,8 +2,8 @@
 
 return [
     'paths' => [
-        'redirect_login'    => 'pxcms.user.dashboard',
-        'redirect_logout'   => 'pxcms.pages.index',
+        'redirect_login' => 'pxcms.user.dashboard',
+        'redirect_logout' => 'pxcms.pages.index',
         'redirect_register' => 'pxcms.user.registered',
     ],
     'users' => [

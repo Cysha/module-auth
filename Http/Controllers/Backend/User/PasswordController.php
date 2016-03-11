@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Auth\Http\Requests\BackendUpdatePasswordRequest;
 use Cms\Modules\Auth as Auth;

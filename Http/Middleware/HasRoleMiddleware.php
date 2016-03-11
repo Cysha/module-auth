@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Middleware;
+<?php
+
+namespace Cms\Modules\Auth\Http\Middleware;
 
 use Closure;
 use Auth;
@@ -6,10 +8,11 @@ use Auth;
 class HasRoleMiddleware
 {
     /**
-     * Check if user is in group/groups
+     * Check if user is in group/groups.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -20,6 +23,7 @@ class HasRoleMiddleware
         // make sure we have something to work with
         if (array_get($actions, 'hasRole', null) === null) {
             \Debug::console('There is a route with `hasRole` middleware attached, but no roles defined in the `hasRole` action.');
+
             return $next($request);
         }
 
@@ -42,5 +46,4 @@ class HasRoleMiddleware
 
         return $next($request);
     }
-
 }

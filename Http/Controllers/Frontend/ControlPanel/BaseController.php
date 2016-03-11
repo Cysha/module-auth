@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
 use Former;
@@ -12,7 +14,8 @@ class BaseController extends BaseFrontendController
         $this->setLayout('1-column');
     }
 
-    public function getUserDetails() {
+    public function getUserDetails()
+    {
         $user = \Auth::user();
         Former::populate($user);
         $this->theme->setTitle('Your Control Panel');
@@ -20,5 +23,4 @@ class BaseController extends BaseFrontendController
 
         return compact('user');
     }
-
 }

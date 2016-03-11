@@ -1,12 +1,11 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Api;
+<?php
 
-use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
-use Illuminate\Http\Request;
+namespace Cms\Modules\Auth\Http\Controllers\Backend\Api;
+
 use Cms\Modules\Auth as Auth;
 
 class CreateController extends BaseApiController
 {
-
     public function getForm(Auth\Models\ApiKey $key)
     {
         $data = $this->getApiKeyDetails($key);

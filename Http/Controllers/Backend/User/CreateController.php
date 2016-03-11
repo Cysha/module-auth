@@ -1,7 +1,8 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Auth\Http\Requests\BackendCreateUserRequest;
-use Illuminate\Http\Request;
 use Cms\Modules\Auth;
 
 class CreateController extends BaseUserController
@@ -24,7 +25,7 @@ class CreateController extends BaseUserController
         $input = $input->only(['username', 'name', 'email']);
 
         $authModel = config('auth.model');
-        $user = with(new $authModel);
+        $user = with(new $authModel());
         $user->hydrateFromInput($input);
 
         if ($user->save() === false) {

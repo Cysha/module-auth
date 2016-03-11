@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Models;
+<?php
+
+namespace Cms\Modules\Auth\Models;
 
 use BeatSwitch\Lock\Callers\Caller;
 use BeatSwitch\Lock\Integrations\Laravel\Facades\Lock;
@@ -8,7 +10,6 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
 
 class User extends BaseModel implements Caller, AuthenticatableContract, CanResetPasswordContract
 {
@@ -29,12 +30,12 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     protected $identifiableName = 'screenname';
     protected $link = [
-        'route'      => 'pxcms.user.dashboard',#'pxcms.user.view',
+        'route' => 'pxcms.user.dashboard', #'pxcms.user.view',
         'attributes' => ['auth_user' => 'username'],
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
     public function roles()
     {
@@ -48,9 +49,8 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
             ->where('caller_type', $this->getCallerType());
     }
 
-
     /**
-     * Attributes
+     * Attributes.
      */
     public function getScreennameAttribute()
     {
@@ -68,19 +68,20 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         return $this->use_nick == 1 ? $this->name : $this->username;
     }
 
-    public function getHasEnabled2faAttribute() {
+    public function getHasEnabled2faAttribute()
+    {
         // check if the user has enabled 2fa
         return !empty($this->secret_2fa);
     }
 
-    public function getRequire2faAttribute() {
+    public function getRequire2faAttribute()
+    {
         // check if the user has enabled 2fa
         return !empty($this->secret_2fa) && $this->verified_2fa;
     }
 
     public function getAvatarAttribute($val, $size = 64)
     {
-
         if (empty($val) || $val === 'gravatar') {
             return $this->gravatar($size);
         }
@@ -93,12 +94,13 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function getUploadDirAttribute() {
-        return ('uploads/'.sha1($this->id));
+    public function getUploadDirAttribute()
+    {
+        return 'uploads/'.sha1($this->id);
     }
 
     /**
-     * Other Methods
+     * Other Methods.
      */
     public function getAvatarList()
     {
@@ -119,7 +121,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         $avatarDir = \File::files($this->uploadDir);
         if (!empty($avatarDir)) {
             foreach ($avatarDir as $id => $avatar) {
-                $avatars['Upload '.($id+1)] = '/'.$avatar;
+                $avatars['Upload '.($id + 1)] = '/'.$avatar;
             }
         }
 
@@ -143,7 +145,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function verify($code)
     {
         if ($this->usercode === md5($this->id.$code)) {
-
             $this->verified = 1;
 
             if ($this->save()) {
@@ -170,7 +171,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     {
         if (count(func_get_args()) == 1) {
             $roles = [func_get_args()];
-        }else {
+        } else {
             $roles = func_get_args();
         }
 
@@ -191,7 +192,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     }
 
     /**
-     * Beatswitch\Lock Methods
+     * Beatswitch\Lock Methods.
      */
     public function getCallerType()
     {
@@ -214,7 +215,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     public function transform()
     {
         $return = [
-            'id' => (int)$this->id,
+            'id' => (int) $this->id,
             'username' => (string) $this->username,
             'screenname' => (string) $this->screenname,
             'name' => (string) $this->name,
@@ -241,5 +242,4 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
         return $return;
     }
-
 }

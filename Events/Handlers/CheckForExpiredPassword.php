@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Events\Handlers;
+<?php
+
+namespace Cms\Modules\Auth\Events\Handlers;
 
 use Cms\Modules\Auth\Events\UserHasLoggedIn;
 use Carbon\Carbon;
@@ -8,7 +10,7 @@ class CheckForExpiredPassword
     /**
      * Handle the event.
      *
-     * @param  UserLoggedIn  $event
+     * @param UserLoggedIn $event
      */
     public function handle(UserHasLoggedIn $event)
     {
@@ -22,7 +24,7 @@ class CheckForExpiredPassword
         $authModel = config('auth.model');
 
         // find the user associated with this event
-        $user = with(new $authModel)->find($event->userId);
+        $user = with(new $authModel())->find($event->userId);
         if ($user === null) {
             return;
         }
@@ -39,7 +41,7 @@ class CheckForExpiredPassword
 
         \Debug::console('setting actions.reset_pass');
         session(['actions.reset_pass' => 'pxcms.user.pass_expired']);
+
         return true;
     }
-
 }

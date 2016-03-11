@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Composers;
+<?php
+
+namespace Cms\Modules\Auth\Composers;
 
 use Illuminate\Contracts\View\View;
 
@@ -10,11 +12,12 @@ class Recaptcha
     {
         $this->recaptcha_enabled = in_array(null, [
             config('recaptcha.public_key', null),
-            config('recaptcha.private_key', null)
+            config('recaptcha.private_key', null),
         ]) ? 'false' : 'true';
     }
 
-    public function loginForm(View $view) {
+    public function loginForm(View $view)
+    {
         $setting = config('cms.auth.config.recaptcha.login_form', 'false');
 
         if ($this->recaptcha_enabled === 'false') {
@@ -24,7 +27,8 @@ class Recaptcha
         $view->with('showRecaptcha', $setting === 'true' ? true : false);
     }
 
-    public function registerForm(View $view) {
+    public function registerForm(View $view)
+    {
         $setting = config('cms.auth.config.recaptcha.register_form', 'false');
 
         if ($this->recaptcha_enabled === 'false') {
@@ -33,5 +37,4 @@ class Recaptcha
 
         $view->with('showRecaptcha', $setting === 'true' ? true : false);
     }
-
 }

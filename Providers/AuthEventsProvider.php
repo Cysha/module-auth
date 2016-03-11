@@ -1,10 +1,10 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Cms\Modules\Core\Providers\BaseEventsProvider;
-use Cms\Modules\Core;
 use Cms\Modules\Auth;
-use Cache;
 
 class AuthEventsProvider extends BaseEventsProvider
 {
@@ -14,7 +14,7 @@ class AuthEventsProvider extends BaseEventsProvider
      * @var array
      */
     protected $listen = [
-        /**
+        /*
          * AuthController@postLogin
          * AuthController@postRegister
          */
@@ -24,19 +24,19 @@ class AuthEventsProvider extends BaseEventsProvider
             'Cms\Modules\Auth\Events\Handlers\UpdateLastLogin',
         ],
 
-        /**
+        /*
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserIsRegistering' => [
         ],
 
-        /**
+        /*
          * AuthController@postRegister
          */
         'Cms\Modules\Auth\Events\UserHasRegistered' => [
         ],
 
-        /**
+        /*
          * SecurityController@postRegister
          */
         'Cms\Modules\Auth\Events\UserPasswordWasChanged' => [
@@ -59,12 +59,10 @@ class AuthEventsProvider extends BaseEventsProvider
 
     ];
 
-
     /**
      * Register any other events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-     * @return void
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
      */
     public function boot(DispatcherContract $events)
     {
@@ -75,12 +73,11 @@ class AuthEventsProvider extends BaseEventsProvider
 
         foreach ($models as $model) {
             $path = 'Cms\\Modules\\Auth\\Models\\'.$model;
-            $path::saved(function() use ($model) {
+            $path::saved(function () use ($model) {
                 \Cache::forget('sidebar.auth.'.strtolower($model).'.count');
             });
         }
 
         parent::boot($events);
     }
-
 }

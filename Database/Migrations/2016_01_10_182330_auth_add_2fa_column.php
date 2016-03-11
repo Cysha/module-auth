@@ -7,21 +7,17 @@ class AuthAdd2faColumn extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->char('secret_2fa', 16)->nullable()->default(NULL)->after('remember_token');
+            $table->char('secret_2fa', 16)->nullable()->default(null)->after('remember_token');
             $table->tinyInteger('verified_2fa')->default(0)->after('secret_2fa');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
@@ -30,5 +26,4 @@ class AuthAdd2faColumn extends Migration
             $table->dropColumn('secret_2fa');
         });
     }
-
 }

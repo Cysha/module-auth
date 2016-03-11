@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Auth\Datatables\ApiKeyManager;
 use Cms\Modules\Admin\Traits\DataTableTrait;
@@ -13,8 +15,7 @@ class ApiKeyController extends BaseUserController
         $this->getUserDetails($user);
         $this->theme->breadcrumb()->add('Api Keys', route('admin.user.apikey', $user->id));
 
-
-        return $this->renderDataTable(with(new ApiKeyManager)->boot());
+        return $this->renderDataTable(with(new ApiKeyManager())->boot());
     }
 
     private function getDataTableHtml($data)

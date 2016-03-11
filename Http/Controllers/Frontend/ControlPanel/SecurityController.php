@@ -1,10 +1,10 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
-use Cms\Modules\Auth\Http\Requests\FrontendSecurityRequest;
 use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
 use Cms\Modules\Auth\Http\Requests\ChangePasswordRequest;
-use Cms\Modules\Auth\Models\Permission;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use PragmaRX\Google2FA\Google2FA;
@@ -16,7 +16,6 @@ class SecurityController extends BaseController
         $data = $this->getUserDetails();
         $this->theme->breadcrumb()->add('Security Settings', route('pxcms.user.security'));
 
-
         $data['qr2fa'] = $google2fa->getQRCodeInline(
             config('cms.core.app.site-name'),
             $data['user']['email'],
@@ -26,8 +25,8 @@ class SecurityController extends BaseController
         return $this->setView('controlpanel.security', $data);
     }
 
-    public function verify2fa(Frontend2faRequest $input, Google2FA $google2fa) {
-
+    public function verify2fa(Frontend2faRequest $input, Google2FA $google2fa)
+    {
         $secret = $input->get('verify_2fa');
         $user = Auth::user();
 
@@ -51,7 +50,8 @@ class SecurityController extends BaseController
         return redirect()->back()->withInfo(trans('auth::auth.user.2fa_verified'));
     }
 
-    public function disable2fa(Google2FA $google2fa) {
+    public function disable2fa(Google2FA $google2fa)
+    {
         $user = Auth::user();
 
         $user->secret_2fa = null;
@@ -65,11 +65,12 @@ class SecurityController extends BaseController
 
         return redirect()->back()->withInfo(trans('auth::auth.user.2fa_disabled', [
             'site_name' => config('cms.core.app.site-name'),
-            'user_email' => $user->email
+            'user_email' => $user->email,
         ]));
     }
 
-    public function enable2fa(Google2FA $google2fa) {
+    public function enable2fa(Google2FA $google2fa)
+    {
         $user = Auth::user();
 
         $user->hydrateFromInput([
@@ -97,5 +98,4 @@ class SecurityController extends BaseController
         // redirect back!
         return redirect()->back()->withInfo('Password Updated');
     }
-
 }

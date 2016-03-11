@@ -1,13 +1,12 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 use Cms\Modules\Auth\Http\Requests\FrontendSettingsRequest;
-use Cms\Modules\Auth\Models\Permission;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class SettingsController extends BaseController
 {
-
     public function getForm()
     {
         $data = $this->getUserDetails();
@@ -16,7 +15,8 @@ class SettingsController extends BaseController
         return $this->setView('controlpanel.settings', $data);
     }
 
-    public function postForm(FrontendSettingsRequest $input) {
+    public function postForm(FrontendSettingsRequest $input)
+    {
         $fields = $input->only(['username', 'name', 'use_nick', 'email']);
 
         $user = Auth::user();

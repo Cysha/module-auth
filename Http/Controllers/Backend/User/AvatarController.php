@@ -1,11 +1,12 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Illuminate\Http\Request;
 use Cms\Modules\Auth as Auth;
 
 class AvatarController extends BaseUserController
 {
-
     public function getForm(Auth\Models\User $user)
     {
         $data = $this->getUserDetails($user);

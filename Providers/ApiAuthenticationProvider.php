@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Dingo\Api\Auth\Provider\Provider;
@@ -19,13 +21,14 @@ class ApiAuthenticationProvider implements Provider
     public function authenticate(Request $request, Route $route)
     {
         $apiKey = $this->getAuthToken($request);
-        $keyRow = with(new ApiKey)->keyExists($apiKey);
+        $keyRow = with(new ApiKey())->keyExists($apiKey);
 
         if (!($keyRow instanceof ApiKey)) {
             throw new UnauthorizedHttpException('AuthToken', 'Invalid authentication credentials.');
         }
 
         $driver = $this->auth->driver();
+
         return $driver->loginUsingId($keyRow->user_id);
     }
 

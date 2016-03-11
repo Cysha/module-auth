@@ -1,22 +1,23 @@
-<?php namespace Cms\Modules\Auth\Repositories\User;
+<?php
+
+namespace Cms\Modules\Auth\Repositories\User;
 
 /**
- * Interface UserRepository
+ * Interface UserRepository.
  */
 interface RepositoryInterface
 {
     /**
-     * Create a user and assign roles to it
+     * Create a user and assign roles to it.
      *
      * @param array $data
      * @param array $roles
-     *
-     * @param bool $activated
+     * @param bool  $activated
      */
     public function createWithRoles($data, $roles, $activated = false);
 
     /**
-     * Update a user
+     * Update a user.
      *
      * @param $user
      * @param $data
@@ -26,9 +27,9 @@ interface RepositoryInterface
     public function update($user, $data);
 
     /**
-     * Update a user and sync its roles
+     * Update a user and sync its roles.
      *
-     * @param  int   $userId
+     * @param int $userId
      * @param $data
      * @param $roles
      *
@@ -37,12 +38,11 @@ interface RepositoryInterface
     public function updateAndSyncRoles($userId, $data, $roles);
 
     /**
-     * Find a user by its credentials
+     * Find a user by its credentials.
      *
-     * @param  array $credentials
+     * @param array $credentials
      *
      * @return mixed
      */
     public function findByCredentials(array $credentials);
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use BeatSwitch\Lock\Integrations\Laravel\LockServiceProvider;
 use BeatSwitch\Lock\Drivers\ArrayDriver;
@@ -6,7 +8,7 @@ use BeatSwitch\Lock\Drivers\ArrayDriver;
 class CustomLockServiceProvider extends LockServiceProvider
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getDriver()
     {
@@ -16,7 +18,7 @@ class CustomLockServiceProvider extends LockServiceProvider
         // If the user choose the persistent database driver, bootstrap
         // the database driver with the default database connection.
         if ($driver === 'database') {
-            return new \Cms\Modules\Auth\Models\CustomLockDriver;
+            return new \Cms\Modules\Auth\Models\CustomLockDriver();
         }
 
         // Otherwise bootstrap the static array driver.

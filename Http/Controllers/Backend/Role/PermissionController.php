@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
 
 use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
 use Cms\Modules\Auth\Models\Permission;
@@ -9,7 +11,6 @@ use Illuminate\Http\Request;
 
 class PermissionController extends BaseRoleController
 {
-
     public function getForm(Role $role, RoleRepo $roles)
     {
         $data = $this->getRoleDetails($role);
@@ -19,18 +20,15 @@ class PermissionController extends BaseRoleController
         $groups = [];
         $modulePermissions = get_array_column(config('cms'), 'admin.permission_manage');
         foreach ($modulePermissions as $module => $permission_groups) {
-
             $groups = array_merge($groups, $permission_groups);
         }
         $groups = array_unique($groups);
-
 
         return $this->setView('admin.role.permissions', compact('role', 'permissions', 'groups'));
     }
 
     public function postForm(Role $role, RoleRepo $roles, Request $input, Manager $lockManager)
     {
-
         $lock = $lockManager->role($role->name);
         foreach ($input->get('permissions') as $permission => $mode) {
             list($permission, $resource) = processPermission($permission);
@@ -45,7 +43,7 @@ class PermissionController extends BaseRoleController
                 break;
 
                 case 'inherit':
-                    $perm = with(new Permission)
+                    $perm = with(new Permission())
                         ->whereAction($permission)
                         ->whereResourceType($resource)
                         ->get();
@@ -61,6 +59,7 @@ class PermissionController extends BaseRoleController
         }
 
         artisan_call('cache:clear');
+
         return redirect()->back()
             ->withInfo('Permissions Processed.');
     }

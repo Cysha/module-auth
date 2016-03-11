@@ -11,16 +11,15 @@ $router->group(['namespace' => 'Auth'], function ($router) {
 
     $router->get('logout', ['as' => 'pxcms.user.logout', 'uses' => 'AuthController@getLogout', 'middleware' => 'auth']);
 
-
-    $router->group(['prefix' => 'login'], function(Router $router) {
+    $router->group(['prefix' => 'login'], function (Router $router) {
         // 2fa
-        $router->group(['prefix' => '2fa', 'middleware' => 'auth'], function(Router $router) {
+        $router->group(['prefix' => '2fa', 'middleware' => 'auth'], function (Router $router) {
             $router->post('/', ['uses' => 'AuthController@post2fa']);
             $router->get('/', ['as' => 'pxcms.user.2fa', 'uses' => 'AuthController@get2fa']);
         });
 
         // password expired
-        $router->group(['prefix' => 'password_expired', 'middleware' => 'auth'], function(Router $router) {
+        $router->group(['prefix' => 'password_expired', 'middleware' => 'auth'], function (Router $router) {
             $router->post('/', ['uses' => 'AuthController@postPassExpired']);
             $router->get('/', ['as' => 'pxcms.user.pass_expired', 'uses' => 'AuthController@getPassExpired']);
         });
@@ -32,7 +31,6 @@ $router->group(['namespace' => 'Auth'], function ($router) {
     $router->get('register', ['as' => 'pxcms.user.register', 'uses' => 'AuthController@getRegister']);
     $router->post('register', 'AuthController@postRegister');
     $router->get('registered', ['as' => 'pxcms.user.registered', 'uses' => 'AuthController@getRegistered']);
-
 
     $router->controller('password', 'PasswordController', [
         'getEmail' => 'pxcms.user.forgotpassword',
@@ -47,10 +45,9 @@ $router->group([
     'middleware' => 'auth',
 ], function (Router $router) {
 
-
     $router->get('permissions', ['as' => 'pxcms.user.permissions', 'uses' => 'PermissionsController@getForm']);
 
-    $router->group(['prefix' => 'avatar'], function(Router $router) {
+    $router->group(['prefix' => 'avatar'], function (Router $router) {
         $router->post('upload', ['as' => 'pxcms.user.avatar.upload', 'uses' => 'AvatarController@uploadAvatar']);
         $router->post('/', ['uses' => 'AvatarController@postForm']);
         $router->get('/', ['as' => 'pxcms.user.avatar', 'uses' => 'AvatarController@getForm']);
@@ -61,7 +58,7 @@ $router->group([
         $router->get('/', ['as' => 'pxcms.user.notification', 'uses' => 'NotificationController@getForm']);
     });*/
 
-    $router->group(['prefix' => 'security'], function(Router $router) {
+    $router->group(['prefix' => 'security'], function (Router $router) {
         // 2fa stuff
         $router->post('enable_2fa', ['as' => 'pxcms.user.enable_2fa', 'uses' => 'SecurityController@enable2fa']);
         $router->post('disable_2fa', ['as' => 'pxcms.user.disable_2fa', 'uses' => 'SecurityController@disable2fa']);
@@ -73,7 +70,7 @@ $router->group([
         $router->get('/', ['as' => 'pxcms.user.security', 'uses' => 'SecurityController@getForm']);
     });
 
-    $router->group(['prefix' => 'settings'], function(Router $router) {
+    $router->group(['prefix' => 'settings'], function (Router $router) {
         $router->post('/', ['uses' => 'SettingsController@postForm']);
         $router->get('/', ['as' => 'pxcms.user.settings', 'uses' => 'SettingsController@getForm']);
     });

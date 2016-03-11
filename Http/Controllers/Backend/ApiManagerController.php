@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend;
 
 use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 use Cms\Modules\Auth\Datatables\ApiKeyManager;
@@ -10,7 +12,6 @@ class ApiManagerController extends BaseBackendController
 
     public function manager()
     {
-        return $this->renderDataTable(with(new ApiKeyManager)->boot());
+        return $this->renderDataTable(with(new ApiKeyManager())->boot());
     }
-
 }

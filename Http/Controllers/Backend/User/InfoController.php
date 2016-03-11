@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Illuminate\Http\Request;
 use Cms\Modules\Auth;
@@ -8,7 +10,6 @@ class InfoController extends BaseUserController
     public function boot()
     {
         parent::boot();
-
     }
 
     public function getForm(Auth\Models\User $user)

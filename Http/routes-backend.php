@@ -4,15 +4,15 @@ use Illuminate\Routing\Router;
 
 // URI: /{backend}/users
 $router->group([
-    'prefix'        => 'users',
-    'middleware'    => ['hasPermission'],
-    'hasPermission' => 'manage@auth_user'
+    'prefix' => 'users',
+    'middleware' => ['hasPermission'],
+    'hasPermission' => 'manage@auth_user',
 ], function (Router $router) {
 
-    $router->group(['prefix' => 'add',  'namespace' => 'User', 'middleware' => 'hasPermission', 'hasPermission' => 'manage.create@auth_user'], function(Router $router) {
+    $router->group(['prefix' => 'add',  'namespace' => 'User', 'middleware' => 'hasPermission', 'hasPermission' => 'manage.create@auth_user'], function (Router $router) {
 
-        $router->post('/', ['uses' => 'CreateController@postForm', ]);
-        $router->get('/', ['as' => 'admin.user.add', 'uses' => 'CreateController@getForm', ]);
+        $router->post('/', ['uses' => 'CreateController@postForm']);
+        $router->get('/', ['as' => 'admin.user.add', 'uses' => 'CreateController@getForm']);
     });
 
     $router->group(['prefix' => '{auth_user_id}', 'namespace' => 'User'], function (Router $router) {
@@ -59,9 +59,9 @@ $router->group([
 
 // URI: /{backend}/roles
 $router->group([
-    'prefix'        => 'roles',
-    'middleware'    => ['hasPermission'],
-    'hasPermission' => 'manage@auth_role'
+    'prefix' => 'roles',
+    'middleware' => ['hasPermission'],
+    'hasPermission' => 'manage@auth_role',
 ], function (Router $router) {
 
     $router->get('add', ['as' => 'admin.role.add', 'uses' => 'RoleManagerController@roleManager']);
@@ -69,12 +69,12 @@ $router->group([
     $router->group(['prefix' => '{auth_role_id}', 'namespace' => 'Role'], function (Router $router) {
         $router->group([
             'middleware' => ['hasPermission'],
-            'hasPermission' => 'manage.update@auth_role'
+            'hasPermission' => 'manage.update@auth_role',
         ], function (Router $router) {
 
             $router->get('edit', ['as' => 'admin.role.edit', 'uses' => 'InfoController@getForm']);
 
-            $router->group(['prefix' => 'users'], function(Router $router) {
+            $router->group(['prefix' => 'users'], function (Router $router) {
 
                 $router->delete('remove/{auth_user_id}', ['as' => 'admin.role.users.remove', 'uses' => 'UserController@deleteRemoveUser']);
                 $router->post('add', ['as' => 'admin.role.users.add', 'uses' => 'UserController@postAddUser']);
@@ -97,9 +97,9 @@ $router->group([
 
 // URI: /{backend}/permissions
 $router->group([
-    'prefix'        => 'permissions',
-    'middleware'    => ['hasPermission'],
-    'hasPermission' => 'manage@auth_permission'
+    'prefix' => 'permissions',
+    'middleware' => ['hasPermission'],
+    'hasPermission' => 'manage@auth_permission',
 ], function (Router $router) {
 
     $router->get('add', ['as' => 'admin.permission.add', 'uses' => 'PermissionManagerController@permissionManager']);
@@ -112,7 +112,7 @@ $router->group([
 $router->group([
     'prefix' => 'api',
     'middleware' => 'hasPermission',
-    'hasPermission' => 'api@auth_config'
+    'hasPermission' => 'api@auth_config',
 ], function (Router $router) {
 
     $router->group(['prefix' => 'create', 'namespace' => 'Api'], function (Router $router) {
@@ -134,7 +134,7 @@ $router->group([
 // URI: /{backend}/config
 $router->group([
     'prefix' => 'config',
-    'namespace' => 'Config'
+    'namespace' => 'Config',
 ], function (Router $router) {
 
     $router->get('users', ['as' => 'admin.config.users', 'uses' => 'UsersController@getIndex', 'middleware' => 'hasPermission', 'hasPermission' => 'users@auth_config']);

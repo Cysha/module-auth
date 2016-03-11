@@ -7,8 +7,6 @@ class AuthCreateRolesTables extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -30,13 +28,10 @@ class AuthCreateRolesTables extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::drop('roleables');
         Schema::drop('roles');
     }
-
 }

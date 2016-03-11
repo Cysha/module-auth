@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
 use Cms\Modules\Auth\Http\Requests\ChangePasswordRequest;
 use Cms\Modules\Auth\Http\Requests\Frontend2faRequest;
@@ -16,11 +18,10 @@ class AuthController extends BaseFrontendController
 {
     use ThrottlesLogins;
 
-
     public $layout = '2-column-left';
 
     /**
-     * User Repository
+     * User Repository.
      *
      * @var \Cms\Modules\Auth\Repositories\User\RepositoryInterface
      */
@@ -29,12 +30,10 @@ class AuthController extends BaseFrontendController
     protected $lockoutTime;
     protected $maxLoginAttempts;
 
-
     /**
      * Create a new authentication controller instance.
      *
-     * @param  \Cms\Modules\Auth\Repositories\User\RepositoryInterface $user
-     * @return void
+     * @param \Cms\Modules\Auth\Repositories\User\RepositoryInterface $user
      */
     public function __construct(UserRepo $user)
     {
@@ -55,11 +54,12 @@ class AuthController extends BaseFrontendController
     public function getLogin()
     {
         $this->setLayout('1-column');
+
         return $this->setView('partials.core.login', [], 'theme');
     }
 
     /**
-     * Process the login details and check if the user can be authenticated
+     * Process the login details and check if the user can be authenticated.
      */
     public function postLogin(FrontendLoginRequest $request)
     {
@@ -71,13 +71,13 @@ class AuthController extends BaseFrontendController
 
         if ($throttles && $this->hasTooManyLoginAttempts($request)) {
             event(new \Cms\Modules\Auth\Events\NotifyUser(Auth::id(), 'auth::notify.account.lockout'));
+
             return $this->sendLockoutResponse($request);
         }
 
         // grab the credentials, and use them to attempt an auth
         $credentials = $request->only('email', 'password');
         if ($this->auth->attempt($credentials, $request->has('remember'))) {
-
             $events = event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
 
             return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));
@@ -98,7 +98,7 @@ class AuthController extends BaseFrontendController
     }
 
     /**
-     * Process a Logout
+     * Process a Logout.
      */
     public function getLogout()
     {
@@ -112,6 +112,7 @@ class AuthController extends BaseFrontendController
     public function get2fa()
     {
         $this->setLayout('1-column');
+
         return $this->setView('partials.core.2fa', [], 'theme');
     }
 
@@ -135,11 +136,12 @@ class AuthController extends BaseFrontendController
     }
 
     /**
-     * Show the register form
+     * Show the register form.
      */
     public function getRegister()
     {
         $this->setLayout('1-column');
+
         return $this->setView('partials.core.register', [], 'theme');
     }
 
@@ -152,7 +154,7 @@ class AuthController extends BaseFrontendController
     }
 
     /**
-     * Process a register request
+     * Process a register request.
      */
     public function postRegister(FrontendRegisterRequest $request)
     {
@@ -181,6 +183,7 @@ class AuthController extends BaseFrontendController
     public function getPassExpired()
     {
         $this->setLayout('1-column');
+
         return $this->setView('controlpanel.partials.change_password', []);
     }
 
@@ -205,7 +208,7 @@ class AuthController extends BaseFrontendController
      */
     public function loginUsername()
     {
-       return 'email';
+        return 'email';
     }
 
     /**
@@ -215,7 +218,7 @@ class AuthController extends BaseFrontendController
      */
     protected function isUsingThrottlesLoginsTrait()
     {
-       return in_array(
+        return in_array(
            ThrottlesLogins::class, class_uses_recursive(get_class($this))
        );
     }

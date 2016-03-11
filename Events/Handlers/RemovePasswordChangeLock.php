@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Events\Handlers;
+<?php
+
+namespace Cms\Modules\Auth\Events\Handlers;
 
 use Cms\Modules\Auth\Events\UserPasswordWasChanged;
 use Illuminate\Support\Facades\Session;
@@ -9,7 +11,7 @@ class RemovePasswordChangeLock
     /**
      * Handle the event.
      *
-     * @param  UserLoggedIn  $event
+     * @param UserLoggedIn $event
      */
     public function handle(UserPasswordWasChanged $event)
     {
@@ -28,5 +30,4 @@ class RemovePasswordChangeLock
         // remove the lock
         Session::forget('actions.reset_pass');
     }
-
 }

@@ -1,14 +1,13 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\BaseModuleProvider;
 use Config;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Auth;
 
 class AuthModuleServiceProvider extends BaseModuleProvider
 {
-
     /**
      * Register the defined middleware.
      *
@@ -34,7 +33,7 @@ class AuthModuleServiceProvider extends BaseModuleProvider
     ];
 
     /**
-     * Register repository bindings to the IoC
+     * Register repository bindings to the IoC.
      *
      * @var array
      */
@@ -44,7 +43,7 @@ class AuthModuleServiceProvider extends BaseModuleProvider
     ];
 
     /**
-     * Register Auth related stuffs
+     * Register Auth related stuffs.
      */
     public function register()
     {
@@ -53,13 +52,10 @@ class AuthModuleServiceProvider extends BaseModuleProvider
         // override some config settings
         $userModel = 'Cms\Modules\Auth\Models\User';
         Config::set('auth.model', $userModel);
-        Config::set('auth.table', with(new $userModel)->getTable());
+        Config::set('auth.table', with(new $userModel())->getTable());
 
         // attach view composer to the login & register form
         view()->composer('theme.*::views.partials.core._login_form', 'Cms\Modules\Auth\Composers\Recaptcha@loginForm');
         view()->composer('theme.*::views.partials.core._register_form', 'Cms\Modules\Auth\Composers\Recaptcha@registerForm');
-
-
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Auth\Datatables\PermissionManager;
 use Cms\Modules\Admin\Traits\DataTableTrait;
@@ -13,8 +15,7 @@ class PermissionController extends BaseUserController
         $this->getUserDetails($user);
         $this->theme->breadcrumb()->add('Permissions', route('admin.user.permissions', $user->id));
 
-
-        return $this->renderDataTable(with(new PermissionManager)->boot());
+        return $this->renderDataTable(with(new PermissionManager())->boot());
     }
 
     private function getDataTableHtml($data)

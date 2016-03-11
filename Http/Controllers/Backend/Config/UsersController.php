@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Config;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\Config;
 
 use Cms\Modules\Admin\Http\Controllers\Backend\Config\BaseConfigController;
 

@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Composers;
+<?php
+
+namespace Cms\Modules\Auth\Composers;
 
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 
@@ -33,10 +35,9 @@ class Widgets
 
     public function LatestUsers($view)
     {
-        $users =  $this->user->transformModels(
+        $users = $this->user->transformModels(
             $this->user->orderBy('created_at', 'desc')->limit(8)->get()
         );
         $view->with('users', $users);
     }
-
 }

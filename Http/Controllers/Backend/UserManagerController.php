@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend;
 
 use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 use Cms\Modules\Auth\Datatables\UserManager;
@@ -10,7 +12,6 @@ class UserManagerController extends BaseBackendController
 
     public function userManager()
     {
-        return $this->renderDataTable(with(new UserManager)->boot());
+        return $this->renderDataTable(with(new UserManager())->boot());
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
+
+namespace Cms\Modules\Auth\Datatables;
 
 use Lock;
 
@@ -7,26 +9,26 @@ class UserManager
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
                 'title' => 'User Manager',
                 'alert' => [
                     'class' => 'info',
-                    'text'  => '<i class="fa fa-info-circle"></i> You can manage your users from here.'
+                    'text' => '<i class="fa fa-info-circle"></i> You can manage your users from here.',
                 ],
                 'header' => [
                     [
-                        'btn-text'  => 'Create User',
-                        'btn-route'  => 'admin.user.add',
+                        'btn-text' => 'Create User',
+                        'btn-route' => 'admin.user.add',
                         'btn-class' => 'btn btn-info btn-labeled',
-                        'btn-icon'  => 'fa fa-plus'
+                        'btn-icon' => 'fa fa-plus',
                     ],
                 ],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
@@ -39,11 +41,12 @@ class UserManager
                 'source' => 'admin.user.manager',
                 'collection' => function () {
                     $model = config('auth.model');
+
                     return $model::with('roles')->get();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -128,26 +131,25 @@ class UserManager
                         if (Lock::can('manage.read', 'auth_user')) {
                             $return[] = [
                                 'btn-title' => 'View User',
-                                'btn-link'  => route('admin.user.view', $model->id),
+                                'btn-link' => route('admin.user.view', $model->id),
                                 'btn-class' => 'btn btn-default btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-file-text-o'
+                                'btn-icon' => 'fa fa-file-text-o',
                             ];
                         }
 
                         if (Lock::can('manage.update', 'auth_user')) {
                             $return[] = [
                                 'btn-title' => 'Edit',
-                                'btn-link'  => route('admin.user.edit', $model->id),
+                                'btn-link' => route('admin.user.edit', $model->id),
                                 'btn-class' => 'btn btn-warning btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-pencil'
+                                'btn-icon' => 'fa fa-pencil',
                             ];
                         }
 
                         return $return;
                     },
                 ],
-            ]
+            ],
         ];
-
     }
 }

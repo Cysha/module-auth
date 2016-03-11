@@ -4,7 +4,6 @@ return [
     'permissions.authenticated' => 'You need to be authenticated to get there.',
     'permissions.unauthorized' => 'You do not have the neccesary permissions for that. (:permission@:resource::resource_id)',
 
-
     'user.deleted' => 'Email / Password combination you provided cannot be found, Please try again.',
     'user.notfound' => 'Email / Password combination you provided cannot be found, Please try again.',
     'user.incorrect_credentials' => 'Email / Password combination you provided cannot be found, Please try again.',
@@ -34,5 +33,5 @@ return [
     'register.password' => 'You didn\'t confirm your password correctly, or the password has been declined for security reasons.',
     'register.password.min' => 'The password you entered needs to be longer than :min characters long.',
 
-    'login.throttling' => 'Enabling this setting will prevent users from spamming the sites login form with invalid credentials.'
+    'login.throttling' => 'Enabling this setting will prevent users from spamming the sites login form with invalid credentials.',
 ];

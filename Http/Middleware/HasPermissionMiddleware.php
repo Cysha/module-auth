@@ -1,15 +1,17 @@
-<?php namespace Cms\Modules\Auth\Http\Middleware;
+<?php
+
+namespace Cms\Modules\Auth\Http\Middleware;
 
 use Closure;
-use Lock;
 
 class HasPermissionMiddleware
 {
     /**
-     * Check if user has permission for this route
+     * Check if user has permission for this route.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -20,6 +22,7 @@ class HasPermissionMiddleware
         // make sure we have something to work with
         if (array_get($actions, 'hasPermission', null) === null) {
             \Debug::console('There is a route with `hasPermission` middleware attached, but no perms defined in the `hasPermission` action.');
+
             return $next($request);
         }
 
@@ -34,14 +37,14 @@ class HasPermissionMiddleware
             // if the permission test is false, redirect back with an error
             if (hasPermission($perm) === false) {
                 list($perm, $resource) = processPermission($perm);
+
                 return redirect()->back()
                     ->with('error', trans('auth::auth.permissions.unauthorized', [
-                        'permission' => $perm, 'resource' => $resource
+                        'permission' => $perm, 'resource' => $resource,
                     ]));
             }
         }
 
         return $next($request);
     }
-
 }

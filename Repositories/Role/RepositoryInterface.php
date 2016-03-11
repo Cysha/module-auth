@@ -1,9 +1,10 @@
-<?php namespace Cms\Modules\Auth\Repositories\Role;
+<?php
+
+namespace Cms\Modules\Auth\Repositories\Role;
 
 /**
- * Interface UserRepository
+ * Interface UserRepository.
  */
 interface RepositoryInterface
 {
-
 }

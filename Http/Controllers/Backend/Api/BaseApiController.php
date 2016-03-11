@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Api;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\Api;
 
 use Cms\Modules\Core\Http\Controllers\BaseBackendController;
 use Cms\Modules\Auth as Auth;
@@ -21,5 +23,4 @@ class BaseApiController extends BaseBackendController
 
         return compact('ApiKey');
     }
-
 }

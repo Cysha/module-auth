@@ -7,8 +7,6 @@ class AuthCreatePermissionsTables extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -39,8 +37,6 @@ class AuthCreatePermissionsTables extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
@@ -48,5 +44,4 @@ class AuthCreatePermissionsTables extends Migration
         Schema::drop('permission_role');
         Schema::drop('permissions');
     }
-
 }

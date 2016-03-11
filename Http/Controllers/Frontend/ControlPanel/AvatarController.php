@@ -1,15 +1,14 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 use Cms\Modules\Auth\Http\Requests\FrontendAvatarRequest;
 use Cms\Modules\Auth\Http\Requests\FrontendAvatarUploadRequest;
-use Cms\Modules\Auth\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
 
 class AvatarController extends BaseController
 {
-
     public function getForm()
     {
         $data = $this->getUserDetails();
@@ -20,7 +19,8 @@ class AvatarController extends BaseController
         return $this->setView('controlpanel.avatars', $data);
     }
 
-    public function postForm(FrontendAvatarRequest $input) {
+    public function postForm(FrontendAvatarRequest $input)
+    {
         $fields = $input->only(['avatar']);
 
         $user = Auth::user();
@@ -36,7 +36,8 @@ class AvatarController extends BaseController
             ->withInfo('Avatar Choice Saved Successfully.');
     }
 
-    public function uploadAvatar(FrontendAvatarUploadRequest $input) {
+    public function uploadAvatar(FrontendAvatarUploadRequest $input)
+    {
         $user = Auth::user();
 
         // grab the file
@@ -51,7 +52,7 @@ class AvatarController extends BaseController
 
         // if successfull, add url to users avatar
         if ($upload_success) {
-            $user->avatar = $user->uploadDir .'/'. $filename;
+            $user->avatar = $user->uploadDir.'/'.$filename;
             $user->save();
 
             return response()->json('success', 200);

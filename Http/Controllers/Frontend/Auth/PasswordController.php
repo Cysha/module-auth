@@ -1,8 +1,8 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Frontend\Auth;
 
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends BaseFrontendController
@@ -22,8 +22,6 @@ class PasswordController extends BaseFrontendController
 
     /**
      * Create a new password controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -44,5 +42,4 @@ class PasswordController extends BaseFrontendController
     {
         return $this->setView('partials.core.password', [], 'theme');
     }
-
 }

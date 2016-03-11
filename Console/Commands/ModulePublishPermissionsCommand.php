@@ -1,7 +1,8 @@
-<?php namespace Cms\Modules\Auth\Console\Commands;
+<?php
+
+namespace Cms\Modules\Auth\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Carbon\Carbon;
 
 class ModulePublishPermissionsCommand extends Command
@@ -27,7 +28,7 @@ class ModulePublishPermissionsCommand extends Command
                 foreach ($permissions as $perm => $readableName) {
 
                     // see if the permission is in there already
-                    $permission = with(new $seedModel)
+                    $permission = with(new $seedModel())
                         ->whereType('privilege')
                         ->whereAction($perm)
                         ->whereResourceType($type)
@@ -35,14 +36,14 @@ class ModulePublishPermissionsCommand extends Command
 
                     // if not then throw it in
                     if ($permission === null) {
-                        $permission = with(new $seedModel)
+                        $permission = with(new $seedModel())
                             ->fill([
-                                'type'          => 'privilege',
-                                'action'        => $perm,
+                                'type' => 'privilege',
+                                'action' => $perm,
                                 'resource_type' => $type,
                                 'readable_name' => $readableName,
-                                'created_at'    => Carbon::now(),
-                                'updated_at'    => Carbon::now(),
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now(),
                             ])
                             ->save();
 
@@ -53,7 +54,6 @@ class ModulePublishPermissionsCommand extends Command
         }
         $this->info('Done...');
     }
-
 
     protected function getOptions()
     {

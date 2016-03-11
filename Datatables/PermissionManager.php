@@ -1,13 +1,13 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
 
-use Lock;
+namespace Cms\Modules\Auth\Datatables;
 
 class PermissionManager
 {
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
@@ -22,7 +22,7 @@ class PermissionManager
                 // ],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
@@ -34,11 +34,12 @@ class PermissionManager
                 'source' => 'admin.permission.manager',
                 'collection' => function () {
                     $model = 'Cms\Modules\Auth\Models\Permission';
+
                     return $model::with('roles')->get();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -112,12 +113,13 @@ class PermissionManager
                         return $roles;
                     },
                     'filtering' => true,
-                    'width'     => '20%',
+                    'width' => '20%',
                 ],
                 'actions' => [
                     'th' => 'Actions',
                     'tr' => function ($model) {
                         return [];
+
                         return [
                             [
                                 'btn-title' => 'View',
@@ -132,12 +134,11 @@ class PermissionManager
                                 'btn-class' => 'btn btn-warning btn-xs btn-labeled',
                                 'btn-icon' => 'fa fa-pencil',
                                 'hasPermission' => 'manage.update@auth_permission',
-                            ]
+                            ],
                         ];
                     },
                 ],
             ],
         ];
-
     }
 }

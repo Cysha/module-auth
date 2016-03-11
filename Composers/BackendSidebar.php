@@ -1,11 +1,12 @@
-<?php namespace Cms\Modules\Auth\Composers;
+<?php
 
-use Cms\Modules\Auth\Models;
+namespace Cms\Modules\Auth\Composers;
 
-class BackendSidebar {
-
-    public function userCount() {
-        $counter = \Cache::remember('sidebar.auth.user.count', 60, function() {
+class BackendSidebar
+{
+    public function userCount()
+    {
+        $counter = \Cache::remember('sidebar.auth.user.count', 60, function () {
             $authModel = config('auth.model');
 
             return app($authModel)->count();
@@ -14,8 +15,9 @@ class BackendSidebar {
         return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
     }
 
-    public function apikeyCount() {
-        $counter = \Cache::remember('sidebar.auth.apikey.count', 60, function() {
+    public function apikeyCount()
+    {
+        $counter = \Cache::remember('sidebar.auth.apikey.count', 60, function () {
             return app('Cms\Modules\Auth\Models\ApiKey')
                 ->count();
         });
@@ -23,8 +25,9 @@ class BackendSidebar {
         return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
     }
 
-    private function modelCount($model) {
-        $counter = \Cache::remember('sidebar.auth.'.strtolower($model).'.count', 60, function() use($model) {
+    private function modelCount($model)
+    {
+        $counter = \Cache::remember('sidebar.auth.'.strtolower($model).'.count', 60, function () use ($model) {
             return app('Cms\Modules\Auth\Models\\'.ucwords($model))
                 ->count();
         });
@@ -32,7 +35,8 @@ class BackendSidebar {
         return sprintf('<span class="label label-default pull-right">%d</span>', $counter);
     }
 
-    public function __call($method, $args) {
+    public function __call($method, $args)
+    {
         if (!preg_match('~(.*)Count$~', $method, $m)) {
             return false;
         }

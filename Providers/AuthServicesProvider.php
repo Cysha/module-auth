@@ -1,14 +1,13 @@
-<?php namespace Cms\Modules\Auth\Providers;
+<?php
+
+namespace Cms\Modules\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class AuthServicesProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -21,7 +20,5 @@ class AuthServicesProvider extends ServiceProvider
 
             $this->app->register('Greggilbert\Recaptcha\RecaptchaServiceProvider');
         }
-
-
     }
 }

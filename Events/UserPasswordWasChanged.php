@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Events;
+<?php
+
+namespace Cms\Modules\Auth\Events;
 
 use Illuminate\Queue\SerializesModels;
 
@@ -15,5 +17,4 @@ class UserPasswordWasChanged
     {
         $this->user = $user;
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Requests;
+<?php
+
+namespace Cms\Modules\Auth\Http\Requests;
 
 use Cms\Http\Requests\Request;
 use Auth;
@@ -36,18 +38,18 @@ class FrontendLoginRequest extends Request
         return $rules;
     }
 
-    private function needRecaptcha() {
+    private function needRecaptcha()
+    {
         // test for recaptcha
         $setting = config('cms.auth.config.recaptcha.login_form', 'false');
 
         if (in_array(null, [
                 config('recaptcha.public_key', null),
-                config('recaptcha.private_key', null)]
+                config('recaptcha.private_key', null), ]
             )) {
             $setting = 'false';
         }
 
-        return ($setting === 'true');
+        return $setting === 'true';
     }
-
 }

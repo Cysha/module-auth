@@ -80,7 +80,7 @@ return [
             'text' => 'Avatars',
             'icon' => 'fa-picture-o',
             'order' => 3,
-            'permission' => 'manage.update@auth_user'
+            'permission' => 'manage.update@auth_user',
         ],
         [
             'route' => ['admin.user.role', ['auth_user_id' => 'segment:3']],
@@ -129,7 +129,7 @@ return [
         ],
     ],
 
-    'frontend_user_controlpanel' =>  [
+    'frontend_user_controlpanel' => [
         [
             'route' => 'pxcms.user.dashboard',
             'text' => 'Dashboard',

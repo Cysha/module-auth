@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
+<?php
+
+namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
 
 use Cms\Modules\Admin\Traits\DataTableTrait;
 use Cms\Modules\Auth\Datatables\UserManager;
@@ -12,18 +14,20 @@ class UserController extends BaseRoleController
 
     public function manager()
     {
-        return $this->renderDataTable(with(new UserManager)->boot());
+        return $this->renderDataTable(with(new UserManager())->boot());
     }
 
-    public function getDataTableHtml($data) {
+    public function getDataTableHtml($data)
+    {
         return $this->setView('admin.role.users', $data);
     }
 
-    public function postAddUser(Role $role, BackendAddUserToRoleRequest $input) {
+    public function postAddUser(Role $role, BackendAddUserToRoleRequest $input)
+    {
 
         // find user
         $authModel = config('auth.model');
-        $user = with(new $authModel)
+        $user = with(new $authModel())
             ->with(['roles'])
             ->where('username', $input->get('username'))
             ->first();
@@ -53,8 +57,8 @@ class UserController extends BaseRoleController
             ->withInfo('User was successfully added to this role!');
     }
 
-    public function deleteRemoveUser(Role $role, User $user) {
-
+    public function deleteRemoveUser(Role $role, User $user)
+    {
         $user->roles()->detach($role->id);
 
         if (request()->ajax()) {

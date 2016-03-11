@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Events\Handlers;
+<?php
+
+namespace Cms\Modules\Auth\Events\Handlers;
 
 use Cms\Modules\Admin\Events\GotDatatableConfig;
 use Illuminate\Support\Facades\Request;
@@ -16,8 +18,7 @@ class ManipulateUserPermissionsDatatable
     /**
      * Handle the event.
      *
-     * @param  GotDatatableConfig $event
-     * @return void
+     * @param GotDatatableConfig $event
      */
     public function handle(GotDatatableConfig $event)
     {
@@ -27,16 +28,15 @@ class ManipulateUserPermissionsDatatable
 
         // grab the user
         $authModel = config('auth.model');
-        $user = with(new $authModel)->find(Request::segment(3));
+        $user = with(new $authModel())->find(Request::segment(3));
 
         // reset the title
         $title = 'User: '.e($user->screenname);
         array_set($event->config, 'page.title', $title);
 
-
         array_set($event->config, 'page.alert', [
             'class' => 'info',
-            'text'  => '<i class="fa fa-info-circle"></i> This panel will show you all the permissions this user has.'
+            'text' => '<i class="fa fa-info-circle"></i> This panel will show you all the permissions this user has.',
         ]);
 
         // clear a few options out
@@ -50,6 +50,7 @@ class ManipulateUserPermissionsDatatable
         $manager = $this->manager;
         array_set($event->config, 'options.collection', function () use ($manager, $user) {
             $model = 'Cms\Modules\Auth\Models\Permission';
+
             return $model::with('roles')->get()
                 ->filter(function ($model) use ($manager, $user) {
                     return $manager
@@ -58,8 +59,6 @@ class ManipulateUserPermissionsDatatable
                 });
         });
 
-
         return $event->config;
     }
-
 }

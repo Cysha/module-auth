@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Events\Handlers;
+<?php
+
+namespace Cms\Modules\Auth\Events\Handlers;
 
 use Cms\Modules\Auth\Events\UserHasLoggedIn;
 
@@ -7,7 +9,7 @@ class CheckFor2Fa
     /**
      * Handle the event.
      *
-     * @param  UserLoggedIn  $event
+     * @param UserLoggedIn $event
      */
     public function handle(UserHasLoggedIn $event)
     {
@@ -16,7 +18,7 @@ class CheckFor2Fa
         $authModel = config('auth.model');
 
         // find the user associated with this event
-        $user = with(new $authModel)->find($event->userId);
+        $user = with(new $authModel())->find($event->userId);
         if ($user === null) {
             return;
         }
@@ -29,7 +31,7 @@ class CheckFor2Fa
         // set the session to enforce 2fa
         \Debug::console('setting actions.require_2fa');
         session(['actions.require_2fa' => 'pxcms.user.2fa']);
+
         return true;
     }
-
 }

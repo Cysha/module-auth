@@ -1,4 +1,6 @@
-<?php namespace Cms\Modules\Auth\Console\Commands;
+<?php
+
+namespace Cms\Modules\Auth\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Cms\Modules\Core\Console\Commands\BaseCommand;
@@ -13,9 +15,9 @@ class MakeUserCommand extends BaseCommand
     public function fire()
     {
         $userInfo = [
-            'username'   => $this->argument('username'),
-            'email'      => $this->argument('email'),
-            'password'   => $this->argument('password'),
+            'username' => $this->argument('username'),
+            'email' => $this->argument('email'),
+            'password' => $this->argument('password'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
@@ -39,16 +41,18 @@ class MakeUserCommand extends BaseCommand
 
         if (in_array(null, $userInfo) === true) {
             $this->info('The information required could not be gathered. Please try again.');
+
             return;
         }
 
         $authModel = config('auth.model');
-        $user = with(new $authModel);
+        $user = with(new $authModel());
         $user->fill($userInfo);
         $save = $user->save();
 
         if ($save) {
             $this->info('User registered successfully');
+
             return;
         }
 
@@ -63,5 +67,4 @@ class MakeUserCommand extends BaseCommand
             array('password',   InputArgument::OPTIONAL, 'Password to set.'),
         );
     }
-
 }

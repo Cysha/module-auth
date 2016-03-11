@@ -1,15 +1,15 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
+
+namespace Cms\Modules\Auth\Datatables;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
-use Lock;
 
 class ApiKeyManager
 {
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
@@ -21,11 +21,11 @@ class ApiKeyManager
                         'btn-class' => 'btn btn-info btn-labeled',
                         'btn-icon' => 'fa fa-fw fa-refresh',
                         'hasPermission' => 'apikey.add@auth_user',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
@@ -37,11 +37,12 @@ class ApiKeyManager
                 'source' => 'admin.apikey.manager',
                 'collection' => function () {
                     $model = 'Cms\Modules\Auth\Models\ApiKey';
+
                     return $model::all();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -113,13 +114,12 @@ class ApiKeyManager
                                 'btn-method' => 'delete',
                                 'btn-extras' => 'data-remote="true" data-confirm="Are you sure you want to delete entry #'.$model->id.'?" data-disable-with="<i class=\'fa fa-refresh fa-spin\'></i>"',
                                 'hasPermission' => 'apikey.delete@auth_user',
-                            ]
+                            ],
                         ];
                     },
                     'width' => '5%',
                 ],
-            ]
+            ],
         ];
-
     }
 }

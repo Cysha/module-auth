@@ -1,20 +1,20 @@
-<?php namespace Cms\Modules\Auth\Datatables;
+<?php
 
-use Lock;
+namespace Cms\Modules\Auth\Datatables;
 
 class RoleManager
 {
     public function boot()
     {
         return [
-            /**
+            /*
              * Page Decoration Values
              */
             'page' => [
                 'title' => 'Role Manager',
                 'alert' => [
                     'class' => 'info',
-                    'text'  => '<i class="fa fa-info-circle"></i> You can manage your roles from here.'
+                    'text' => '<i class="fa fa-info-circle"></i> You can manage your roles from here.',
                 ],
                 //'header' => [
                 //    [
@@ -26,7 +26,7 @@ class RoleManager
                 //],
             ],
 
-            /**
+            /*
              * Set up some table options, these will be passed back to the view
              */
             'options' => [
@@ -38,11 +38,12 @@ class RoleManager
                 'source' => 'admin.role.manager',
                 'collection' => function () {
                     $model = 'Cms\Modules\Auth\Models\Role';
+
                     return $model::with('users')->get();
                 },
             ],
 
-            /**
+            /*
              * Lists the tables columns
              */
             'columns' => [
@@ -100,9 +101,9 @@ class RoleManager
                         return [
                             [
                                 'btn-title' => 'Edit',
-                                'btn-link'  => route('admin.role.edit', $model->id),
+                                'btn-link' => route('admin.role.edit', $model->id),
                                 'btn-class' => 'btn btn-warning btn-xs btn-labeled',
-                                'btn-icon'  => 'fa fa-pencil'
+                                'btn-icon' => 'fa fa-pencil',
                             ],
                         ];
                     },
@@ -110,6 +111,5 @@ class RoleManager
                 ],
             ],
         ];
-
     }
 }
