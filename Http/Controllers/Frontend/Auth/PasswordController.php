@@ -26,7 +26,7 @@ class PasswordController extends BaseFrontendController
     public function __construct()
     {
         // set dependencies
-        $this->_setDependencies(
+        $this->setDependencies(
             app('Teepluss\Theme\Contracts\Theme'),
             app('Illuminate\Filesystem\Filesystem')
         );

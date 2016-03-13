@@ -39,7 +39,7 @@ class AuthController extends BaseFrontendController
     {
         // set dependencies
         $this->user = $user;
-        $this->_setDependencies(
+        $this->setDependencies(
             app('Teepluss\Theme\Contracts\Theme'),
             app('Illuminate\Filesystem\Filesystem')
         );
