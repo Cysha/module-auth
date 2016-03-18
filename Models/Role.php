@@ -6,15 +6,17 @@ use BeatSwitch\Lock\Callers\Caller;
 
 class Role extends BaseModel implements Caller
 {
+    protected $table = 'roles';
+
     public function users()
     {
-        return $this->belongsToMany(config('auth.model'), 'roleables', 'role_id', 'caller_id')
+        return $this->belongsToMany(config('auth.model'), 'auth_roleables', 'role_id', 'caller_id')
             ->where('caller_type', 'auth_user');
     }
 
     public function permissions()
     {
-        return $this->belongsToMany(__NAMESPACE__.'\Permission');
+        return $this->belongsToMany(__NAMESPACE__.'\Permission', 'auth_permission_role', 'role_id', 'permission_id');
     }
 
     public function getUserCountAttribute()

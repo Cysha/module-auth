@@ -5,12 +5,18 @@ use Illuminate\Database\Migrations\Migration;
 
 class AuthCreateApikeyTables extends Migration
 {
+    public function __construct()
+    {
+        // Get the prefix
+        $this->prefix = config('cms.auth.config.table-prefix', 'auth_');
+    }
+
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('api_auth', function (Blueprint $table) {
+        Schema::create($this->prefix.'apikeys', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->string('key');
@@ -26,6 +32,6 @@ class AuthCreateApikeyTables extends Migration
      */
     public function down()
     {
-        Schema::drop('api_auth');
+        Schema::drop($this->prefix.'apikeys');
     }
 }

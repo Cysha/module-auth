@@ -88,7 +88,7 @@ class UserManager
 
                         return $roles;
                     },
-                    'searchable' => true,
+                    'searchable' => false,
                     'width' => '15%',
                 ],
                 'has2fa' => [

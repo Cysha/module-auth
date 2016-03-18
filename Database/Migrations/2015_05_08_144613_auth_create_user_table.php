@@ -5,12 +5,18 @@ use Illuminate\Database\Migrations\Migration;
 
 class AuthCreateUserTable extends Migration
 {
+    public function __construct()
+    {
+        // Get the prefix
+        $this->prefix = config('cms.auth.config.table-prefix', 'auth_');
+    }
+
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create($this->prefix.'users', function (Blueprint $table) {
             $table->increments('id')->unsigned();
 
             $table->string('username')->nullable();
@@ -36,6 +42,6 @@ class AuthCreateUserTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop($this->prefix.'users');
     }
 }

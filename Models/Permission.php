@@ -14,6 +14,6 @@ class Permission extends BaseModel
 
     public function users()
     {
-        return $this->morphedByMany(config('auth.model'), 'caller', 'permissionables');
+        return $this->morphedByMany(config('auth.model'), 'caller', 'auth_permissionables');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'table-prefix' => 'auth_',
     'paths' => [
         'redirect_login' => 'pxcms.user.dashboard',
         'redirect_logout' => 'pxcms.pages.index',

@@ -4,7 +4,7 @@ namespace Cms\Modules\Auth\Models;
 
 class ApiKey extends BaseModel
 {
-    public $table = 'api_auth';
+    public $table = 'apikeys';
     public $fillable = ['user_id', 'key', 'description', 'expires_at'];
     protected $dates = ['created_at', 'updated_at', 'expires_at'];
 
