@@ -144,7 +144,7 @@ class CustomLockDriver implements Driver
         $permissions = cache('auth_permissions', $key, 1, function () use ($role) {
             return DB::table('auth_permissions')
                 ->join('auth_permission_role', 'auth_permissions.id', '=', 'auth_permission_role.permission_id')
-                ->join('auth_roles', 'roles.id', '=', 'auth_permission_role.role_id')
+                ->join('auth_roles', 'auth_roles.id', '=', 'auth_permission_role.role_id')
                 ->where('auth_roles.name', $role->getRoleName())
                 ->get(['auth_permissions.*']);
         });
@@ -251,7 +251,7 @@ class CustomLockDriver implements Driver
         $permissionForRole = cache('auth_permissions', $key, 1, function () use ($role, $permission) {
             return (bool) DB::table('auth_permissions')
                 ->join('auth_permission_role', 'auth_permissions.id', '=', 'auth_permission_role.permission_id')
-                ->join('auth_roles', 'roles.id', '=', 'auth_permission_role.role_id')
+                ->join('auth_roles', 'auth_roles.id', '=', 'auth_permission_role.role_id')
                 ->where('auth_roles.name', $role->getRoleName())
                 ->where('auth_permissions.type', $permission->getType())
                 ->where('auth_permissions.action', $permission->getAction())
