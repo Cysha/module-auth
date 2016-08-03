@@ -35,7 +35,7 @@ class UserManager
                 'pagination' => false,
                 'searching' => true,
                 'column_search' => true,
-                'ordering' => false,
+                'ordering' => true,
                 'sort_column' => 'id',
                 'sort_order' => 'desc',
                 'source' => 'admin.user.manager',

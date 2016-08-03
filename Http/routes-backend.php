@@ -51,7 +51,9 @@ $router->group([
             $router->get('/', ['as' => 'admin.user.view', 'uses' => 'InfoController@getIndex']);
         });
 
-        $router->get('/', ['as' => 'admin.user.index', 'uses' => 'InfoController@redirect']);
+        $router->get('/', ['as' => 'admin.user.index', 'uses' => function ($auth_user_id) {
+            return redirect(route('admin.user.edit', $auth_user_id));
+        }]);
     });
 
     $router->get('/', ['as' => 'admin.user.manager', 'uses' => 'UserManagerController@userManager']);
