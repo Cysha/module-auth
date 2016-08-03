@@ -9,7 +9,7 @@ class Permission extends BaseModel
 
     public function roles()
     {
-        return $this->belongsToMany(__NAMESPACE__.'\Role');
+        return $this->belongsToMany(__NAMESPACE__.'\Role', 'auth_permission_role');
     }
 
     public function users()
