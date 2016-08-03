@@ -2,7 +2,6 @@
 
 namespace Cms\Modules\Auth\Http\Controllers\Backend\Role;
 
-use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
 use Cms\Modules\Auth\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use Cms\Modules\Auth\Models\Role;
@@ -11,7 +10,7 @@ use Illuminate\Http\Request;
 
 class PermissionController extends BaseRoleController
 {
-    public function getForm(Role $role, RoleRepo $roles)
+    public function getForm(Role $role)
     {
         $data = $this->getRoleDetails($role);
 
@@ -19,7 +18,7 @@ class PermissionController extends BaseRoleController
 
         $groups = [];
         $modulePermissions = get_array_column(config('cms'), 'admin.permission_manage');
-        foreach ($modulePermissions as $module => $permission_groups) {
+        foreach ($modulePermissions as $permission_groups) {
             $groups = array_merge($groups, $permission_groups);
         }
         $groups = array_unique($groups);
@@ -27,7 +26,7 @@ class PermissionController extends BaseRoleController
         return $this->setView('admin.role.permissions', compact('role', 'permissions', 'groups'));
     }
 
-    public function postForm(Role $role, RoleRepo $roles, Request $input, Manager $lockManager)
+    public function postForm(Role $role, Request $input, Manager $lockManager)
     {
         $lock = $lockManager->role($role->name);
         foreach ($input->get('permissions') as $permission => $mode) {
@@ -49,7 +48,7 @@ class PermissionController extends BaseRoleController
                         ->get();
 
                     if ($perm !== null) {
-                        DB::table('permission_role')
+                        DB::table('auth_permission_role')
                             ->whereRoleId($role->id)
                             ->whereIn('permission_id', $perm->lists('id')->toArray())
                             ->delete();
