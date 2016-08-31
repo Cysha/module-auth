@@ -23,8 +23,10 @@ class BackendAddUserToRoleRequest extends Request
      */
     public function rules()
     {
+        $tblPrefix = config('cms.auth.table-prefix', 'auth_');
+
         return [
-            'username' => 'required|exists:users,username',
+            'username' => 'required|exists:'.$tblPrefix.'users,username',
         ];
     }
 }

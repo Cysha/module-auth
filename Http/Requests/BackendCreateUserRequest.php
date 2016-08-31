@@ -24,8 +24,10 @@ class BackendCreateUserRequest extends Request
      */
     public function rules()
     {
+        $tblPrefix = config('cms.auth.table-prefix', 'auth_');
+
         return [
-            'username' => 'required|unique:users,username',
+            'username' => 'required|unique:'.$tblPrefix.'users,username',
             'name' => 'required',
             'email' => 'required',
         ];

@@ -42,11 +42,8 @@ class FrontendLoginRequest extends Request
     {
         // test for recaptcha
         $setting = config('cms.auth.config.recaptcha.login_form', 'false');
-
-        if (in_array(null, [
-                config('recaptcha.public_key', null),
-                config('recaptcha.private_key', null), ]
-            )) {
+        $recaptcha = [config('recaptcha.public_key', null), config('recaptcha.private_key', null)];
+        if (in_array(null, $recaptcha)) {
             $setting = 'false';
         }
 

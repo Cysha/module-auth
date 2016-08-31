@@ -25,9 +25,10 @@ class FrontendSettingsRequest extends Request
     public function rules()
     {
         $user_id = Auth::id();
+        $tblPrefix = config('cms.auth.table-prefix', 'auth_');
 
         return [
-            'username' => 'required|unique:users,username,'.$user_id,
+            'username' => 'required|unique:'.$tblPrefix.'users,username,'.$user_id,
             'name' => 'required',
             'use_nick' => 'in:0,1',
             'email' => 'required|email',

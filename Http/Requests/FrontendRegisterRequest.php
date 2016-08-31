@@ -24,10 +24,12 @@ class FrontendRegisterRequest extends Request
      */
     public function rules()
     {
+        $tblPrefix = config('cms.auth.table-prefix', 'auth_');
+
         // set basic rules up
         $rules = [
-            'username' => 'required|max:255|unique:users',
-            'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|max:255|unique:'.$tblPrefix.'users',
+            'email' => 'required|email|max:255|unique:'.$tblPrefix.'users',
             'password' => 'required|confirmed|min:8',
         ];
 
@@ -51,8 +53,7 @@ class FrontendRegisterRequest extends Request
 
         if (in_array(null, [
                 config('recaptcha.public_key', null),
-                config('recaptcha.private_key', null), ]
-            )) {
+                config('recaptcha.private_key', null), ])) {
             $setting = 'false';
         }
 
