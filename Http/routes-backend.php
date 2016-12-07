@@ -19,6 +19,7 @@ $router->group([
 
         $router->group(['middleware' => 'hasPermission', 'hasPermission' => 'manage.update@auth_user'], function (Router $router) {
             $router->group(['prefix' => 'security'], function (Router $router) {
+                $router->post('expire-password', ['as' => 'admin.user.expirepassword', 'uses' => 'SecurityController@expirePassword']);
                 $router->post('disable2fa', ['as' => 'admin.user.disable2fa', 'uses' => 'SecurityController@disable2fa']);
 
                 $router->post('/', ['uses' => 'SecurityController@postForm']);

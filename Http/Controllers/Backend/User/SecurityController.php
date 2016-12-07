@@ -2,8 +2,9 @@
 
 namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
-use Cms\Modules\Auth\Http\Requests\BackendUpdatePasswordRequest;
+use Carbon\Carbon;
 use Cms\Modules\Auth as Auth;
+use Cms\Modules\Auth\Http\Requests\BackendUpdatePasswordRequest;
 
 class SecurityController extends BaseUserController
 {
@@ -34,6 +35,19 @@ class SecurityController extends BaseUserController
 
         return redirect()->to(route('admin.user.security', $user->id))
             ->withInfo('Password Updated');
+    }
+
+    public function expirePassword(Auth\Models\User $user)
+    {
+        $user->pass_expires_on = Carbon::now();
+
+        if ($user->save() === false) {
+            return redirect()
+                ->back()
+                ->withError('Could not save the changes.');
+        }
+
+        return redirect()->back()->withInfo('Users password expired successfully. They will need to change it when they login next.');
     }
 
     public function disable2fa(Auth\Models\User $user)
