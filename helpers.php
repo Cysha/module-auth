@@ -36,3 +36,22 @@ if (!function_exists('processPermission')) {
         return [$permission, $resource, $resource_id];
     }
 }
+
+if (!function_exists('checkForMentions')) {
+    function checkForMentions($body)
+    {
+        $usernameValidation = config('cms.auth.config.users.username_validator', '\w+');
+        preg_match_all('/\@('.$usernameValidation.')/', $body, $matches);
+
+        return array_get($matches, '1', []);
+    }
+}
+
+if (!function_exists('replaceMentions')) {
+    function replaceMentions($body)
+    {
+        $usernameValidation = config('cms.auth.config.users.username_validator', '\w+');
+
+        return preg_replace('/\@('.$usernameValidation.')/', '[\\0](/user/\\1)', $body);
+    }
+}
