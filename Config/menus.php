@@ -69,8 +69,8 @@ return [
             'permission' => 'manage.update@auth_user',
         ],
         [
-            'route' => ['admin.user.password', ['auth_user_id' => 'segment:3']],
-            'text' => 'Password',
+            'route' => ['admin.user.security', ['auth_user_id' => 'segment:3']],
+            'text' => 'Security',
             'icon' => 'fa-lock',
             'order' => 2,
             'permission' => 'manage.update@auth_user',

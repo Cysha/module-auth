@@ -18,9 +18,11 @@ $router->group([
     $router->group(['prefix' => '{auth_user_id}', 'namespace' => 'User'], function (Router $router) {
 
         $router->group(['middleware' => 'hasPermission', 'hasPermission' => 'manage.update@auth_user'], function (Router $router) {
-            $router->group(['prefix' => 'password'], function (Router $router) {
-                $router->post('/', ['uses' => 'PasswordController@postForm']);
-                $router->get('/', ['as' => 'admin.user.password', 'uses' => 'PasswordController@getForm']);
+            $router->group(['prefix' => 'security'], function (Router $router) {
+                $router->post('disable2fa', ['as' => 'admin.user.disable2fa', 'uses' => 'SecurityController@disable2fa']);
+
+                $router->post('/', ['uses' => 'SecurityController@postForm']);
+                $router->get('/', ['as' => 'admin.user.security', 'uses' => 'SecurityController@getForm']);
             });
 
             $router->group(['prefix' => 'avatar'], function (Router $router) {

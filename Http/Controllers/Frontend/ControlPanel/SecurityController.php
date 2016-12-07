@@ -50,7 +50,7 @@ class SecurityController extends BaseController
         return redirect()->back()->withInfo(trans('auth::auth.user.2fa_verified'));
     }
 
-    public function disable2fa(Google2FA $google2fa)
+    public function disable2fa()
     {
         $user = Auth::user();
 
