@@ -20,7 +20,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     protected $table = 'users';
     protected $fillable = ['id', 'username', 'name', 'password', 'salt', 'email', 'avatar', 'use_nick', 'secret_2fa', 'verified_2fa', 'verified_at', 'disabled_at'];
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'secret_2fa'];
     protected $appends = ['screenname', 'avatar'];
     protected $dates = ['pass_expires_on', 'last_logged_at', 'verified_at', 'disabled_at', 'created_at', 'updated_at'];
     protected $with = ['roles'];
