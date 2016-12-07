@@ -23,13 +23,13 @@
                 @if (!$user->require2fa)
                 <p>2 Factor Authentication requires a small bit of setting up before it can be used, follow instructions below.</p>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="page-header">
                             <div class="page-title"><h3>Step 1 <small>Scan the QR Code with your device.</small></h3></div>
                         </div>
-                        <img src="{{ $qr2fa }}" alt="2 Factor Authentication Code">
+                        <img src="{{ $qr2fa }}" alt="2 Factor Authentication Code" class="img-responsive">
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="page-header">
                             <div class="page-title"><h3>Step 2 <small>Enter the code your device gives you to validate your 2fa is working.</small></h3></div>
                         </div>
@@ -37,7 +37,7 @@
                             {!! Former::text('verify_2fa') !!}
 
                             <button class="btn-labeled btn btn-success" type="submit">
-                                <span class="btn-label">Verify 2Factor Authentication</span>
+                                <span class="btn-label btn-block">Verify 2Factor Authentication</span>
                             </button>
                         {!! Former::close() !!}
                     </div>
@@ -45,6 +45,8 @@
                 @else
                 {!! Former::horizontal_open(route('pxcms.user.disable_2fa')) !!}
                     <p>2 Factor Authentication is Enabled. This will only be used when you login directly (not using a social media site).</p>
+                    <p>If you wish to disable 2fa, you will need to provide a code to ensure its you.</p>
+                    {!! Former::text('verify_2fa') !!}
                     <button class="btn-labeled btn btn-success" type="submit">
                         <span class="btn-label">Disable 2Factor Authentication</span>
                     </button>
