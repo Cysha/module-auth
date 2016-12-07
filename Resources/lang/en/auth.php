@@ -27,6 +27,7 @@ return [
     'user.2fa_enable_error' => 'Error: Could not enable 2 Factor Authentication',
 
     // user register errors
+    'register.username.regex' => 'Username must consist of [a-zA-Z0-9_-] .',
     'register.username.unique' => 'Username you have picked is already in use, choose another one.',
     'register.username.min' => 'Username must be atleast :min characters long.',
     'register.email.unique' => 'The email you provided is already attached to an account.',

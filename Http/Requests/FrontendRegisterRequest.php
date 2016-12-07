@@ -25,10 +25,11 @@ class FrontendRegisterRequest extends Request
     public function rules()
     {
         $tblPrefix = config('cms.auth.table-prefix', 'auth_');
+        $usernameValidation = config('cms.auth.config.users.username_validator', '\w+');
 
         // set basic rules up
         $rules = [
-            'username' => 'required|max:255|unique:'.$tblPrefix.'users',
+            'username' => 'required|max:255|unique:'.$tblPrefix.'users|regex:/^'.$usernameValidation.'$/',
             'email' => 'required|email|max:255|unique:'.$tblPrefix.'users',
             'password' => 'required|confirmed|min:8',
         ];

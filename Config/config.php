@@ -8,6 +8,7 @@ return [
         'redirect_register' => 'pxcms.user.registered',
     ],
     'users' => [
+        'username_validator' => '[\w-]+',
         'require_activating' => 'false',
         'force_screenname' => 'NULL',
         'login' => [
