@@ -45,7 +45,7 @@ class MakeUserCommand extends BaseCommand
             return;
         }
 
-        $authModel = config('auth.model');
+        $authModel = config('cms.auth.config.user_model');
         $user = with(new $authModel());
         $user->fill($userInfo);
         $save = $user->save();

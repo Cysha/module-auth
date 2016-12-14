@@ -24,7 +24,7 @@ class CreateController extends BaseUserController
     {
         $input = $input->only(['username', 'name', 'email']);
 
-        $authModel = config('auth.model');
+        $authModel = config('cms.auth.config.user_model');
         $user = with(new $authModel());
         $user->hydrateFromInput($input);
 

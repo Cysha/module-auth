@@ -33,14 +33,15 @@ class CustomLockDriver implements Driver
     public function getCallerPermissions(LockCaller $caller)
     {
         $key = $this->getCacheKey(__FUNCTION__, $caller->getCallerType(), $caller->getCallerId());
-        $permissions = cache('auth_permissions', $key, 1, function () use ($caller) {
+        $permissions = cache_remember('auth_permissions', $key, 1, function () use ($caller) {
             return DB::table('auth_permissions')
             ->join('auth_permissionables', function ($join) use ($caller) {
                 $join->on('auth_permissions.id', '=', 'auth_permissionables.permission_id')
                     ->where('auth_permissionables.caller_type', '=', $caller->getCallerType())
                     ->where('auth_permissionables.caller_id', '=', $caller->getCallerId());
             })
-            ->get(['auth_permissions.*']);
+            ->get(['auth_permissions.*'])
+            ->all();
         });
 
         return empty($permissions) ? $permissions : PermissionFactory::createFromData($permissions);

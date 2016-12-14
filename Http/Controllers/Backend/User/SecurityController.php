@@ -62,7 +62,7 @@ class SecurityController extends BaseUserController
         }
 
         return redirect()->back()->withInfo(trans('auth::auth.user.2fa_disabled', [
-            'site_name' => config('cms.core.app.site-name'),
+            'site_name' => config('app.name'),
             'user_email' => $user->email,
         ]));
     }

@@ -17,7 +17,7 @@ class SecurityController extends BaseController
         $this->theme->breadcrumb()->add('Security Settings', route('pxcms.user.security'));
 
         $data['qr2fa'] = $google2fa->getQRCodeInline(
-            config('cms.core.app.site-name'),
+            config('app.name'),
             $data['user']['email'],
             $data['user']['secret_2fa']
         );
@@ -72,7 +72,7 @@ class SecurityController extends BaseController
         }
 
         return redirect()->back()->withInfo(trans('auth::auth.user.2fa_disabled', [
-            'site_name' => config('cms.core.app.site-name'),
+            'site_name' => config('app.name'),
             'user_email' => $user->email,
         ]));
     }
@@ -82,7 +82,7 @@ class SecurityController extends BaseController
         $user = Auth::user();
 
         $user->hydrateFromInput([
-            'secret_2fa' => $google2fa->generateSecretKey(16, config('cms.core.app.site-name')),
+            'secret_2fa' => $google2fa->generateSecretKey(16, config('app.name')),
         ]);
 
         if ($user->save() === false) {

@@ -10,7 +10,7 @@ class ApiKey extends BaseModel
 
     public function user()
     {
-        $authModel = config('auth.model');
+        $authModel = config('cms.auth.config.user_model');
 
         return $this->belongsTo($authModel);
     }

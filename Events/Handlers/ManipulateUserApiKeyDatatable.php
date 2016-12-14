@@ -19,7 +19,7 @@ class ManipulateUserApiKeyDatatable
         }
 
         // grab the user
-        $authModel = config('auth.model');
+        $authModel = config('cms.auth.config.user_model');
         $user = with(new $authModel())->find(Request::segment(3));
 
         // reset the title

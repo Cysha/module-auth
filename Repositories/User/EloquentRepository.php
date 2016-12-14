@@ -13,7 +13,7 @@ class EloquentRepository extends BaseEloquentRepository implements UserRepositor
 {
     public function getModel()
     {
-        return config('auth.model');
+        return config('cms.auth.config.user_model');
     }
 
     /**

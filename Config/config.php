@@ -2,6 +2,7 @@
 
 return [
     'table-prefix' => 'auth_',
+    'user_model' => \Cms\Modules\Auth\Models\User::class,
     'paths' => [
         'redirect_login' => 'pxcms.user.dashboard',
         'redirect_logout' => 'pxcms.pages.index',
@@ -20,13 +21,13 @@ return [
         'expire_passwords' => 'false',
         'password_age' => 31536000, // 1 year
     ],
-    'recaptcha' => [
-        'login_form' => 'false',
-        'register_form' => 'false',
-    ],
     'roles' => [
         'admin_group' => 1,
         'user_group' => 3,
         'guest_group' => 4,
+    ],
+    'recaptcha' => [
+        'login_form' => 'false',
+        'register_form' => 'false',
     ],
 ];

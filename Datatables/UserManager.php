@@ -40,7 +40,7 @@ class UserManager
                 'sort_order' => 'desc',
                 'source' => 'admin.user.manager',
                 'collection' => function () {
-                    $model = config('auth.model');
+                    $model = config('cms.auth.config.user_model');
 
                     return $model::with('roles')->get();
                 },

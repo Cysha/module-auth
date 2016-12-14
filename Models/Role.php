@@ -10,7 +10,7 @@ class Role extends BaseModel implements Caller
 
     public function users()
     {
-        return $this->belongsToMany(config('auth.model'), 'auth_roleables', 'role_id', 'caller_id')
+        return $this->belongsToMany(config('cms.auth.config.user_model'), 'auth_roleables', 'role_id', 'caller_id')
             ->where('caller_type', 'auth_user');
     }
 

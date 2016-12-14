@@ -111,7 +111,6 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
         // socials
         if (app('modules')->has('Social') && app('modules')->get('Social')->enabled()) {
-            \Debug::console($this->providers()->get());
             foreach ($this->providers()->get() as $provider) {
                 $avatars[$provider->provider] = $provider->avatar;
             }

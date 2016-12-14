@@ -60,7 +60,7 @@ class ManipulateRoleUsersDatatable
         // rebuild the collection
         array_set($event->config, 'options.collection', function () use ($role_id) {
 
-            $authModel = config('auth.model');
+            $authModel = config('cms.auth.config.user_model');
 
             return with(new $authModel())
                 ->whereHas('roles', function ($query) use ($role_id) {

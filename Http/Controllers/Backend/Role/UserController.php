@@ -26,7 +26,7 @@ class UserController extends BaseRoleController
     {
 
         // find user
-        $authModel = config('auth.model');
+        $authModel = config('cms.auth.config.user_model');
         $user = with(new $authModel())
             ->with(['roles'])
             ->where('username', $input->get('username'))
