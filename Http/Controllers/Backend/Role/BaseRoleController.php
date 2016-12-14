@@ -13,7 +13,7 @@ class BaseRoleController extends BaseBackendController
         parent::boot();
 
         $this->theme->setTitle('Role Manager');
-        $this->theme->breadcrumb()->add('Role Manager', route('admin.role.index'));
+        $this->theme->breadcrumb()->add('Role Manager', route('admin.role.manager'));
     }
 
     public function getRoleDetails(Auth\Models\Role $role)

@@ -3,15 +3,9 @@
 namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Auth\Http\Requests\BackendCreateUserRequest;
-use Cms\Modules\Auth;
 
 class CreateController extends BaseUserController
 {
-    public function boot()
-    {
-        parent::boot();
-    }
-
     public function getForm()
     {
         $this->setTitle('Create new user');

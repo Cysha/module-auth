@@ -3,7 +3,7 @@
 namespace Cms\Modules\Auth\Providers;
 
 use Cms\Modules\Core\Providers\CmsRoutingProvider;
-use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 
 class AuthRoutingProvider extends CmsRoutingProvider
 {
@@ -33,27 +33,27 @@ class AuthRoutingProvider extends CmsRoutingProvider
         return __DIR__.'/../Http/routes-api.php';
     }
 
-    public function boot(Router $router)
+    public function boot()
     {
-        parent::boot($router);
+        parent::boot();
 
-        $router->bind('auth_user', function ($user) {
-            $model = config('auth.model');
+        Route::bind('auth_user', function ($user) {
+            $model = config('cms.auth.config.user_model');
 
             return with(new $model())->where('username', $user)->firstOrFail();
         });
 
-        $router->bind('auth_user_id', function ($id) {
-            $model = config('auth.model');
+        Route::bind('auth_user_id', function ($id) {
+            $model = config('cms.auth.config.user_model');
 
             return with(new $model())->findOrFail($id);
         });
 
-        $router->bind('auth_role_id', function ($id) {
+        Route::bind('auth_role_id', function ($id) {
             return with(new \Cms\Modules\Auth\Models\Role())->with('permissions')->findOrFail($id);
         });
 
-        $router->bind('auth_apikey_id', function ($id) {
+        Route::bind('auth_apikey_id', function ($id) {
             return with(new \Cms\Modules\Auth\Models\ApiKey())->findOrFail($id);
         });
     }

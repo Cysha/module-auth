@@ -3,7 +3,7 @@
 namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Core\Http\Controllers\BaseBackendController;
-use Cms\Modules\Auth as Auth;
+use Cms\Modules\Auth\Models\User;
 use Former;
 
 class BaseUserController extends BaseBackendController
@@ -16,11 +16,12 @@ class BaseUserController extends BaseBackendController
         $this->theme->breadcrumb()->add('User Manager', route('admin.user.manager'));
     }
 
-    public function getUserDetails(Auth\Models\User $user)
+    public function getUserDetails(User $user)
     {
-        Former::populate($user);
         $this->theme->setTitle('User: '.e($user->screenname));
         $this->theme->breadcrumb()->add($user->screenname, route('admin.user.edit', $user->id));
+
+        Former::populate($user);
 
         return compact('user');
     }

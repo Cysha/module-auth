@@ -2,12 +2,12 @@
 
 namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
+use Cms\Modules\Auth\Models\User;
 use Illuminate\Http\Request;
-use Cms\Modules\Auth as Auth;
 
 class AvatarController extends BaseUserController
 {
-    public function getForm(Auth\Models\User $user)
+    public function getForm(User $user)
     {
         $data = $this->getUserDetails($user);
         $this->theme->breadcrumb()->add('Avatars', route('admin.user.avatar', $user->id));
@@ -15,7 +15,7 @@ class AvatarController extends BaseUserController
         return $this->setView('admin.user.avatar', $data);
     }
 
-    public function postForm(Auth\Models\User $user, Request $input)
+    public function postForm(User $user, Request $input)
     {
         $input = $input->only(['avatar']);
 

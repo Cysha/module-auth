@@ -60,11 +60,11 @@ class AuthEventsProvider extends BaseEventsProvider
 
     /**
      * Register any other events for your application.
-     *
-     * @param \Illuminate\Contracts\Events\Dispatcher $events
      */
-    public function boot(DispatcherContract $events)
+    public function boot()
     {
+        parent::boot();
+
         // clear acp badge caches
         $models = [
             'User', 'Role', 'ApiKey',
@@ -76,7 +76,5 @@ class AuthEventsProvider extends BaseEventsProvider
                 \Cache::forget('sidebar.auth.'.strtolower($model).'.count');
             });
         }
-
-        parent::boot($events);
     }
 }

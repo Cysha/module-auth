@@ -32,10 +32,10 @@ $router->group(['namespace' => 'Auth'], function ($router) {
     $router->post('register', 'AuthController@postRegister');
     $router->get('registered', ['as' => 'pxcms.user.registered', 'uses' => 'AuthController@getRegistered']);
 
-    $router->controller('password', 'PasswordController', [
+    /*$router->controller('password', 'PasswordController', [
         'getEmail' => 'pxcms.user.forgotpassword',
         'getReset' => 'pxcms.user.resetpassword',
-    ]);
+    ]);*/
 });
 
 // user control panel

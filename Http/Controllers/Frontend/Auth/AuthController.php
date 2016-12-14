@@ -8,7 +8,7 @@ use Cms\Modules\Auth\Http\Requests\FrontendLoginRequest;
 use Cms\Modules\Auth\Http\Requests\FrontendRegisterRequest;
 use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
 use Cms\Modules\Core\Http\Controllers\BaseFrontendController;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -16,7 +16,7 @@ use PragmaRX\Google2FA\Google2FA;
 
 class AuthController extends BaseFrontendController
 {
-    use ThrottlesLogins;
+    use AuthenticatesUsers;
 
     public $layout = '2-column-left';
 
@@ -76,8 +76,7 @@ class AuthController extends BaseFrontendController
         }
 
         // grab the credentials, and use them to attempt an auth
-        $credentials = $request->only('email', 'password');
-        if ($this->auth->attempt($credentials, $request->has('remember'))) {
+        if ($this->attemptLogin($request)) {
             $events = event(new \Cms\Modules\Auth\Events\UserHasLoggedIn(Auth::id()));
 
             return redirect()->intended(route(config('cms.auth.paths.redirect_login', 'pxcms.pages.home')));

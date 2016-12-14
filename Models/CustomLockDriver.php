@@ -152,6 +152,8 @@ class CustomLockDriver implements Driver
                 ->all();
         });
 
+        //dd($permissions);
+
         return empty($permissions) ? $permissions : PermissionFactory::createFromData($permissions);
     }
 

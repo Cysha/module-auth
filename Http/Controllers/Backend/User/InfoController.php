@@ -2,17 +2,12 @@
 
 namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
+use Cms\Modules\Auth\Models\User;
 use Illuminate\Http\Request;
-use Cms\Modules\Auth;
 
 class InfoController extends BaseUserController
 {
-    public function boot()
-    {
-        parent::boot();
-    }
-
-    public function getForm(Auth\Models\User $user)
+    public function getForm(User $user)
     {
         $data = $this->getUserDetails($user);
         $this->theme->breadcrumb()->add('Basic Info', route('admin.user.edit', $user->id));
@@ -20,7 +15,7 @@ class InfoController extends BaseUserController
         return $this->setView('admin.user.edit-basic', $data);
     }
 
-    public function postForm(Auth\Models\User $user, Request $input)
+    public function postForm(User $user, Request $input)
     {
         $input = $input->only(['username', 'name', 'email']);
 

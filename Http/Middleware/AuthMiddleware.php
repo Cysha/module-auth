@@ -3,23 +3,23 @@
 namespace Cms\Modules\Auth\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 
 class AuthMiddleware
 {
     /**
-     * The Guard implementation.
+     * The guard factory instance.
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
 
     /**
-     * Create a new filter instance.
+     * Create a new middleware instance.
      *
-     * @param Guard $auth
+     * @param \Illuminate\Contracts\Auth\Factory $auth
      */
-    public function __construct(Guard $auth)
+    public function __construct(AuthFactory $auth)
     {
         $this->auth = $auth;
     }
@@ -34,6 +34,7 @@ class AuthMiddleware
      */
     public function handle($request, Closure $next)
     {
+
         // if they arent logged in... redirect em out
         if ($this->auth->guest()) {
             if ($request->ajax()) {

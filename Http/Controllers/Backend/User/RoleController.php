@@ -3,12 +3,13 @@
 namespace Cms\Modules\Auth\Http\Controllers\Backend\User;
 
 use Cms\Modules\Auth\Repositories\Role\RepositoryInterface as RoleRepo;
-use Illuminate\Http\Request;
+use Cms\Modules\Auth\Models\User;
 use Cms\Modules\Auth as Auth;
+use Illuminate\Http\Request;
 
 class RoleController extends BaseUserController
 {
-    public function getForm(Auth\Models\User $user, RoleRepo $roles)
+    public function getForm(User $user, RoleRepo $roles)
     {
         $this->theme->asset()->add('multiselect-css', '/modules/auth/multiselect/css/multi-select.css', 'app.css');
         $this->theme->asset()->add('multiselect-js', '/modules/auth/multiselect/js/jquery.multi-select.js', 'all.js');
@@ -30,7 +31,7 @@ class RoleController extends BaseUserController
         return $this->setView('admin.user.role', $data);
     }
 
-    public function postForm(Auth\Models\User $user, Request $input)
+    public function postForm(User $user, Request $input)
     {
         $input = $input->get('roles');
 
