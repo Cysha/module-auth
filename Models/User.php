@@ -91,6 +91,11 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         return $this->urlAvatar();
     }
 
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
     public function getUploadDirAttribute()
     {
         return 'uploads/'.sha1($this->id);
