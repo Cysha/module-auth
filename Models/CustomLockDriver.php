@@ -122,13 +122,14 @@ class CustomLockDriver implements Driver
     {
         $key = $this->getCacheKey(__FUNCTION__, $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
 
-        return cache('auth_permissions', $key, 1, function () use ($permission) {
+        return cache_remember('auth_permissions', $key, 1, function () use ($permission) {
             return (bool) DB::table('auth_permissions')
                 ->where('type', $permission->getType())
                 ->where('action', $permission->getAction())
                 ->where('resource_type', $permission->getResourceType())
                 ->where('resource_id', $permission->getResourceId())
-                ->first();
+                ->first()
+                ->all();
         });
     }
 
@@ -142,12 +143,13 @@ class CustomLockDriver implements Driver
     public function getRolePermissions(LockRole $role)
     {
         $key = $this->getCacheKey(__FUNCTION__, $role->getRoleName());
-        $permissions = cache('auth_permissions', $key, 1, function () use ($role) {
+        $permissions = cache_remember('auth_permissions', $key, 1, function () use ($role) {
             return DB::table('auth_permissions')
                 ->join('auth_permission_role', 'auth_permissions.id', '=', 'auth_permission_role.permission_id')
                 ->join('auth_roles', 'auth_roles.id', '=', 'auth_permission_role.role_id')
                 ->where('auth_roles.name', $role->getRoleName())
-                ->get(['auth_permissions.*']);
+                ->get(['auth_permissions.*'])
+                ->all();
         });
 
         return empty($permissions) ? $permissions : PermissionFactory::createFromData($permissions);
@@ -249,7 +251,7 @@ class CustomLockDriver implements Driver
     {
         $key = $this->getCacheKey(__FUNCTION__, $role->getRoleName(), $permission->getType(), $permission->getAction(), $permission->getResourceType(), $permission->getResourceId());
 
-        $permissionForRole = cache('auth_permissions', $key, 1, function () use ($role, $permission) {
+        $permissionForRole = cache_remember('auth_permissions', $key, 1, function () use ($role, $permission) {
             return (bool) DB::table('auth_permissions')
                 ->join('auth_permission_role', 'auth_permissions.id', '=', 'auth_permission_role.permission_id')
                 ->join('auth_roles', 'auth_roles.id', '=', 'auth_permission_role.role_id')
@@ -258,7 +260,8 @@ class CustomLockDriver implements Driver
                 ->where('auth_permissions.action', $permission->getAction())
                 ->where('auth_permissions.resource_type', $permission->getResourceType())
                 ->where('auth_permissions.resource_id', $permission->getResourceId())
-                ->first();
+                ->first()
+                ->all();
         });
 
         return $permissionForRole;

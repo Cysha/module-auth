@@ -2,14 +2,27 @@
 
 namespace Cms\Modules\Auth\Composers;
 
+use Cms\Modules\Auth\Repositories\User\RepositoryInterface as UserRepo;
+
 class BackendSidebar
 {
+    /**
+     * @var Cms\Modules\Auth\Repositories\User\RepositoryInterface
+     */
+    protected $userRepo;
+
+    public function __construct(UserRepo $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function userCount()
     {
-        $counter = \Cache::remember('sidebar.auth.user.count', 60, function () {
-            $authModel = config('auth.model');
+        $userRepo = $this->userRepo;
 
-            return app($authModel)->count();
+        $counter = cache_remember('auth', 'sidebar.auth.user.count', 60, function () use ($userRepo) {
+
+            return $userRepo->count();
         });
 
         return sprintf('<span class="label label-default pull-right">%d</span>', $counter);

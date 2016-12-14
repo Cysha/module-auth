@@ -2,7 +2,6 @@
 
 namespace Cms\Modules\Auth\Providers;
 
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Cms\Modules\Core\Providers\BaseEventsProvider;
 use Cms\Modules\Auth;
 

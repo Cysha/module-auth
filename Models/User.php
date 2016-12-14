@@ -2,21 +2,23 @@
 
 namespace Cms\Modules\Auth\Models;
 
-use BeatSwitch\Lock\Callers\Caller;
-use BeatSwitch\Lock\Integrations\Laravel\Facades\Lock;
-use BeatSwitch\Lock\LockAware;
-use Cms\Modules\Core\Traits\DynamicRelationsTrait;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Auth\Authenticatable;
+use BeatSwitch\Lock\Callers\Caller;
+use BeatSwitch\Lock\LockAware;
+use BadMethodCallException;
 
 class User extends BaseModel implements Caller, AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable,
-        DynamicRelationsTrait,
+    use Macroable,
+        Authenticatable,
         CanResetPassword,
-        LockAware;
+        LockAware {
+        Macroable::__call as macroCall;
+    }
 
     protected $table = 'users';
     protected $fillable = ['id', 'username', 'name', 'password', 'salt', 'email', 'avatar', 'use_nick', 'secret_2fa', 'verified_2fa', 'verified_at', 'disabled_at'];
@@ -136,7 +138,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
     {
         return sprintf(
             'http://www.gravatar.com/avatar/%s.png?s=%d&d=mm&rating=g',
-            md5($this->attributes['email']),
+            md5(strtolower($this->attributes['email'])),
             $size
         );
     }
@@ -158,7 +160,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function isAdmin()
     {
-        return Lock::can('access', 'admin_config');
+        return hasPermission('access', 'admin_config');
     }
 
     public function hasRole($role)
@@ -205,7 +207,7 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
 
     public function getCallerRoles()
     {
-        return $this->roles->fetch('name')->toArray();
+        return $this->roles->pluck('name')->all();
     }
 
     /**
@@ -240,5 +242,16 @@ class User extends BaseModel implements Caller, AuthenticatableContract, CanRese
         }
 
         return $return;
+    }
+
+    public function __call($method, $args)
+    {
+        try {
+            return $this->macroCall($method, $args);
+        } catch (BadMethodCallException $e) {
+            //
+        }
+
+        return parent::__call($method, $args);
     }
 }

@@ -18,7 +18,7 @@ class Widgets
 
     public function UserCount($view)
     {
-        $count = $this->user->all()->count();
+        $count = $this->user->count();
         $view->with('counter', $count);
     }
 
