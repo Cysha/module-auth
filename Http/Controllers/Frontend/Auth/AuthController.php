@@ -205,7 +205,7 @@ class AuthController extends BaseFrontendController
      *
      * @return string
      */
-    public function loginUsername()
+    public function username()
     {
         return 'email';
     }
