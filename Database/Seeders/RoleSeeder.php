@@ -3,6 +3,7 @@
 namespace Cms\Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class RoleSeeder extends Seeder
 {
@@ -12,31 +13,30 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'description' => 'Administration Role',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Staff',
                 'description' => 'Staff Role',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'User',
                 'description' => 'User Role',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'Guest',
                 'description' => 'Guest Role',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ];
 
         $seedModel = 'Cms\Modules\Auth\Models\Role';
-        foreach ($models as $model) {
-            $role = with(new $seedModel());
-            $role->fill($model);
-            $save = $role->save();
-
-            if ($save === false) {
-                print_r($role->getErrors());
-                die();
-            }
-        }
+        $roles = with(new $seedModel())->insert($models);
     }
 }

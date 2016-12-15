@@ -2,10 +2,10 @@
 
 namespace Cms\Modules\Auth\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
-class AuthTableSeeder extends Seeder
+class AuthDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class AuthTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(__NAMESPACE__.'\RoleSeeder');
-        $this->call(__NAMESPACE__.'\PermissionSeeder');
+        $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
     }
 }
