@@ -10,7 +10,7 @@
     "require": {
         "composer/installers" : "dev-master",
 
-        "beatswitch/lock-laravel" : "dev-update-to-latest-laravel",
+        "beatswitch/lock-laravel" : "^0.5",
         "pragmarx/google2fa" : "^0.7.1",
         "greggilbert/recaptcha" : "dev-master",
         "dingo/api": "1.0.x@dev"
