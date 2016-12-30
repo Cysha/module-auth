@@ -2,8 +2,9 @@
 
 namespace Cms\Modules\Auth\Http\Requests;
 
-use Cms\Http\Requests\Request;
 use Auth;
+use Cms\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 
 class FrontendSettingsRequest extends Request
 {
@@ -28,10 +29,10 @@ class FrontendSettingsRequest extends Request
         $tblPrefix = config('cms.auth.table-prefix', 'auth_');
 
         return [
-            'username' => 'required|unique:'.$tblPrefix.'users,username,'.$user_id,
+            'username' => ['required', Rule::unique($tblPrefix.'users')->ignore($user_id)],
             'name' => 'required',
             'use_nick' => 'in:0,1',
-            'email' => 'required|email',
+            'email' => ['required', 'email', Rule::unique($tblPrefix.'users')->ignore($user_id)],
         ];
     }
 }
