@@ -21,7 +21,7 @@ class AuthCreateApikeyTables extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('key');
             $table->string('description');
-            $table->timestamp('expires_at');
+            $table->nullableTimestamp('expires_at')->default(null);
 
             $table->timestamps();
         });
