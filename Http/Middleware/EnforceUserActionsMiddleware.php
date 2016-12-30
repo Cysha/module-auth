@@ -70,6 +70,10 @@ class EnforceUserActionsMiddleware
         // check if we need to reset the password (expired/admin reset)
         } elseif (session('actions.reset_pass', null) !== null) {
             $return = $this->enforcePassExpiry();
+
+        // check if we need to get an email address from the user for this account
+        } elseif (session('actions.check_email', null) !== null) {
+            $return = $this->enforceAccountEmail();
         }
 
         // if we got a return, return it?
@@ -79,6 +83,28 @@ class EnforceUserActionsMiddleware
 
         // if we get this far, great show the form
         return $next($request);
+    }
+
+    private function enforceAccountEmail()
+    {
+        if (session('actions.check_email', null) !== null) {
+            return;
+        }
+
+        // check to see if current users email is there
+        if ($this->auth->user()->email !== null) {
+            return;
+        }
+
+        // if not, make sure we are on the 2fa or login route, if not log em out
+        if (in_array(request()->getUri(), [
+            route('pxcms.user.settings'),
+        ])) {
+            return;
+        }
+
+        return redirect()->route('pxcms.user.settings')
+            ->withError('Please add an email address to your account.');
     }
 
     private function enforce2fa()

@@ -4,6 +4,7 @@ namespace Cms\Modules\Auth\Http\Controllers\Frontend\ControlPanel;
 
 use Cms\Modules\Auth\Http\Requests\FrontendSettingsRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class SettingsController extends BaseController
 {
@@ -26,6 +27,8 @@ class SettingsController extends BaseController
         if ($user->save() === false) {
             return redirect()->back()->withError('Error: Settings cannot be saved, please try again.');
         }
+
+        Session::forget('actions.check_email');
 
         return redirect()->back()->withInfo('Settings Saved Successfully.');
     }
