@@ -15,7 +15,7 @@ class NotifyUser
     public function __construct($userId, $template)
     {
         $this->userId = $userId;
-        $this->template = $template
+        $this->template = $template;
     }
 
 }
